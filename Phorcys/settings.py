@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'lol',
+    'myuser',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,11 +61,14 @@ WSGI_APPLICATION = 'Phorcys.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'phorcys',
+        'USER': 'postgres',  # Not used with sqlite3.
+        'PASSWORD': '123456',  # Not used with sqlite3.
+        'HOST': 'localhost',  # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '5432',
     }
 }
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
