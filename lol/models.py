@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import unicode_literals
-from myuser.models import EUser
+from django.db import models
 from core.models import *
 
 
@@ -17,7 +17,7 @@ class Tournament(BaseTournament):
 
 
 class Topic(BaseTopic):
-    author = models.ForeignKey(EUser, related_name='user_topics', on_delete=models.SET_NULL, null=True, blank=True)
+    author = models.ForeignKey('myuser.EUser', related_name='user_topics', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __unicode__(self):
         return '{0}-{1}'.format(self.title, self.author.nick)
@@ -50,7 +50,7 @@ class Weibo(BaseWeibo):
 
 
 class NewsComment(BaseComment):
-    create_by = models.ForeignKey(EUser, related_name='user_news_comments', on_delete=models.SET_NULL, null=True, blank=True)
+    create_by = models.ForeignKey('myuser.EUser', related_name='user_news_comments', on_delete=models.SET_NULL, null=True, blank=True)
     belong = models.ForeignKey(News, related_name='news_comments', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __unicode__(self):
@@ -58,7 +58,7 @@ class NewsComment(BaseComment):
 
 
 class TournamentComment(BaseComment):
-    create_by = models.ForeignKey(EUser, related_name='user_tournament_comments', on_delete=models.SET_NULL, null=True, blank=True)
+    create_by = models.ForeignKey('myuser.EUser', related_name='user_tournament_comments', on_delete=models.SET_NULL, null=True, blank=True)
     belong = models.ForeignKey(News, related_name='tournament_comments', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __unicode__(self):
@@ -66,7 +66,7 @@ class TournamentComment(BaseComment):
 
 
 class WeiboComment(BaseComment):
-    create_by = models.ForeignKey(EUser, related_name='user_weibo_comments', on_delete=models.SET_NULL, null=True, blank=True)
+    create_by = models.ForeignKey('myuser.EUser', related_name='user_weibo_comments', on_delete=models.SET_NULL, null=True, blank=True)
     belong = models.ForeignKey(Weibo, related_name='weibo_comments', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __unicode__(self):
@@ -74,8 +74,18 @@ class WeiboComment(BaseComment):
 
 
 class TopicComment(BaseComment):
-    create_by = models.ForeignKey(EUser, related_name='user_topic_comments', on_delete=models.SET_NULL, null=True, blank=True)
+    create_by = models.ForeignKey('myuser.EUser', related_name='user_topic_comments', on_delete=models.SET_NULL, null=True, blank=True)
     belong = models.ForeignKey(Topic, related_name='topic_comments', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __unicode__(self):
         return self.create_by.nick
+
+
+class LOLInfoExtend(BaseModel):
+    focus_players = models.ManyToManyField(Player, related_name='player_followers', null=True, blank=True)
+    focus_teams = models.ManyToManyField(Team, related_name='team_followers', null=True, blank=True)
+    favourite_news = models.ManyToManyField(News, related_name='news_followers', null=True, blank=True)
+    favourite_topic = models.ManyToManyField(Topic, related_name='topic_followers', null=True, blank=True)
+
+    def __unicode__(self):
+        return unicode(self.id)

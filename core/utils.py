@@ -17,7 +17,7 @@ def create_secret(count=64):
 
 def create_token(count=32):
     return string.join(
-        random.sample('''ZYXWVUTSRQPONMLKJIHGFEDCBA1234567890zyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcba''',
+        random.sample('''ZYXWVUTSRQPONMLKJIHGFEDCBA1234567890zyxwvutsrqponmlkjihgfedcba''',
                       count)).replace(" ", "")
 
 

@@ -2,6 +2,7 @@ from django.contrib import admin
 from lol.models import *
 # Register your models here.
 
+
 admin.site.register(Topic)
 admin.site.register(Tournament)
 admin.site.register(Team)
@@ -12,3 +13,4 @@ admin.site.register(WeiboComment)
 admin.site.register(TopicComment)
 admin.site.register(Weibo)
 admin.site.register(News)
+# admin.site.register(LOLInfoExtend)
