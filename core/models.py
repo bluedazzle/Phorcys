@@ -26,6 +26,7 @@ class BaseTournament(BaseModel):
     name = models.CharField(max_length=100)
     start_time = models.DateField()
     end_time = models.DateField()
+    thumb = models.IntegerField(default=0)
 
     class Meta:
         abstract = True
@@ -50,6 +51,7 @@ class BasePlayer(BaseModel):
 class BaseTopic(BaseModel):
     title = models.CharField(max_length=100)
     content = models.TextField()
+    thumb = models.IntegerField(default=0)
 
     class Meta:
         abstract = True
@@ -58,6 +60,7 @@ class BaseTopic(BaseModel):
 class BaseWeibo(BaseModel):
     title = models.CharField(max_length=100)
     content = models.TextField()
+    thumb = models.IntegerField(default=0)
 
     class Meta:
         abstract = True

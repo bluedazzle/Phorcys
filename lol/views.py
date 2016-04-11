@@ -275,38 +275,98 @@ class CommentCreateView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Js
 
     http_method_names = ['post']
     pk_url_kwarg = 'token'
+    success_url = 'localhost'
     obj = None
-    type = 1
+    type = 0
 
     def get_obj(self):
-        obj_list = [News, News, Topic, Weibo, Tournament]
-        id = self.request.POST.get('id', '')
-        objs = obj_list[self.type].objects.filter(id=id)
+        obj_list = [None, News, Topic, Weibo, Tournament]
+        cid = self.request.POST.get('id', '')
+        self.type = int(self.request.POST.get('type'))
+        if self.type not in range(1, 5):
+            self.status_code = INFO_NO_EXIST
+            self.message = '评论类型不存在'
+            return None
+        objs = obj_list[self.type].objects.filter(id=cid)
         if not objs.exists():
             self.message = '评论主题不存在'
             self.status_code = INFO_NO_EXIST
+            return None
         self.obj = objs[0]
         return self.obj
 
     def get_form_class(self):
         form_list = (None, NewsCommentForm, TopicCommentForm, WeiboCommentForm, TournamentCommentForm)
-        self.type = int(self.request.POST.get('type'))
-        if self.type > 4:
+        if self.type not in range(1, 5):
             self.status_code = INFO_NO_EXIST
             self.message = '评论类型不存在'
-            return None
-        return form_list[self.type]
+            self.type = 0
+        self.form_class = form_list[self.type]
+        return self.form_class
 
     def form_valid(self, form):
         super(CommentCreateView, self).form_valid(form)
         self.object.create_by = self.user
         self.object.belong = self.obj
-        self.object.save(submit=True)
+        self.object.save()
+        return self.render_to_response(dict())
 
     def post(self, request, *args, **kwargs):
         if not self.wrap_check_sign_result():
             return self.render_to_response(dict())
         if not self.wrap_check_token_result():
             return self.render_to_response(dict())
-        self.get_obj()
-        super(CommentCreateView, self).post(request, *args, **kwargs)
+        if not self.get_obj():
+            return self.render_to_response(dict())
+        return super(CommentCreateView, self).post(request, *args, **kwargs)
+
+
+class ThumbView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, UpdateView):
+    """
+    点赞/取赞
+    """
+
+    http_method_names = ['post']
+    pk_url_kwarg = 'token'
+    success_url = 'localhost'
+    obj = None
+    type = 0
+
+    def get_obj(self):
+        obj_list = [None, NewsComment, Topic, TopicComment, Weibo, Tournament]
+        tid = self.request.POST.get('id', '')
+        self.type = int(self.request.POST.get('type'))
+        if self.type not in range(1, 6):
+            self.status_code = INFO_NO_EXIST
+            self.message = '点赞类型不存在'
+            return None
+        objs = obj_list[self.type].objects.filter(id=tid)
+        if not objs.exists():
+            self.message = '点赞主题不存在'
+            self.status_code = INFO_NO_EXIST
+            return None
+        self.obj = objs[0]
+        return self.obj
+
+    def post(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            return self.render_to_response(dict())
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        if not self.get_obj():
+            return self.render_to_response(dict())
+        lol_ext = self.user.lol
+        thumb_list = [None, lol_ext.news_comment_thumb,
+                      lol_ext.topic_thumb,
+                      lol_ext.topic_comment_thumb,
+                      lol_ext.weibo_thumb,
+                      lol_ext.tournament_thumb]
+        thumb_obj = thumb_list[self.type]
+        if self.obj not in thumb_obj.all():
+            thumb_obj.add(self.obj)
+            self.obj.thumb += 1
+            self.obj.save()
+            return self.render_to_response({'thumb': True})
+        return self.render_to_response({'thumb': False})
+
+

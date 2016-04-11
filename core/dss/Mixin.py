@@ -27,8 +27,9 @@ class JsonResponseMixin(object):
         return time_func(time_obj)
 
     def context_serialize(self, context):
-        if context.get('object', None):
-            context.pop('object')
+        if hasattr(context, 'get'):
+            if context.get('object', None):
+                context.pop('object')
         return serializer(data=context,
                           datetime_format=self.datetime_type,
                           output_type='raw',
@@ -62,8 +63,9 @@ class FormJsonResponseMixin(JsonResponseMixin):
 
 class MultipleJsonResponseMixin(JsonResponseMixin):
     def context_serialize(self, context):
-        if context.get('object_list', None):
-            context.pop('object_list')
+        if hasattr(context, 'get'):
+            if context.get('object_list', None):
+                context.pop('object_list')
         page_dict = {}
         is_paginated = context.get('is_paginated', None)
         if is_paginated:

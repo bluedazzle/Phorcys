@@ -59,7 +59,7 @@ class NewsComment(BaseComment):
 
 class TournamentComment(BaseComment):
     create_by = models.ForeignKey('myuser.EUser', related_name='user_tournament_comments', on_delete=models.SET_NULL, null=True, blank=True)
-    belong = models.ForeignKey(News, related_name='tournament_comments', on_delete=models.SET_NULL, null=True, blank=True)
+    belong = models.ForeignKey(Tournament, related_name='tournament_comments', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __unicode__(self):
         return self.create_by.nick
@@ -86,6 +86,11 @@ class LOLInfoExtend(BaseModel):
     focus_teams = models.ManyToManyField(Team, related_name='team_followers', null=True, blank=True)
     favourite_news = models.ManyToManyField(News, related_name='news_followers', null=True, blank=True)
     favourite_topic = models.ManyToManyField(Topic, related_name='topic_followers', null=True, blank=True)
+    news_comment_thumb = models.ManyToManyField(News, related_name='news_thumbers', null=True, blank=True)
+    topic_thumb = models.ManyToManyField(Topic, related_name='topic_thumbers', null=True, blank=True)
+    topic_comment_thumb = models.ManyToManyField(TopicComment, related_name='topic_comment_thumbers', null=True, blank=True)
+    weibo_thumb = models.ManyToManyField(Weibo, related_name='weibo_thumbers', null=True, blank=True)
+    tournament_thumb = models.ManyToManyField(Tournament, related_name='tournament_thumbers', null=True, blank=True)
 
     def __unicode__(self):
         return unicode(self.id)
