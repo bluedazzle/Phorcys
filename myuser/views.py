@@ -18,7 +18,7 @@ from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, Jso
 from django.shortcuts import render
 
 # Create your views here.
-from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLoginForm
+from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLoginForm, UserChangePasswordForm
 from myuser.models import EUser, Verify
 
 
@@ -215,3 +215,36 @@ class UserLogoutView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonR
         self.user.token = self.create_token()
         self.user.save()
         return self.render_to_response(dict())
+
+
+class UserChangePasswordView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, UpdateView):
+    http_method_names = ['post']
+    model = EUser
+    success_url = 'localhost'
+    form_class = UserChangePasswordForm
+
+    def get_object(self, queryset=None):
+        self.object = self.user
+        return self.user
+
+    def post(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            return self.render_to_response(dict())
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        return super(UserChangePasswordView, self).post(request, *args, **kwargs)
+
+    def form_invalid(self, form):
+        super(UserChangePasswordView, self).form_invalid(form)
+        self.status_code = ERROR_DATA
+        self.message = json.loads(form.errors.as_json()).values()[0][0].get('message')
+        return self.render_to_response(dict())
+
+    def form_valid(self, form):
+        super(UserChangePasswordView, self).form_valid(form)
+        return self.render_to_response(dict())
+
+    def get_form_kwargs(self):
+        kwargs = super(UserChangePasswordView, self).get_form_kwargs()
+        kwargs['user'] = self.user
+        return kwargs

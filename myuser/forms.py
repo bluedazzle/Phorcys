@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import make_password
 
 from myuser.models import Verify, EUser
@@ -120,3 +121,9 @@ class UserLoginForm(forms.ModelForm):
     class Meta:
         model = EUser
         fields = []
+
+
+class UserChangePasswordForm(PasswordChangeForm):
+    def __init__(self,  *args, **kwargs):
+        kwargs.pop('instance')
+        super(UserChangePasswordForm, self).__init__(*args, **kwargs)

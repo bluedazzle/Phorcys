@@ -148,11 +148,11 @@ class FocusTeamView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonRe
     """
 
     model = Team
-    http_method_names = ['put']
+    http_method_names = ['patch']
     datetime_type = 'timestamp'
     pk_url_kwarg = 'tid'
 
-    def put(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         if not self.wrap_check_sign_result():
             return self.render_to_response(dict())
         if not self.wrap_check_token_result():
@@ -178,11 +178,11 @@ class FocusPlayerView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Json
     """
 
     model = Player
-    http_method_names = ['put']
+    http_method_names = ['patch']
     datetime_type = 'timestamp'
     pk_url_kwarg = 'pid'
 
-    def put(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         if not self.wrap_check_sign_result():
             return self.render_to_response(dict())
         if not self.wrap_check_token_result():

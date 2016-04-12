@@ -47,12 +47,7 @@ POST /verify
 ```
 ###**Parameters**
 * phone(_Required_|string)-手机号
-* type(_Optional_|integer)-验证码类型，默认为1
 
-|type类型码|含义|
-| - | :-: |
-|1|注册|
-|2|找回密码|
 ###**Return**
 成功
 ```
@@ -90,12 +85,7 @@ GET /verify
 ###**Parameters**
 * phone(_Required_|string)-手机号
 * code(_Required_|string)-验证码
-* type(_Optional_|integer)-验证码类型，默认为1
 
-|type类型码|含义|
-| - | :-: |
-|1|注册|
-|2|找回密码|
 ###**Return**
 成功
 ```
@@ -168,33 +158,84 @@ POST /user/login
 * password(_Required_|string)-密码
 ###**Return**
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {
+    "phone": "15608059720",
+    "nick": "zhn",
+    "token": "skvMC8SBYrfgobpj4DAx9iqlttQ0IvnxUHzFNuz3Zmkl5PJadsWRw7arK6OLXTew",
+    "create_time": "2016-04-09 12:24:12",
+    "avatar": "http://www.fibar.cn/",
+    "id": 1
+  },
+  "status": 1,
+  "msg": "success"
+}
 ```
 
 ##**用户忘记密码**
 ```
-PUT /user/password
+POST /user/password/forget
 ```
 ###**Parameters**
 * phone(_Required_|string)-电话号码
 * verify(_Required_|string)-验证码
 * new_password(_Required_|string)-新密码
 ###**Return**
+成功
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {
+    "phone": "15608059720",
+    "nick": "zhn",
+    "token": "CViXsWaku7hi6gJOgHxNlTcZDlxtQcIRneqbUmLk2rEYpzeraPfohv1A9KuSwyft",
+    "create_time": "2016-04-09 12:24:12",
+    "avatar": "http://www.fibar.cn/",
+    "id": 1
+  },
+  "status": 1,
+  "msg": "success"
+}
+```
+其他
+```
+{
+  "body": {},
+  "status": 7,
+  "msg": "帐号不存在"
+}
 ```
 
 ##**用户修改密码**
 ```
-PATCH /user/password
+POST /user/password/change
 ```
 ###**Parameters**
-* token(_Required_|string)-用户识别码
-* password(_Required_|string)-旧密码
-* new_password(_Required_|string)-新密码
+* old_password(_Required_|string)-旧密码
+* new_password1(_Required_|string)-新密码
+* new_password2(_Required_|string)-新密码确认
 ###**Return**
+
+成功
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {},
+  "status": 1,
+  "msg": "success"
+}
+```
+其他
+```
+{
+  "body": {},
+  "status": 4,
+  "msg": "Your old password was entered incorrectly. Please enter it again."
+}
+
+{
+  "body": {},
+  "status": 4,
+  "msg": "The two password fields didn't match."
+}
 ```
 
 ##**用户登出**
@@ -361,8 +402,67 @@ GET /focus/player/search
 PATCH /focus/player/[@player_id]
 ```
 ###**Return**
+成功
 ```
-{"status":1,"body":{}, "msg": "success"}
+取关
+{
+  "body": {
+    "focus": false
+  },
+  "status": 1,
+  "msg": "success"
+}
+
+关注
+{
+  "body": {
+    "focus": true
+  },
+  "status": 1,
+  "msg": "success"
+}
+```
+其他
+```
+{
+  "body": {},
+  "status": 7,
+  "msg": "选手不存在"
+}
+```
+
+##**关注/取关战队**
+```
+PATCH /focus/team/[@player_id]
+```
+###**Return**
+成功
+```
+取关
+{
+  "body": {
+    "focus": false
+  },
+  "status": 1,
+  "msg": "success"
+}
+
+关注
+{
+  "body": {
+    "focus": true
+  },
+  "status": 1,
+  "msg": "success"
+}
+```
+其他
+```
+{
+  "body": {},
+  "status": 7,
+  "msg": "战队不存在"
+}
 ```
 
 ##**获取关注选手资讯列表**
@@ -387,56 +487,149 @@ GET /focus/news/detail/[@news_id]
 
 ##**获取战队列表**
 ```
-GET /team/[@page]
+GET /teams?[@page]
 ```
 ###**Return**
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {
+    "paginator": null,
+    "team_list": [
+      {
+        "info": "lgd",
+        "create_time": "2016-04-09 17:05:59",
+        "id": 1,
+        "name": "LGD"
+      }
+    ],
+    "page_obj": {},
+    "is_paginated": false,
+    "view": null
+  },
+  "status": 1,
+  "msg": "success"
+}
 ```
 
 ##**获取战队详情**
 ```
-GET /team/detail/[@team_id]
+GET /team/[@team_id]
 ```
 ###**Return**
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {
+    "view": null,
+    "team": {
+      "info": "lgd",
+      "create_time": "2016-04-09 17:05:59",
+      "id": 1,
+      "name": "LGD"
+    }
+  },
+  "status": 1,
+  "msg": "success"
+}
 ```
 
 ##**获取选手列表**
 ```
-GET /player/[@page]
+GET /players?[@page]
 ```
 ###**Return**
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {
+    "paginator": null,
+    "player_list": [
+      {
+        "nick": "RaPoSpectre",
+        "create_time": "2016-04-09 17:05:41",
+        "name": "张建奇",
+        "belong_id": 1,
+        "id": 2
+      }
+    ],
+    "page_obj": {},
+    "is_paginated": false,
+    "view": null
+  },
+  "status": 1,
+  "msg": "success"
+}
 ```
 
-##**获取战队详情**
+##**获取选手详情**
 ```
-GET /player/detail/[@player_id]
+GET /player/[@player_id]
 ```
 ###**Return**
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {
+    "player": {
+      "name": "张建奇",
+      "belong_id": 1,
+      "nick": "RaPoSpectre",
+      "create_time": "2016-04-09 17:05:41",
+      "id": 2
+    },
+    "view": null
+  },
+  "status": 1,
+  "msg": "success"
+}
 ```
 
 ##**获取联赛列表**
 ```
-GET /tournament/[@page]
+GET /tournaments?[@page]
 ```
 ###**Return**
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {
+    "paginator": null,
+    "tournament_list": [
+      {
+        "create_time": "2016-04-09 20:38:20",
+        "name": "飞吧联赛",
+        "end_time": "2016-04-10",
+        "start_time": "2016-04-09",
+        "id": 1,
+        "thumb": 1
+      }
+    ],
+    "page_obj": {},
+    "is_paginated": false,
+    "view": null
+  },
+  "status": 1,
+  "msg": "success"
+}
 ```
 
 ##**获取联赛详情**
 ```
-GET /tournament/detail/[@tournament_id]
+GET /tournament/[@tournament_id]
 ```
 ###**Return**
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {
+    "tournament": {
+      "name": "飞吧联赛",
+      "start_time": "2016-04-09",
+      "thumb": 1,
+      "create_time": "2016-04-09 20:38:20",
+      "id": 1,
+      "end_time": "2016-04-10"
+    },
+    "view": null
+  },
+  "status": 1,
+  "msg": "success"
+}
 ```
 
 #评论
@@ -458,9 +651,29 @@ POST /comment
 |2|社区|
 |3|关注|
 |4|联赛|
+
 ###**Return**
+成功
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {},
+  "status": 1,
+  "msg": "success"
+}
+```
+其他
+```
+{
+  "body": {},
+  "status": 7,
+  "msg": "评论类型不存在"
+}
+
+{
+  "body": {},
+  "status": 7,
+  "msg": "评论主题不存在"
+}
 ```
 
 ##**点赞/取赞**
@@ -481,6 +694,25 @@ POST /thumb
 |4|关注点赞|
 |5|联赛评论点赞|
 ###**Return**
+成功
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {},
+  "status": 1,
+  "msg": "success"
+}
+```
+其他
+```
+{
+  "body": {},
+  "status": 7,
+  "msg": "点赞类型不存在"
+}
+
+{
+  "body": {},
+  "status": 7,
+  "msg": "点赞主题不存在"
+}
 ```
