@@ -4,7 +4,7 @@
 
 ---
 
-**host: http://Phorcys.com**
+**host: http://test.fibar.cn**
 
 **api_version: v1**
 
