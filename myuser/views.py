@@ -7,8 +7,10 @@ import random
 import string
 
 import datetime
+
+from django.http import Http404
 from django.utils.timezone import get_current_timezone
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
 
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckTokenMixin
 from core.Mixin.StatusWrapMixin import *
@@ -16,7 +18,7 @@ from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, Jso
 from django.shortcuts import render
 
 # Create your views here.
-from myuser.forms import VerifyCodeForm, UserRegisterForm
+from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLoginForm
 from myuser.models import EUser, Verify
 
 
@@ -101,6 +103,115 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
 
 
 class UserResetView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, UpdateView):
-    # form_class =
-    pass
+    form_class = UserResetForm
+    model = EUser
+    http_method_names = ['post']
+    success_url = 'localhost'
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
+    pk_url_kwarg = 'phone'
+    count = 64
+    token = ''
 
+    def create_token(self):
+        return string.join(
+            random.sample('ZYXWVUTSRQPONMLKJIHGFEDCBA1234567890zyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcba',
+                          self.count)).replace(" ", "")
+
+    def form_invalid(self, form):
+        super(UserResetView, self).form_invalid(form)
+        self.status_code = ERROR_DATA
+        self.message = json.loads(form.errors.as_json()).values()[0][0].get('message')
+        return self.render_to_response(dict())
+
+    def form_valid(self, form):
+        if not self.object:
+            return self.render_to_response(dict())
+        super(UserResetView, self).form_valid(form)
+        self.token = self.create_token()
+        self.object.token = self.token
+        self.object.set_password(form.cleaned_data.get('password'))
+        self.object.save()
+        return self.render_to_response(self.object)
+
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+        pk = self.request.POST.get(self.pk_url_kwarg, None)
+        queryset = queryset.filter(phone=pk)
+        try:
+            # Get the single item from the filtered queryset
+            obj = queryset.get()
+        except queryset.model.DoesNotExist:
+            self.message = '帐号不存在'
+            self.status_code = INFO_NO_EXIST
+            return None
+        return obj
+
+
+class UserLoginView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, UpdateView):
+    model = EUser
+    form_class = UserLoginForm
+    count = 64
+    http_method_names = ['post']
+    pk_url_kwarg = 'phone'
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
+    success_url = 'localhost'
+    token = ''
+
+    def create_token(self):
+        return string.join(
+            random.sample('ZYXWVUTSRQPONMLKJIHGFEDCBA1234567890zyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcba',
+                          self.count)).replace(" ", "")
+
+    def form_invalid(self, form):
+        super(UserLoginView, self).form_invalid(form)
+        self.status_code = ERROR_DATA
+        self.message = json.loads(form.errors.as_json()).values()[0][0].get('message')
+        return self.render_to_response(dict())
+
+    def form_valid(self, form):
+        if not self.object:
+            return self.render_to_response(dict())
+        super(UserLoginView, self).form_valid(form)
+        if not self.object.check_password(form.cleaned_data.get('password')):
+            self.message = '密码不正确'
+            self.status_code = ERROR_PASSWORD
+            return self.render_to_response(dict())
+        self.token = self.create_token()
+        # self.object.set_password(form.cleaned_data.get('password'))
+        self.object.token = self.token
+        self.object.save()
+        return self.render_to_response(self.object)
+
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+        pk = self.request.POST.get(self.pk_url_kwarg, None)
+        queryset = queryset.filter(phone=pk)
+        try:
+            # Get the single item from the filtered queryset
+            obj = queryset.get()
+        except queryset.model.DoesNotExist:
+            self.message = '帐号不存在'
+            self.status_code = INFO_NO_EXIST
+            return None
+        return obj
+
+
+class UserLogoutView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, View):
+    http_method_names = ['get']
+    count = 64
+
+    def create_token(self):
+        return string.join(
+            random.sample('ZYXWVUTSRQPONMLKJIHGFEDCBA1234567890zyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcba',
+                          self.count)).replace(" ", "")
+
+    def get(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            return self.render_to_response(dict())
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        self.user.token = self.create_token()
+        self.user.save()
+        return self.render_to_response(dict())

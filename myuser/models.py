@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 
@@ -20,6 +21,11 @@ class EUser(BaseModel, AbstractBaseUser):
     lol = models.OneToOneField('lol.LOLInfoExtend', related_name='lol_info_user', null=True, blank=True)
 
     USERNAME_FIELD = 'phone'
+
+    # def check_password(self, raw_password):
+    #     if self.password == raw_password:
+    #         return True
+    #     return False
 
     def __unicode__(self):
         return '{0}-{1}'.format(self.phone, self.nick)

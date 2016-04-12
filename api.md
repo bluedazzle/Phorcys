@@ -12,7 +12,8 @@
 
  2. API请求格式：host + "api" + api_version + 请求地址。
  3. API返回格式：`json:{"status":1,"body":{}}`status返回操作结果码,body包含返回信息，如果无返回信息，body为空。
- 4. status结果码对照表：
+ 4. status结果码对照表： 
+ 
 |status结果码|状态|
 | --------------  | :---: |
 |0|未知错误|
@@ -448,7 +449,8 @@ POST /comment
 * token(_Required_|string)-用户识别码
 * type(_Required_|integer)-评论类型
 * content(_Required_|string)-评论内容
-* id(_Required_|integer)-被评论事件id
+* id(_Required_|integer)-被评论事件id 
+
 
 |type码|状态|
 | - | :-: |
@@ -468,7 +470,8 @@ POST /thumb
 ###**Parameters**
 * token(_Required_|string)-用户识别码
 * type(_Required_|integer)-点赞类型
-* id(_Required_|integer)-被赞事件id
+* id(_Required_|integer)-被赞事件id 
+
 
 |type码|状态|
 | - | :-: |

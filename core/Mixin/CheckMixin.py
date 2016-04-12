@@ -4,17 +4,33 @@ from __future__ import unicode_literals
 
 import hashlib
 
-from core.Mixin.StatusWrapMixin import ERROR_PERMISSION_DENIED, ERROR_TOKEN
+import datetime
+
+from django.utils.timezone import get_current_timezone
+
+from core.Mixin.StatusWrapMixin import ERROR_PERMISSION_DENIED, ERROR_TOKEN, INFO_EXPIRE
 from core.models import Secret
 from myuser.models import EUser
 
 
 class CheckSecurityMixin(object):
     secret = None
+    expire = datetime.timedelta(seconds=30)
 
     def get_current_secret(self):
         self.secret = Secret.objects.all()[0].secret
         return self.secret
+
+    def check_expire(self):
+        timestamp = int(self.request.GET.get('timestamp', 0))
+        request_time = datetime.datetime.fromtimestamp(timestamp, tz=get_current_timezone())
+        now_time = datetime.datetime.now(tz=get_current_timezone())
+        if now_time - request_time > self.expire:
+            self.message = '请求超时,请重新验证'
+            self.status_code = INFO_EXPIRE
+            return False
+        else:
+            return True
 
     def check_sign(self):
         timestamp = self.request.GET.get('timestamp', '')
@@ -25,6 +41,8 @@ class CheckSecurityMixin(object):
         return False
 
     def wrap_check_sign_result(self):
+        # if not self.check_expire():
+        #     return False
         self.get_current_secret()
         result = self.check_sign()
         if not result:
