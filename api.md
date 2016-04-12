@@ -644,13 +644,12 @@ POST /comment
 * content(_Required_|string)-评论内容
 * id(_Required_|integer)-被评论事件id 
 
-
 |type码|状态|
-| - | :-: |
+| --------------  | :---: |
 |1|资讯|
 |2|社区|
 |3|关注|
-|4|联赛|
+|4|联赛| 
 
 ###**Return**
 成功
@@ -680,19 +679,20 @@ POST /comment
 ```
 POST /thumb
 ```
+
 ###**Parameters**
 * token(_Required_|string)-用户识别码
 * type(_Required_|integer)-点赞类型
 * id(_Required_|integer)-被赞事件id 
 
-
 |type码|状态|
-| - | :-: |
+| --------------  | :---: |
 |1|资讯|
 |2|社区帖子点赞|
 |3|社区评论点赞|
 |4|关注点赞|
-|5|联赛评论点赞|
+|5|联赛评论点赞| 
+
 ###**Return**
 成功
 ```
