@@ -1,0 +1,979 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>英雄联盟 - LOL数据库 - 17173查查</title>
+	<meta name="keywords" content="英雄联盟,英雄,物品,召唤师技能,符文,LOL数据库" />
+	<meta name="description" content="专注于提供英雄联盟游戏内英雄、物品相关的查询服务。帮助你寻找游戏英雄,查找资料。" />
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta name="format-detection" content="telephone=no" />
+	<!--globalHeadBegin-->
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="http://ue.17173cdn.com/" />
+<link rel="dns-prefetch" href="http://ue1.17173cdn.com/" />
+<link rel="dns-prefetch" href="http://ue2.17173cdn.com/" />
+<link rel="dns-prefetch" href="http://ue3.17173cdn.com/" />
+<link type="image/x-icon" rel="icon" href="http://ue2.17173cdn.com/images/lib/v1/favicon-hd.ico" />
+<link type="image/x-icon" rel="shortcut icon" href="http://ue3.17173cdn.com/images/lib/v1/favicon.ico" />
+
+
+
+
+	<link href="/lol/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="/lol/css/hero.css" rel="stylesheet" type="text/css" />
+	<link href="/lol/css/other.css" rel="stylesheet" type="text/css" />
+	<link href="/lol/css/tips.css" rel="stylesheet" type="text/css" />
+	<script src="/lol/js/jquery-1.7.2.min.js"></script>
+	<script src="/lol/js/common.js"></script>
+	<script src="/lol/js/cookie.js"></script>
+	<script src="/lol/js/json2.js"></script>
+	<script type="text/javascript">
+		var host = '/lol';
+		var hosturl = 'http://cha.17173.com';
+		var imgUrl = 'http://i1.17173cdn.com/1tx6lh/YWxqaGBf';
+	</script>
+	<script type="text/javascript" src="/lol/js/tips.js"></script>
+	
+<link href="http://ue8.17173.itc.cn/cache/lib/v1/topnav-1.0/global-topbar.css?20120615" rel="stylesheet" type="text/css" id="css-gtp" />
+
+
+
+</head><body class="page-index">
+<img src="http://hm.baidu.com/hm.gif?si=28462a8a3b9929bcbdd19ba23bcdd7c7&amp;et=0&amp;nv=1&amp;st=1&amp;v=wap-0-0.2&amp;rnd=3236560184" width="0" height="0" />
+
+<script type="text/javascript" src="http://ue.17173cdn.com/a/lib/vda/seed.js"></script>
+
+
+<div id="js-global-topnav" style="height:0"></div>
+
+
+<!--头部开始-->
+<div id="hearder">
+	<div class="hearder_top_bg">
+		<div class="hearder_top"> <a href="/lol/"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/logo.png" class="logo" /></a>
+					<h3><span id="do_nav" tabindex="-1"></span><span></span><em></em></h3>
+			<ul id="nav" tabindex="-1">
+				<li  class="on"><a href="/lol">英雄</a></li>
+				<li ><a href="/lol/items.html">物品</a></li>
+				<li ><a href="/lol/summoners.html">召唤师技能</a></li>
+				<li ><a href="/lol/runes.html">符文</a></li>
+				<li><a href="http://lol.17173.com/banben/zt/s6/tf/" target="_blank">天赋模拟器</a></li>
+			</ul>
+			<span class="s_do"></span>
+			<div id="search"><!-- 英雄，技能，物品，符文 -->
+				<form name="search_form" method="get" action="/lol/search.html">
+					<input type="text" name="q" value="英雄，技能，物品，符文" id="s_text"/>
+					<input id="s_start" tabindex="-1" type="button" value="搜索" onClick="search_form.submit();"/>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!--三级下拉start-->
+	<div class="nav_pub_bg">
+		<ul class="nav_pub">
+
+		<li class="index"><span><a href="/lol/" class="nav_pub_home"></a></span>
+			<div>
+				<em></em>
+				<ul>
+					<li><span><a href="/lol/">LOL数据库</a></span></li>
+					<li><span><a href="http://cha.17173.com/">173查查</a></span></li>
+					<li><span><a href="http://lol.17173.com">LOL专区</a></span></li>
+					<li><span><a href="http://www.17173.com/">173首页</a></span></li>
+				</ul>
+			</div>
+		</li>
+
+		<li>></li>
+
+		<li>
+			<span>
+						<a href="/lol/">英雄</a>
+						</span>
+
+			<div>
+				<em></em>
+				<ul class="hisr_nav">
+					<li class="hero_nav">
+						<span><a href="/lol/">英雄</a></span>
+						<div>
+							<ul >
+																<li>
+									<span>综合</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="本周免费" value="本周免费">本周免费</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="本周折扣" value="本周折扣">本周折扣</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="新人推荐" value="新人推荐">新人推荐</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="最新英雄" value="最新英雄">最新英雄</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="编辑推荐" value="编辑推荐">编辑推荐</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span>分路</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="上单" value="上单">上单</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="中单" value="中单">中单</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="打野" value="打野">打野</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="ADC" value="ADC">ADC</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="辅助" value="辅助">辅助</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span>能力</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="晕眩" value="晕眩">晕眩</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="定身" value="定身">定身</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="击飞" value="击飞">击飞</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="减速" value="减速">减速</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="沉默" value="沉默">沉默</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="嘲讽" value="嘲讽">嘲讽</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="恐惧" value="恐惧">恐惧</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="治疗" value="治疗">治疗</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="护盾" value="护盾">护盾</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="位移" value="位移">位移</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="变身" value="变身">变身</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="隐身" value="隐身">隐身</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span>属性</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="assassin" value="assassin">刺客</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="tank" value="tank">坦克</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="marksman" value="marksman">射手</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="fighter" value="fighter">战士</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="mage" value="mage">法师</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="support" value="support">辅助</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span>攻击</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="近战" value="近战">近战</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="远程" value="远程">远程</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span>性别</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="男性" value="男性">男性</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="女性" value="女性">女性</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span>价格</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="450" value="450">450</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="1350" value="1350">1350</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="3150" value="3150">3150</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="4800" value="4800">4800</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="6300" value="6300">6300</a></span></li>
+																					</ul>
+									</div>
+								</li>
+															</ul>
+						</div>
+					</li>
+	
+					<li class="items_nav">
+						<span><a href="/lol/items.html">物品</a></span>
+						<div>
+							<ul>
+																<li>
+									<span class="items_c" data-id="tool">工具</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="consumable" value="consumable">消耗品</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="vision" value="vision">视野</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="lane" value="lane">对线装</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="jungle" value="jungle">打野装</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="gold_per" value="gold_per">工资装</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="trinket" value="trinket">饰品</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span class="items_c" data-id="defense">防御</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="health" value="health">生命值</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="health_regen" value="health_regen">生命回复</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="armor" value="armor">护甲</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="spell_block" value="spell_block">魔法抗性</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="tenacity" value="tenacity">韧性</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span class="items_c" data-id="attack">攻击</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="damage" value="damage">攻击力</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="armor_penetration" value="armor_penetration">护甲穿透</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="attack_speed" value="attack_speed">攻击速度</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="critical_strike" value="critical_strike">暴击几率</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="life_steal" value="life_steal">生命偷取</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span class="items_c" data-id="magic">魔法</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="spell_damage" value="spell_damage">法术强度</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="magic_penetration" value="magic_penetration">法术穿透</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="mana" value="mana">法力值</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="mana_regen" value="mana_regen">法力回复</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="spell_vamp" value="spell_vamp">法术吸血</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="cooldown_reduction" value="cooldown_reduction">冷却缩减</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span class="items_c" data-id="movement">移动速度</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="movement" value="movement">移动速度</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="boots" value="boots">鞋</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="nonboots_movement" value="nonboots_movement">其他移速</a></span></li>
+																					</ul>
+									</div>
+								</li>
+																<li>
+									<span class="items_c" data-id="other">其他</span>
+									<div>
+										<ul>
+																						<li><span><a href="javascript:void(0)" data-id="on_hit" value="on_hit">攻击特效</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="active" value="active">主动</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="stealth" value="stealth">反隐形</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="aura" value="aura">光环</a></span></li>
+																						<li><span><a href="javascript:void(0)" data-id="slow" value="slow">减速</a></span></li>
+																					</ul>
+									</div>
+								</li>
+															</ul>
+						</div>
+					</li>
+
+
+					<li class="summoners_nav">
+						<span><a href="/lol/summoners.html">召唤师技能</a></span>
+					</li>
+
+					<li class="runes_nav">
+						<span><a href="/lol/runes.html">符文</a></span>
+						<div>
+							<ul>
+																<li><span>类型</span>
+								<div>
+									<ul>
+																				<li><span><a href="javascript:void(0)" data-id="印记" value="印记">印记</a></span></li>
+																				<li><span><a href="javascript:void(0)" data-id="符印" value="符印">符印</a></span></li>
+																				<li><span><a href="javascript:void(0)" data-id="雕纹" value="雕纹">雕纹</a></span></li>
+																				<li><span><a href="javascript:void(0)" data-id="精华" value="精华">精华</a></span></li>
+																			</ul>
+								</div>
+								</li>
+																<li><span>等级</span>
+								<div>
+									<ul>
+																				<li><span><a href="javascript:void(0)" data-id="初级" value="初级">初级</a></span></li>
+																				<li><span><a href="javascript:void(0)" data-id="中级" value="中级">中级</a></span></li>
+																				<li><span><a href="javascript:void(0)" data-id="高级" value="高级">高级</a></span></li>
+																			</ul>
+								</div>
+								</li>
+															</ul>
+						</div>
+					</li>
+					
+				</ul>
+			</div>
+		</li>
+			
+		</ul>
+	</div>
+	<!--三级下拉end-->
+        <script type="text/javascript">var NOTIFICATION_LIST = [{"description":"\u5728\u7b2c\u4e00\u6b21\u56de\u57ce\u8865\u7ed9\u65f6\u8d2d\u4e70\u978b\u5b50\u4f1a\u7ed9\u4f60\u5e26\u6765\u4e00\u5b9a\u4f18\u52bf\u3002","link":""},{"description":"\u771f\u89c6\u5b88\u536b\u4e0d\u5355\u53ef\u4ee5\u63d0\u4f9b\u89c6\u91ce\uff0c\u8fd8\u53ef\u4ee5\u4fa6\u5bdf\u5230\u9690\u5f62\u5355\u4f4d\u3002","link":""},{"description":"\u6309C\u67e5\u770b\u82f1\u96c4\u8be6\u7ec6\u5c5e\u6027\u4ee5\u53ca\u4f7f\u7528\u6280\u5de7\u3002","link":""},{"description":"\u591a\u548c\u961f\u53cb\u6c9f\u901a\uff0c\u5408\u7406\u5b89\u6392\u9635\u5bb9\u80fd\u8ba9\u4f60\u8d62\u5728\u8d77\u8dd1\u7ebf\u4e0a\u3002","link":""},{"description":"\u5728\u6e38\u620f\u5185\u6309F12\u53ef\u4ee5\u622a\u56fe\uff0c\u4f1a\u4ee5TGA\u683c\u5f0f\u4fdd\u5b58\u5728game\u76ee\u5f55\u4e0b\uff0c5\u6740\u7684\u65f6\u5019\u8bb0\u5f97\u622a\u56fe\u54e6~","link":""},{"description":"\u5f53\u8d5b\u6069\u6740\u6b7b\u6377\u62c9\uff0c\u6216\u8005\u88ab\u6377\u62c9\u6740\u6b7b\u65f6\uff0c\u51fb\u6740\u8005\u4f1a\u989d\u5916\u591a\u83b7\u5f972\u5757\u91d1\u5e01\uff0c\u201c\u690d\u7269\u5927\u6218\u50f5\u5c38\u201d\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/14.html"},{"description":"Alt+\u6280\u80fd\u5feb\u6377\u952e\uff0c\u53ef\u4ee5\u5bf9\u81ea\u5df1\u65bd\u653e\u5bf9\u5e94\u6280\u80fd\uff0c\u5bf9\u62a4\u76fe\u7c7b\u6280\u80fd\u975e\u5e38\u5b9e\u7528\u3002","link":""},{"description":"\u5728\u5e73\u53f0\u6d4f\u89c8\u82f1\u96c4\u65f6\uff0c\u67e5\u770b4\u4e2a\u80fd\u529b\u69fd\u6765\u4e86\u89e3\u82f1\u96c4\u7684\u7c7b\u578b\u4ee5\u53ca\u662f\u5426\u5bb9\u6613\u4e0a\u624b\u3002","link":""},{"description":"\u56e2\u6218\u5931\u8d25\u8fc7\u540e\u5207\u52ff\u4e92\u76f8\u57cb\u6028\uff0c\u603b\u7ed3\u5931\u8d25\u7684\u539f\u56e0\uff0c\u56e2\u7ed3\u961f\u53cb\uff0c\u8c03\u6574\u6218\u7565\uff0c\u5e94\u5bf9\u4e0b\u6b21\u56e2\u6218\u3002","link":""},{"description":"\u6e38\u620f\u4e2d\uff0c\u6309Enter\u952e\u53ef\u4ee5\u8ddf\u961f\u53cb\u804a\u5929\uff0cSHIFT+Enter\u5411\u6240\u6709\u4eba\u53d1\u9001\u4fe1\u606f\u3002","link":""},{"description":"\u8fd9\u662f\u4e00\u4e2a\u63a8\u5854\u7684\u6e38\u620f\uff0c\u4e0d\u8981\u592a\u5728\u610f\u6740\u4eba\u6570\uff0c\u63a8\u5012\u5bf9\u65b9\u57fa\u5730\u624d\u662f\u80dc\u5229\u3002","link":""},{"description":"\u83f2\u5179\u7684\u5927\u62dbR\u7684\u5927\u9ca8\u9c7c\u5982\u679c\u5bfc\u81f4\u4e86\u5c0f\u77ee\u4eba\u6b7b\u4ea1\uff0c\u9ca8\u9c7c\u4f1a\u76f4\u63a5\u5403\u6389\u5c0f\u77ee\u4eba\uff0c\u800c\u4e0d\u4f1a\u7559\u4e0b\u5c38\u4f53\u3002\u5c0f\u77ee\u4eba\u5305\u62ec\uff0c\u94a2\u94c1\u5927\u5e08\uff0c\u554a\u6728\u6728\uff0c\u5b89\u59ae\uff0c\u70ae\u5a18\uff0c\u7ef4\u5609\uff0c\u51ef\u5357\u3002\u7136\u800c\uff0c\u5927\u5934\u548c\u63d0\u83ab\u662f\u4e0d\u4f1a\u88ab\u9ca8\u9c7c\u5403\u6389\u7684\u3002\u8be5\u51cf\u80a5\u4e86\uff0c\u63d0\u83ab\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/105.html"},{"description":"\u6bcf\u4e2a\u82f1\u96c4\u90fd\u6709\u4e00\u4e2a\u88ab\u52a8\u6280\u80fd\uff0c\u4e0d\u8981\u5fd8\u4e86\u5728\u4e0b\u65b9\u7684\u6280\u80fd\u680f\u67e5\u770b\u5e76\u597d\u597d\u5229\u7528\u5b83\u3002","link":"http:\/\/cha.17173.com\/lol\/"},{"description":"\u857e\u6b27\u5a1c\u6709\u4e00\u4e2a\u9690\u85cf\u88ab\u52a8\u3010\u70c8\u9633\u4e4b\u529b\u3011\u4f1a\u5bf9\u6234\u58a8\u955c\u7684\u82f1\u96c4\u4f24\u5bb3-1\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/89.html"},{"description":"\u4f60\u53ef\u4ee5\u6309CTRL+F\u6765\u6fc0\u6d3b\u5c4f\u5e55\u53f3\u4e0a\u89d2\u7684\u5ef6\u8fdf\u548cFPS\u663e\u793a\u3002","link":""},{"description":"\u82f1\u96c4\u8054\u76df\u4e0d\u662f\u4e00\u4e2a\u4eba\u7684\u6e38\u620f\uff0c\u56e2\u961f\u7684\u914d\u5408\u7edd\u5bf9\u5f3a\u8fc7\u4e2a\u4eba\u82f1\u96c4\u4e3b\u4e49\u3002","link":""},{"description":"\u614e\u5bf9\u7740\u5c38\u4f53\u8fdb\u884c\u5632\u8bbd\u65f6\u4f1a\u56de\u590d\u80fd\u91cf\uff0c\u97ad\u5c38\u6709\u6728\u6709\uff01","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/98.html"},{"description":"\u4e0d\u65b9\u4fbf\u63a5\u53d7\u6e38\u620f\u9080\u8bf7\u65f6\uff0c\u4f60\u53ef\u4ee5\u6309\u597d\u53cb\u5217\u8868\u53f3\u4e0a\u89d2\u7684\u7eff\u8272\u6309\u94ae\u6765\u5207\u6362\u81f3\u6682\u79bb\u72b6\u6001\u3002","link":""},{"description":"\u6280\u80fd\u4f24\u5bb3\u62ec\u53f7\u5185\u7684\u6570\u5b57\u4e3a\u5c5e\u6027\u52a0\u6210\uff0c\u5e38\u89c1\u7684\u6709\uff1a\u7eff\u8272(\u6cd5\u672f\u5f3a\u5ea6\u52a0\u6210)\uff0c\u7ea2\u8272(\u653b\u51fb\u529b\u52a0\u6210)\u3002","link":""},{"description":"\u63a8\u5854\u7684\u65f6\u5019\u53ef\u4ee5\u5728\u9644\u8fd1\u6cb3\u9053\u6216\u8005\u8349\u4e1b\u4e2d\u653e\u7f6e\u4fa6\u67e5\u5b88\u536b\uff0c\u907f\u514d\u88abGank\u3002","link":""},{"description":"\u6309Ctrl+Q\/W\/E\/R\u53ef\u4ee5\u5feb\u901f\u5347\u7ea7\u6280\u80fd\u3002","link":""},{"description":"\u4f60\u6240\u62c6\u7684\u773c\u4f4d\u4f1a\u8ba1\u7b97\u5728\u4f60\u7684\u51fb\u6740\u5c0f\u5175\u548c\u91ce\u602a\u6570\u5185\u3002","link":""},{"description":"\u88ab\u51fb\u6740\u540e\u67e5\u770b\u6b7b\u4ea1\u8bb0\u5f55\u4f1a\u5e2e\u52a9\u4f60\u66f4\u597d\u7684\u4e86\u89e3\u654c\u65b9\u3002","link":""},{"description":"\u4f7f\u7528\u4e0d\u719f\u6089\u7684\u82f1\u96c4\u65f6\uff0c\u6700\u597d\u5148\u676517173\u82f1\u96c4\u8054\u76df\u67e5\u770b\u653b\u7565\u5e76\u548c\u7535\u8111\u7ec3\u4e60\uff0c\u4ee5\u514d\u5728\u5339\u914d\u6a21\u5f0f\u65f6\u8868\u73b0\u4e0d\u4f73\u3002","link":"http:\/\/lol.17173.com\/"},{"description":"\u6302\u673a\u5f71\u54cd\u7684\u4e0d\u5355\u5355\u662f\u60a8\u4e00\u4e2a\u4eba\uff0c\u800c\u662f\u90a3\u573a\u6e38\u620f\u6240\u6709\u73a9\u5bb6\u7684\u6e38\u620f\u4f53\u9a8c\u3002","link":""},{"description":"\u732a\u5973\u7684\u51b2\u649e\u65e0\u89c6\u4e00\u5207\u5730\u5f62\uff0c\u5305\u62ec\u5de8\u9b54\u7684\u5de8\u6839\uff0c\u7687\u5b50\u7684\u5927\u5751\u3002\u5747\u80fd\u51b2\u8fc7\u5e76\u4e14\u6253\u7834\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/113.html"},{"description":"\u5982\u679c\u51ef\u7279\u7433\u548c\u851a\u5728\u540c\u4e00\u4e2a\u961f\u4f0d\uff0c\u4ed6\u4eec\u90fd\u4f1a\u83b7\u5f97\u4e00\u5c42Buff\uff1a\u6b63\u5728\u529e\u6848\uff1a\u76ae\u7279\u6c83\u592b\u4e4b\u661f\u3002\u65e0\u8bba\u4ec0\u4e48\u65f6\u5019\u4ed6\u4eec\u4e00\u8d77\u62ff\u4e86\u4eba\u5934\uff0c\u90fd\u4f1a\u989d\u5916\u83b7\u5f971\u4e2a\u91d1\u5e01\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/51.html"},{"description":"\u6392\u4f4d\u8d5b\u7684\u4e2d\u9014\u9000\u51fa\u4e0e\u6302\u673a\u884c\u4e3a\u4f1a\u53d7\u5230\u53cc\u500d\u5904\u7f5a\u54e6\u3002","link":""},{"description":"\u5339\u914d\u6a21\u5f0f\u6e38\u620f\u5c06\u4f1a\u64ae\u5408\u6c34\u5e73\u76f8\u8fd1\u7684\u73a9\u5bb6\u6e38\u620f\uff0c\u5c3d\u91cf\u4fdd\u8bc1\u4e24\u8fb9\u7684\u9884\u671f\u80dc\u7387\u90fd\u662f\u767e\u5206\u4e4b\u4e94\u5341\u3002","link":""},{"description":"\u86c7\u5973\u5361\u5e0c\u4fc4\u73c0\u4e9a\uff0c\u5f53\u5979\u51fa\u73b0\u5728\u53ec\u5524\u8005\u5ce1\u8c37\u65f6\uff0c\u6240\u6709\u8349\u4e1b\u91cc\u7684\u86c7\u90fd\u4f1a\u6d88\u5931\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/69.html"},{"description":"\u82f1\u96c4\u6280\u80fd\u7684\u9ed8\u8ba4\u5feb\u6377\u952e\u4e3aQ\u3001W\u3001E\u3001R\uff0c\u53ec\u5524\u5e08\u6280\u80fd\u4e3aD\u3001F\u3002","link":""},{"description":"\u9009\u62e9\u82f1\u96c4\u65f6\uff0c\u4f60\u53ef\u4ee5\u60ac\u505c\u9f20\u6807\u6765\u9884\u89c8\u82f1\u96c4\u7684\u6280\u80fd\u3002","link":"http:\/\/cha.17173.com\/lol\/"},{"description":"\u5728\u5bf9\u6297\u7684\u8fc7\u7a0b\u4e2d\u4e0d\u8981\u5fd8\u8bb0\u8865\u5175\uff0c\u88c5\u5907\u7684\u79ef\u7d2f\u901f\u5ea6\u5f80\u5f80\u80fd\u51b3\u5b9a\u80dc\u8d1f\u3002","link":""},{"description":"\u56de\u57ce\u7684\u5feb\u6377\u952e\u4e3aB\uff0c\u6253\u5f00\u5546\u57ce\u7684\u5feb\u6377\u952e\u4e3aP\u3002","link":""},{"description":"\u53ec\u5524\u5e08\u6280\u80fd\u7684\u51b7\u5374\u65f6\u95f4\u8f83\u957f\uff0c\u9700\u8981\u8c28\u614e\u4f7f\u7528\u3002","link":"http:\/\/cha.17173.com\/lol\/summoners.html"},{"description":"\u628a\u5175\u7ebf\u63a7\u5236\u5728\u81ea\u5df1\u7684\u5854\u524d\u65b9\uff0c\u4f1a\u8ba9\u5bf9\u624b\u96be\u4ee5gank\u3002","link":""},{"description":"\u591a\u6b21\u6309L\u952e\u53ef\u8c03\u6574\u8840\u6761\u7684\u663e\u793a\u65b9\u5f0f","link":""},{"description":"\u591a\u676517173\u82f1\u96c4\u8054\u76df\u67e5\u770b\u653b\u7565\uff0c\u770b\u770b\u522b\u4eba\u600e\u4e48\u4f7f\u7528\u5929\u8d4b\u7b26\u6587\u53ef\u80fd\u4f1a\u5bf9\u4f60\u6709\u5e2e\u52a9\u54e6\u3002","link":"http:\/\/lol.17173.com\/"},{"description":"\u6bcf\u5929\u7684\u5339\u914d\u6a21\u5f0f\u7b2c\u4e00\u80dc\u5c06\u4f1a\u6709\u989d\u5916\u7ecf\u9a8c\/\u6e38\u620f\u5e01\u5956\u52b1\uff0c\u8bb0\u5f97\u6bcf\u5929\u90fd\u6765\u8d62\u4e00\u5c40\u54e6\u3002","link":""},{"description":"\u63a8\u8350\u88c5\u5907\u66f4\u9002\u5408\u65b0\u624b\u3002","link":"http:\/\/cha.17173.com\/lol\/items.html"},{"description":"\u7b26\u6587\u6709\u6700\u4f73\u5c5e\u6027\u548c\u666e\u901a\u5c5e\u6027\u4e4b\u5206\uff0c\u4ee5\u751f\u547d\u7b26\u6587\u4e3a\u4f8b\uff0c\u9ec4\u8272\u7684\u6570\u503c\u5c31\u9ad8\u8fc7\u7ea2\u8272\u3001\u84dd\u8272\u3002","link":"http:\/\/cha.17173.com\/lol\/runes.html"},{"description":"\u5728\u5c4f\u5e55\u4e0a\u96be\u4ee5\u9009\u5b9a\u961f\u53cb\u65f6\uff0c\u4f60\u53ef\u4ee5\u901a\u8fc7\u5de6\u4e0a\u89d2\u7684\u961f\u53cb\u5934\u50cf\uff08\u6216F2~F5\uff09\u6765\u5bf9\u961f\u53cb\u65bd\u653e\u6280\u80fd\u3002","link":""},{"description":"\u5339\u914d\u5230\u5bf9\u624b\u65f6\uff0c\u4f60\u53ef\u4ee5\u9009\u62e9\u201c30\u79d2\u540e\u81ea\u52a8\u8fdb\u5165\u201d\uff0c\u4ee5\u4fbf\u5b58\u50a8\u4f60\u6b63\u5728\u4fee\u6539\u7684\u5929\u8d4b\u6216\u8005\u7b26\u6587\u7b49\u3002","link":""},{"description":"\u5728\u4f7f\u7528\u666e\u901a\u653b\u51fb\u65f6\uff0c\u4f60\u53ea\u9700\u8981\u5355\u51fb\u53f3\u952e\u4e00\u6b21\uff0c\u82f1\u96c4\u4fbf\u4f1a\u81ea\u52a8\u653b\u51fb\u76ee\u6807\uff0c\u76f4\u5230\u76ee\u6807\u6b7b\u4ea1\u6216\u6d88\u5931\u4e8e\u89c6\u91ce\u3002","link":""},{"description":"\u6709\u4e9b\u72b6\u6001\u578b\u7684\u6280\u80fd\u662f\u53ef\u4ee5\u518d\u6b21\u65bd\u653e\u6765\u63d0\u524d\u53d6\u6d88\u8be5\u72b6\u6001\u7684\uff0c\u6bd4\u5982\u62ab\u7532\u9f99\u9f9f\u7684Q\u548cW\uff0c\u5fb7\u739b\u897f\u4e9a\u7687\u5b50\u7684R\u3002","link":""},{"description":"\u5982\u679c\u53d1\u73b0\u5927\u5bb6\u914d\u5408\u4e0d\u4f73\uff0c\u60f3\u529e\u6cd5\u6253\u5b57\u5546\u91cf\u8f83\u597d\u7684\u5408\u4f5c\u7b56\u7565\u5427\u3002","link":""},{"description":"\u6e38\u620f\u4e2d\uff0c\u6309ESC\u53ef\u4ee5\u6253\u5f00\u83dc\u5355\u8fdb\u884c\u4e2a\u6027\u5316\u8bbe\u7f6e\u3002","link":""},{"description":"\u8fdb\u5165\u8349\u4e1b\u65f6\u4e00\u5b9a\u8981\u5c0f\u5fc3\uff0c\u6bcf\u4e2a\u8349\u4e1b\u4e2d\u90fd\u53ef\u80fd\u8df3\u51fa\u4e00\u4e2a\u76d6\u4f26\u6216\u80055\u4e2a\u57cb\u4f0f\u597d\u7684\u654c\u4eba","link":""},{"description":"\u4f60\u53ef\u4ee5\u6309Alt+\u5de6\u952e\u6765\u53d1\u9001\u5c0f\u5730\u56fe\u4fe1\u53f7\u63d0\u9192\u4f60\u7684\u961f\u53cb\u3002","link":""},{"description":"\u5728\u804a\u5929\u6846\u4e2d\u8f93\u5165\/l\u6216\/laugh\u8ba9\u82f1\u96c4\u5927\u7b11","link":""},{"description":"A\u952e+\u5de6\u952e\u9009\u62e9\u5730\u70b9\u4e3a\u79fb\u52a8\u653b\u51fb\uff0c\u4f60\u7684\u82f1\u96c4\u4f1a\u5728\u79fb\u52a8\u5230\u8be5\u5730\u70b9\u7684\u8fc7\u7a0b\u4e2d\u81ea\u52a8\u653b\u51fb\u9047\u5230\u7684\u654c\u65b9\u5355\u4f4d\u3002","link":""},{"description":"\u6392\u4f4d\u8d5b\u9009\u62e9\u82f1\u96c4\u65f6\u9003\u8dd1\u4e5f\u4f1a\u88ab\u8ba4\u4e3a\u662f\u4e2d\u9014\u9000\u51fa\u3002","link":""},{"description":"\u5728\u804a\u5929\u6846\u4e2d\u8f93\u5165\/d\u6216\/dance\u8ba9\u82f1\u96c4\u8df3\u821e","link":""},{"description":"\u5728\u6e38\u620f\u4e2d\uff0c\u4f60\u53ef\u4ee5\u6309F2~F5\u9009\u62e9\u76df\u53cb\u7684\u89c6\u89d2\u3002","link":""},{"description":"\u9996\u6b21\u9003\u8dd1\u6211\u4eec\u4e0d\u4f1a\u5373\u65f6\u5904\u7f5a\uff0c\u800c\u662f\u8bb0\u5f55\u5e76\u6263\u5206\u3002","link":""},{"description":"\u6ce8\u610f\u89c2\u5bdf\u5c0f\u5730\u56fe\u4e0a\u654c\u65b9\u82f1\u96c4\u7684\u52a8\u5411\uff0c\u5176\u4ed6\u7ebf\u7684\u82f1\u96c4\u6d88\u5931\uff0c\u5c31\u8981\u5c0f\u5fc3\u54af\u3002","link":""},{"description":"\u4f60\u53ef\u4ee5\u5728\u9009\u62e9\u82f1\u96c4\u65f6\u5728\u5c4f\u5e55\u4e0a\u65b9\u7684\u641c\u7d22\u680f\u8f93\u5165\u82f1\u96c4\u79f0\u53f7\u6765\u5feb\u901f\u627e\u5230\u9700\u8981\u7684\u82f1\u96c4\u3002","link":""},{"description":"\u4e50\u8299\u5170\u7684\u7b11\u8bdd\u201c\u6211\u7684\u4e0b\u4e2a\u9b54\u672f,\u5c31\u662f\u8ba9\u4f60\u4eec\u7684\u8840\u6761\u6d88\u5931\u201d\uff0c\u5982\u679c\u5728\u6e38\u620f\u7ed3\u675f\u65f6\uff0c\u4e50\u8299\u5170\u7ad9\u79bb\u57fa\u5730\u5f88\u8fd1\u7136\u540e\u4f7f\u7528\u7b11\u8bdd\u7684\u8bdd\uff0c\u5728\u80dc\u5229\/\u5931\u8d25\u6807\u5fd7\u51fa\u73b0\u540e\uff0c\u5979\u4f1a\u6d88\u5931\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/7.html"},{"description":"\u5982\u679c\u4f60\u591a\u6b21\u63d0\u524d\u9000\u51fa\u6e38\u620f\u6216\u8005\u6302\u673a\u5c06\u88ab\u60e9\u7f5a\uff0c\u9996\u6b21\u9003\u8dd1\u6211\u4eec\u4e0d\u4f1a\u5373\u65f6\u5904\u7f5a\uff0c\u800c\u662f\u8bb0\u5f55\u5e76\u6263\u5206\u3002","link":""},{"description":"\u5948\u5fb7\u4e3d\u62e5\u6709\u4e00\u4e2a\u9690\u85cf\u88ab\u52a8\uff0c\u4f7f\u5176\u83b7\u5f97\"\u7f8e\u6d32\u8c79\"\u4e4b\u529b\u3002\u5982\u679c\u9644\u8fd1\u53cb\u65b9\u82f1\u96c4\u7684\u7b49\u7ea7\u6bd4\u5948\u5fb7\u4e3d\u4f4e\uff0c\u90a3\u4e48\u53cb\u65b9\u82f1\u96c4\u6bcf5\u79d2\u4f1a\u83b7\u5f975\u70b9\u7ecf\u9a8c\u503c\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/76.html"},{"description":"\u4f60\u5fc5\u987b\u62e5\u6709\u8db3\u591f\u82f1\u96c4\u624d\u80fd\u53c2\u52a0\u6392\u4f4d\u8d5b\u3002","link":""},{"description":"\u4e0d\u8981\u5c40\u52bf\u4e0d\u4f73\u5c31\u60f3\u6295\u964d\uff0c\u80dc\u5229\u5f80\u5f80\u5c5e\u4e8e\u575a\u6301\u5230\u5e95\u7684\u9009\u624b\uff0c\u7ffb\u76d8\u83b7\u80dc\u7684\u611f\u89c9\u624d\u662f\u6700\u723d\u5feb\u7684\u3002","link":""},{"description":"\u7ed5\u8fc7\u5175\u7ebf\u653b\u51fb\u654c\u65b9\u9632\u5fa1\u5854\u65f6\uff0c\u4f60\u7684\u653b\u51fb\u6548\u679c\u4f1a\u4e0b\u964d\u3002","link":""},{"description":"\u5728\u804a\u5929\u6846\u4e2d\u8f93\u5165\/help \u53ef\u4ee5\u67e5\u770b\u804a\u5929\u547d\u4ee4","link":""},{"description":"\u5f53\u8302\u51ef\u8d70\u5230\u6377\u62c9\u8eab\u8fb9\u65f6\uff0c\u8302\u51ef\u7684\u79fb\u52a8\u901f\u5ea6\u4f1a\u63d0\u9ad81\u3002\u201c\u770b\u89c1\u6f02\u4eae\u690d\u7269\u987f\u65f6\u8dd1\u7684\u5feb\u4e86\u201d\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/57.html"},{"description":"\u5f53\u874e\u5b50\u5728\u8349\u4e1b\u91cc\u505c\u7559\u8d85\u8fc715\u79d2\u4e0d\u52a8\uff0c\u874e\u5b50\u4f1a\u6a21\u4eff\u5ba0\u7269\u5c0f\u7cbe\u7075\u3002\u201c\u76ae\u5361\uff01\u76ae\u5361\uff01\u76ae\u5361\u4e18\uff01\u201d\u989d\uff0c\u4e0d\u662f\u8fd9\u53e5\u3002\u201c\u65af\u5361\uff01\u65af\u5361\uff01\u65af\u5361\u7eb3\uff01\u201d\u8fd9\u53e5\u6b63\u89e3\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/72.html"},{"description":"\u4f7f\u7528\u9f20\u6807\u6eda\u8f6e\uff0c\u53ef\u4ee5\u62c9\u8fd1\u6216\u62c9\u8fdc\u6e38\u620f\u89c6\u89d2\u3002","link":""},{"description":"\u5728\u804a\u5929\u6846\u4e2d\u8f93\u5165\/j\u6216\/joke\u8ba9\u82f1\u96c4\u5f00\u73a9\u7b11","link":"cha.17173.com\/lol"},{"description":"\u5fcd\u8005\u9002\u5408\u4e8e\u5355\u6253\u72ec\u6597\uff0c\u573a\u4e0a\u6bcf\u591a\u4e00\u4e2a\u540c\u7ec4\u7684\u5fcd\u8005\uff0c\u6240\u6709\u5fcd\u8005\u7684\u751f\u547d\u503c-1\u3002","link":""},{"description":"\u6218\u6597\u65f6\uff0c\u6309o\u6216\u6309\u4f4fTAB\u952e\u6765\u67e5\u770b\u6bd4\u5206\u677f\u3002","link":""},{"description":"\u4f60\u5fc5\u987b\u5230\u8fbe\u7b49\u7ea730\u624d\u80fd\u53c2\u52a0\u6392\u4f4d\u8d5b\u3002","link":""},{"description":"\u6309\u4f4fAlt\u5e76\u70b9\u51fb\u9f20\u6807\u53f3\u952e\u6765\u64cd\u4f5c\u4f60\u7684\u5206\u8eab\/\u5080\u5121\/\u53ec\u5524\u751f\u7269\u3002","link":""},{"description":"\u5728\u9009\u62e9\u65b0\u82f1\u96c4\u7684\u65f6\u5019\uff0c\u5148\u676517173\u82f1\u96c4\u8054\u76df\u89c6\u9891\u7ad9\u770b\u770b\u89c6\u9891\u4e86\u89e3\u4e0b\u662f\u5426\u9002\u5408\u4f60\u5427\u3002","link":"http:\/\/v.17173.com\/lol\/"},{"description":"\u86c7\u5973\u662f\u552f\u4e00\u4e00\u540d\u53ef\u4ee5\u4ece\u522b\u7684\u82f1\u96c4\u6280\u80fd\u91cc\u5f97\u5230\u672c\u8eab\u6280\u80fd\u52a0\u5f3a\u7684\u82f1\u96c4\uff1a\u5979\u7684E\u53ef\u4ee5\u88ab\u8001\u9f20\u7684E\u3001\u63d0\u83ab\u7684E\u548cR\u4ee5\u53ca\u70bc\u91d1\u7684Q\u89e6\u53d1\u6765\u7f29\u77edCD","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/69.html"},{"description":"\u5982\u679c\u654c\u65b9\u6709\u9690\u8eab\u82f1\u96c4\uff0c\u4f60\u53ef\u4ee5\u9002\u65f6\u8d2d\u4e70\u771f\u89c6\u5b88\u536b\u6216\u5148\u77e5\u836f\u5242\u6765\u5bf9\u6297\u3002","link":""},{"description":"\u9009\u62e9\u4e00\u9875\u7b26\u6587\u6765\u589e\u5f3a\u4f60\u82f1\u96c4\uff0c\u4f60\u4e5f\u53ef\u4ee5\u51c6\u5907\u4e0d\u540c\u7684\u7b26\u6587\u9875\u6765\u9002\u5e94\u4e0d\u540c\u7684\u82f1\u96c4\u3002","link":"http:\/\/cha.17173.com\/lol\/runes.html"},{"description":"\u5728\u82f1\u96c4\u5230\u8fbe6\u7ea7\u65f6\uff0c\u7b2c\u4e00\u65f6\u95f4\u5347\u7ea7\u7ec8\u6781\u6280\u80fd(R)\u901a\u5e38\u662f\u6700\u6709\u7528\u7684\u3002","link":""},{"description":"\u5f53\u540c\u65f6\u6709\u4e09\u4e2a\u8df3\u8df3\u5fcd\u8005\u5728\u540c\u4e00\u65b9\u65f6\uff0c\u4e09\u4e2a\u8df3\u8df3\u5fcd\u8005\u7684\u751f\u547d\u4e0a\u9650\u90fd\u4f1a\u51cf\u5c112\u3002","link":""},{"description":"\u5728\u804a\u5929\u6846\u4e2d\u8f93\u5165\/t\u6216\/taunt\u8ba9\u82f1\u96c4\u53d1\u51fa\u5632\u8bbd","link":""},{"description":"Shift+\u6280\u80fd\u5feb\u6377\u952e\u4e3a\u667a\u80fd\u65bd\u6cd5\uff0c\u82f1\u96c4\u4f1a\u5411\u9f20\u6807\u60ac\u505c\u7684\u76ee\u6807\u6216\u4f4d\u7f6e\u65bd\u6cd5\u3002","link":""},{"description":"\u5f53\u6377\u62c9\u88ab\u66d9\u5149\u5973\u795e\u7684\u4efb\u4f55\u4e00\u4e2a\u6280\u80fd\u51fb\u4e2d\u540e\uff0c\u5728DEBUFF\u5b58\u5728\u7684\u65f6\u5019\uff0c\u56e0\u201c\u5149\u5408\u4f5c\u7528\u201d\u539f\u7406\uff0c\u6377\u62c9\u7684\u4e2a\u5b50\u4f1a\u7565\u5fae\u957f\u5927\u4e00\u70b9\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/143.html"},{"description":"\u6e38\u620f\u4e2d\uff0c\u6309Y\u53ef\u4ee5\u89e3\u9501\/\u9501\u5b9a\u89c6\u89d2","link":""},{"description":"\u5728\u6b7b\u4ea1\u671f\u95f4\u4f60\u53ef\u4ee5\u5145\u5206\u5229\u7528\u65f6\u95f4\u6311\u9009\u8d2d\u4e70\u88c5\u5907\u3002","link":""},{"description":"\u51b7\u5374\u65f6\u95f4\u7f29\u77ed\u7684\u6781\u9650\u662f\u767e\u5206\u4e4b\u56db\u5341\u3002","link":""},{"description":"\u8fe6\u5a1c\u662f\u552f\u4e00\u4e00\u4e2a\u80fd\u7ed9\u9632\u5fa1\u5854\u4e0a\u76fe\u7684\u82f1\u96c4\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/40.html"},{"description":"\u57fa\u5170\u548c\u72d7\u718a\u51fa\u73b0\u5728\u4e0d\u540c\u9635\u8425\u65f6\u3002\u57fa\u5170\u4f1a\u83b7\u5f97BUFF\uff0c\u201c\u88c5\u7532\u718a\u618e\u6068\u8005\u201d\u3002\u72d7\u718a\u4f1a\u83b7\u5f97BUFF\uff0c\u201c\u65f6\u5149\u8001\u4eba\u618e\u6068\u8005\u201d\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/26.html"},{"description":"\u5c04\u7a0b\u6700\u8fdc\u7684\u82f1\u96c4\u662f\u76ae\u57ce\u5973\u8b66\uff0c\u8303\u56f4650\u54e6\uff01\u636e\u8bf4\u5979\u7684\u88c5\u5907\u662f\u5979\u6bcd\u4eb2\u4eb2\u81ea\u7814\u53d1\u7684\uff01","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/51.html"},{"description":"\u5728\u6cb3\u9053\u653e\u7f6e\u4fa6\u67e5\u5b88\u536b\u53ef\u4ee5\u4e86\u89e3\u654c\u65b9\u52a8\u5411\uff0c\u9632\u6b62\u5df1\u65b9\u88ab\u5077\u88ad\u3002","link":""},{"description":"\u7eb3\u4ec0\u7537\u7235\u662f\u53ec\u5524\u5e08\u5ce1\u8c37\u6700\u5f3a\u7684\u751f\u7269\uff0c\u51fb\u6740\u5b83\u4f1a\u7ed9\u4f60\u7684\u961f\u4f0d\u5e26\u6765\u4e00\u4e2a\u653b\u51fb\u3001\u6cd5\u5f3a\u3001\u56de\u590d\u7684\u589e\u76ca\u3002","link":""},{"description":"\u6392\u4f4d\u8d5b\u4f7f\u7528\u5f81\u53ec\u6a21\u5f0f\u9009\u62e9\u82f1\u96c4\uff0c\u53cc\u65b9\u8f6e\u6d41\u9009\u62e9\u82f1\u96c4\uff0c\u5e76\u4e14\u4e0d\u80fd\u9009\u62e9\u76f8\u540c\u7684\u82f1\u96c4\u3002","link":""},{"description":"\u8349\u4e1b\u5916\u65e0\u6cd5\u770b\u5230\u8349\u4e1b\u5185\u7684\u89c6\u91ce\uff0c\u4f60\u53ef\u4ee5\u5229\u7528\u8349\u4e1b\u6765\u4f0f\u51fb\u548c\u9003\u8dd1\u3002","link":""},{"description":"\u7537\u67aa\u7684\u70df\u96fe\u5f39\u96c6\u4e2d\u68a6\u9b47\u4e4b\u540e\uff0c\u4f1a\u5bf9\u68a6\u9b47\u8fdb\u884c\u5632\u8bbd\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/104.html"},{"description":"\u6309\u6570\u5b57\u952e1~6\u6765\u4f7f\u7528\u9053\u5177\u680f\u4e2d\u7684\u7269\u54c1\uff0c\u4f60\u4e5f\u53ef\u4ee5\u62d6\u52a8\u7269\u54c1\u8c03\u6362\u5176\u4f4d\u7f6e\u3002","link":""},{"description":"\u5728\u804a\u5929\u6846\u4e2d\u8f93\u5165 \u201c\/w \u597d\u53cb\u540d \u804a\u5929\u5185\u5bb9\u201d\u53ef\u4ee5\u7ed9\u6e38\u620f\u5185\u5916\u7684\u597d\u53cb\u53d1\u9001\u5bc6\u8bed","link":""},{"description":"\u8eb2\u8fdb\u8349\u4e1b\u53ef\u4ee5\u907f\u5f00\u5c0f\u5175\u7684\u653b\u51fb\u3002","link":""},{"description":"\u961f\u53cb\u8868\u73b0\u4e0d\u4f73\u65f6\u8bf7\u4e0d\u8981\u8d23\u602a\uff0c\u8c01\u90fd\u6709\u53d1\u6325\u4e0d\u597d\u7684\u65f6\u5019\uff0c\u53ea\u6709\u56e2\u7ed3\u624d\u80fd\u53d6\u80dc\u3002","link":""},{"description":"\u72fc\u4eba\u7528\u6d77\u8c79\u76ae\u80a4\u7684\u65f6\u5019\uff0c\u5de6\u8fb9\u84ddBUFF\u4e0a\u9762\u4f1a\u89e6\u53d1\u6d77\u8c79\u5e7d\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/19.html"},{"description":"\u80cc\u666f\u6545\u4e8b\u6700\u957f\u7684\u4eba\u7269\u662f\u83f2\u5965\u5a1c\uff0c\u6709621\u5b57\u4e4b\u591a\uff01","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/114.html"},{"description":"\u4f60\u53ef\u4ee5\u5728\u53ec\u5524\u5e08\u8d44\u6599->\u7b26\u6587\u4e2d\u4fee\u6539\u7b26\u6587\u9875\u540d\u79f0\uff0c\u4ee5\u514d\u6df7\u6dc6\u3002","link":"http:\/\/cha.17173.com\/lol\/runes.html"},{"description":"\u7537\u5200\u7684\u8df3\u821e\uff0c\u89c1\u8fc7\u90fd\u77e5\u9053\u662f\u8c01\uff1a\u8fc8\u514b\u5c14\u6770\u514b\u900a\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/91.html"},{"description":"\u6e38\u620f\u4e2d\u6309Z\u53ef\u663e\u793a\u6700\u8fd1\u7684\u804a\u5929\u8bb0\u5f55","link":""},{"description":"\u8d2d\u4e70\u82f1\u96c4\u540e\u53ef\u4ee5\u5728\u5546\u57ce\u8d2d\u4e70\u76ae\u80a4\u3002\u4f60\u53ef\u4ee5\u5728\u53ec\u5524\u5e08\u8d44\u6599->\u82f1\u96c4\u4e2d\u6d4f\u89c8\u4f60\u559c\u6b22\u7684\u82f1\u96c4\u7684\u76ae\u80a4\u3002","link":""},{"description":"\u9009\u62e9\u7b26\u6587\u9875\u65f6\uff0c\u60ac\u505c\u9f20\u6807\u6765\u9884\u89c8\u7b26\u6587\u9875\u7684\u5c5e\u6027\uff0c\u907f\u514d\u9009\u9519\u3002","link":"http:\/\/cha.17173.com\/lol\/runes.html"},{"description":"\u5fb7\u83b1\u6587\u53ef\u4ee5\u63a5\u4f4f\u53e6\u5916\u4e00\u4e2a\u5fb7\u83b1\u6587\u6240\u6254\u51fa\u53bb\u7684\u98de\u5200\uff0c\u4e00\u65e6\u63a5\u4f4f\uff0c\u8fd8\u4f1a\u5632\u8bbd\u5bf9\u65b9\u3002","link":"http:\/\/cha.17173.com\/lol\/heros\/details\/119.html"},{"description":"\u4f60\u53ef\u4ee5\u5728\u9009\u62e9\u82f1\u96c4\u540e\u4e3a\u5176\u914d\u7f6e\u9002\u5f53\u7684\u5929\u8d4b\uff0c\u8bb0\u5f97\u52a8\u4f5c\u8981\u5feb\u54e6\u3002","link":""},{"description":"\u5982\u679c\u81ea\u5df1\u5bf9\u7ebf\u7684\u5bf9\u624b\u6d88\u5931\uff0c\u5373\u65f6\u544a\u77e5\u961f\u53cb\u5f80\u5f80\u80fd\u8ba9\u961f\u53cb\u6210\u529f\u9003\u8131gank\u3002","link":""},{"description":"\u5728\u804a\u5929\u6846\u4e2d\u8f93\u5165 \u201c\/R \u804a\u5929\u5185\u5bb9\u201d\u53ef\u4ee5\u56de\u590d\u597d\u53cb\u7684\u5bc6\u8bed","link":""},{"description":"\u589e\u76ca\/\u51cf\u76ca\u4fd7\u79f0BUFF\/DEBUFF\uff0c\u901a\u5e38\u6765\u81ea\u82f1\u96c4\u6216\u8005\u7269\u54c1\uff0cBUFF\u56fe\u6807\u548c\u8bf4\u660e\u5728\u6280\u80fd\u680f\u7684\u4e0a\u65b9\u3002","link":""},{"description":"\u5728\u89e3\u9501\u89c6\u89d2\u4e0b\uff0c\u6309Space\uff08\u7a7a\u683c\u952e\uff09\u6216F1\u53ef\u4ee5\u5feb\u901f\u56de\u5230\u81ea\u5df1\u7684\u82f1\u96c4\u3002","link":""},{"description":"\u53ec\u5524\u5e08\u5347\u7ea7\u53ef\u4ee5\u89e3\u5f00\u66f4\u5f3a\u529b\u7684\u53ec\u5524\u5e08\u6280\u80fd\u3001\u989d\u5916\u7684\u5929\u8d4b\u70b9\u548c\u7b26\u6587\u63d2\u69fd\u3002","link":""}]</script><div id="lolMsgList"><span><a href="" hastip="no">在第一次回城补给时购买鞋子会给你带来一定优势。</a></span></div><script type="text/javascript" src="/lol/js/data.js"></script>
+<script type="text/javascript" src="/lol/js/jquery.lazyload.js"></script>
+
+<!--搜索下拉开始-->
+<div class="s_list s_list_hero">
+	<div class="s_list_do"></div>
+	<ul id="sxxl" tabindex="-1">
+
+        <li class="first-child"><strong>分路</strong>
+            <p class="tag2">
+                                    <span class="" data-id="上单">上单</span>
+                                    <span class="" data-id="中单">中单</span>
+                                    <span class="" data-id="打野">打野</span>
+                                    <span class="" data-id="ADC">ADC</span>
+                                    <span class="" data-id="辅助">辅助</span>
+                            </p>
+        </li>
+
+		<li> <strong>综合</strong>
+			<p class="tag1">
+							<span class="" data-id="本周免费">本周免费</span>
+							<span class="" data-id="本周折扣">本周折扣</span>
+							<span class="" data-id="新人推荐">新人推荐</span>
+							<span class="" data-id="最新英雄">最新英雄</span>
+							<span class="" data-id="编辑推荐">编辑推荐</span>
+						</p>
+		</li>
+		<li> <strong>分路</strong>
+			<p class="tag2">
+							<span class="" data-id="上单">上单</span>
+							<span class="" data-id="中单">中单</span>
+							<span class="" data-id="打野">打野</span>
+							<span class="" data-id="ADC">ADC</span>
+							<span class="" data-id="辅助">辅助</span>
+						</p>
+		</li>
+		<li> <strong>能力</strong>
+			<p class="tag3">
+							<span class="" data-id="晕眩">晕眩</span>
+							<span class="" data-id="定身">定身</span>
+							<span class="" data-id="击飞">击飞</span>
+							<span class="" data-id="减速">减速</span>
+							<span class="" data-id="沉默">沉默</span>
+							<span class="" data-id="嘲讽">嘲讽</span>
+							<span class="" data-id="恐惧">恐惧</span>
+							<span class="" data-id="治疗">治疗</span>
+							<span class="" data-id="护盾">护盾</span>
+							<span class="" data-id="位移">位移</span>
+							<span class="" data-id="变身">变身</span>
+							<span class="" data-id="隐身">隐身</span>
+						</p>
+		</li>
+		<li> <strong>属性</strong>
+			<p class="tag4">
+							<span class="" data-id="assassin" value="assassin">刺客</span>
+							<span class="" data-id="tank" value="tank">坦克</span>
+							<span class="" data-id="marksman" value="marksman">射手</span>
+							<span class="" data-id="fighter" value="fighter">战士</span>
+							<span class="" data-id="mage" value="mage">法师</span>
+							<span class="" data-id="support" value="support">辅助</span>
+						</p>
+		</li>
+		<li> <strong>攻击</strong>
+			<p class="tag5">
+							<span class="" data-id="近战">近战</span>
+							<span class="" data-id="远程">远程</span>
+						</p>
+		</li>
+		<li> <strong>性别</strong>
+			<p class="tag6">
+							<span class="" data-id="男性">男性</span>
+							<span class="" data-id="女性">女性</span>
+					</li>
+		<li> <strong>价格</strong>
+			<p class="tag7">
+							<span class="" data-id="450">450</span>
+							<span class="" data-id="1350">1350</span>
+							<span class="" data-id="3150">3150</span>
+							<span class="" data-id="4800">4800</span>
+							<span class="" data-id="6300">6300</span>
+					</li>
+	</ul>
+</div>
+<!--搜索下拉结束--> 
+</div>
+<!--头部end--> 
+
+<!--游戏列表开始-->
+<ul class="games_list">
+		<li>
+		<a href="/lol/heros/details/432.html" tipurl="/lol/hero/432" title="星界游神"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Bard_Square_0.png" alt="星界游神" ></a>
+		<h6><a href="/lol/heros/details/432.html" tipurl="/lol/hero/432" title="星界游神">星界游神</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/429.html" tipurl="/lol/hero/429" title="复仇之矛"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/kalista_square_0.jpg" alt="复仇之矛" ></a>
+		<h6><a href="/lol/heros/details/429.html" tipurl="/lol/hero/429" title="复仇之矛">复仇之矛</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/421.html" tipurl="/lol/hero/421" title="虚空遁地兽"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/RekSai_Square_0.jpg" alt="虚空遁地兽" ></a>
+		<h6><a href="/lol/heros/details/421.html" tipurl="/lol/hero/421" title="虚空遁地兽">虚空遁地兽</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/420.html" tipurl="/lol/hero/420" title="海兽祭司"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Illaoi_Square_0.png" alt="海兽祭司" ></a>
+		<h6><a href="/lol/heros/details/420.html" tipurl="/lol/hero/420" title="海兽祭司">海兽祭司</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/412.html" tipurl="/lol/hero/412" title="魂锁典狱长"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/thresh_square_0.jpg" alt="魂锁典狱长" ></a>
+		<h6><a href="/lol/heros/details/412.html" tipurl="/lol/hero/412" title="魂锁典狱长">魂锁典狱长</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/268.html" tipurl="/lol/hero/268" title="沙漠皇帝"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/azir_square_0.jpg" alt="沙漠皇帝" ></a>
+		<h6><a href="/lol/heros/details/268.html" tipurl="/lol/hero/268" title="沙漠皇帝">沙漠皇帝</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/267.html" tipurl="/lol/hero/267" title="唤潮鲛姬"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/nami_square_0.jpg" alt="唤潮鲛姬" ></a>
+		<h6><a href="/lol/heros/details/267.html" tipurl="/lol/hero/267" title="唤潮鲛姬">唤潮鲛姬</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/266.html" tipurl="/lol/hero/266" title="暗裔剑魔"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/aatrox_square_0.jpg" alt="暗裔剑魔" ></a>
+		<h6><a href="/lol/heros/details/266.html" tipurl="/lol/hero/266" title="暗裔剑魔">暗裔剑魔</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/254.html" tipurl="/lol/hero/254" title="皮城执法官"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/vi_square_0.jpg" alt="皮城执法官" ></a>
+		<h6><a href="/lol/heros/details/254.html" tipurl="/lol/hero/254" title="皮城执法官">皮城执法官</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/245.html" tipurl="/lol/hero/245" title="时间刺客"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Ekko_Square_0.png" alt="时间刺客" ></a>
+		<h6><a href="/lol/heros/details/245.html" tipurl="/lol/hero/245" title="时间刺客">时间刺客</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/238.html" tipurl="/lol/hero/238" title="影流之主"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/zed_square_0.jpg" alt="影流之主" ></a>
+		<h6><a href="/lol/heros/details/238.html" tipurl="/lol/hero/238" title="影流之主">影流之主</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/236.html" tipurl="/lol/hero/236" title="圣枪游侠"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/lucian_square_0.jpg" alt="圣枪游侠" ></a>
+		<h6><a href="/lol/heros/details/236.html" tipurl="/lol/hero/236" title="圣枪游侠">圣枪游侠</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/223.html" tipurl="/lol/hero/223" title="河流之王"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/TahmKench_Square_0.png" alt="河流之王" ></a>
+		<h6><a href="/lol/heros/details/223.html" tipurl="/lol/hero/223" title="河流之王">河流之王</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/222.html" tipurl="/lol/hero/222" title="暴走萝莉"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/jinx_square_0.jpg" alt="暴走萝莉" ></a>
+		<h6><a href="/lol/heros/details/222.html" tipurl="/lol/hero/222" title="暴走萝莉">暴走萝莉</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/203.html" tipurl="/lol/hero/203" title="永猎双子"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Kindred_Square_0.png" alt="永猎双子" ></a>
+		<h6><a href="/lol/heros/details/203.html" tipurl="/lol/hero/203" title="永猎双子">永猎双子</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/202.html" tipurl="/lol/hero/202" title="戏命师"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Jhin_Square_0.png" alt="戏命师" ></a>
+		<h6><a href="/lol/heros/details/202.html" tipurl="/lol/hero/202" title="戏命师">戏命师</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/201.html" tipurl="/lol/hero/201" title="弗雷尔卓德之心"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/braum_square_0.jpg" alt="弗雷尔卓德之心" ></a>
+		<h6><a href="/lol/heros/details/201.html" tipurl="/lol/hero/201" title="弗雷尔卓德之心">弗雷尔卓德之心</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/161.html" tipurl="/lol/hero/161" title="虚空之眼"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/velkoz_square_0.jpg" alt="虚空之眼" ></a>
+		<h6><a href="/lol/heros/details/161.html" tipurl="/lol/hero/161" title="虚空之眼">虚空之眼</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/157.html" tipurl="/lol/hero/157" title="疾风剑豪"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/yasuo_square_0.jpg" alt="疾风剑豪" ></a>
+		<h6><a href="/lol/heros/details/157.html" tipurl="/lol/hero/157" title="疾风剑豪">疾风剑豪</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/154.html" tipurl="/lol/hero/154" title="生化魔人"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/zac_square_0.jpg" alt="生化魔人" ></a>
+		<h6><a href="/lol/heros/details/154.html" tipurl="/lol/hero/154" title="生化魔人">生化魔人</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/150.html" tipurl="/lol/hero/150" title="迷失之牙"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/gnar_square_0.jpg" alt="迷失之牙" ></a>
+		<h6><a href="/lol/heros/details/150.html" tipurl="/lol/hero/150" title="迷失之牙">迷失之牙</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/143.html" tipurl="/lol/hero/143" title="荆棘之兴"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/zyra_square_0.jpg" alt="荆棘之兴" ></a>
+		<h6><a href="/lol/heros/details/143.html" tipurl="/lol/hero/143" title="荆棘之兴">荆棘之兴</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/136.html" tipurl="/lol/hero/136" title="铸星龙王"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/AurelionSol_Square_0.png" alt="铸星龙王" ></a>
+		<h6><a href="/lol/heros/details/136.html" tipurl="/lol/hero/136" title="铸星龙王">铸星龙王</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/134.html" tipurl="/lol/hero/134" title="暗黑元首"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/syndra_square_0.jpg" alt="暗黑元首" ></a>
+		<h6><a href="/lol/heros/details/134.html" tipurl="/lol/hero/134" title="暗黑元首">暗黑元首</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/133.html" tipurl="/lol/hero/133" title="德玛西亚之翼"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/quinn_square_0.jpg" alt="德玛西亚之翼" ></a>
+		<h6><a href="/lol/heros/details/133.html" tipurl="/lol/hero/133" title="德玛西亚之翼">德玛西亚之翼</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/131.html" tipurl="/lol/hero/131" title="皎月女神"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/diana_square_0.jpg" alt="皎月女神" ></a>
+		<h6><a href="/lol/heros/details/131.html" tipurl="/lol/hero/131" title="皎月女神">皎月女神</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/127.html" tipurl="/lol/hero/127" title="冰霜女巫"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/lissandra_square_0.jpg" alt="冰霜女巫" ></a>
+		<h6><a href="/lol/heros/details/127.html" tipurl="/lol/hero/127" title="冰霜女巫">冰霜女巫</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/126.html" tipurl="/lol/hero/126" title="未来守护者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/jayce_square_0.jpg" alt="未来守护者" ></a>
+		<h6><a href="/lol/heros/details/126.html" tipurl="/lol/hero/126" title="未来守护者">未来守护者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/122.html" tipurl="/lol/hero/122" title="诺克萨斯之手"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/darius_square_0.jpg" alt="诺克萨斯之手" ></a>
+		<h6><a href="/lol/heros/details/122.html" tipurl="/lol/hero/122" title="诺克萨斯之手">诺克萨斯之手</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/121.html" tipurl="/lol/hero/121" title="虚空掠夺者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/khazix_square_0.jpg" alt="虚空掠夺者" ></a>
+		<h6><a href="/lol/heros/details/121.html" tipurl="/lol/hero/121" title="虚空掠夺者">虚空掠夺者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/120.html" tipurl="/lol/hero/120" title="战争之影"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/hecarim_square_0.jpg" alt="战争之影" ></a>
+		<h6><a href="/lol/heros/details/120.html" tipurl="/lol/hero/120" title="战争之影">战争之影</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/119.html" tipurl="/lol/hero/119" title="荣耀行刑官"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/draven_square_0.jpg" alt="荣耀行刑官" ></a>
+		<h6><a href="/lol/heros/details/119.html" tipurl="/lol/hero/119" title="荣耀行刑官">荣耀行刑官</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/117.html" tipurl="/lol/hero/117" title="仙灵女巫"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/lulu_square_0.jpg" alt="仙灵女巫" ></a>
+		<h6><a href="/lol/heros/details/117.html" tipurl="/lol/hero/117" title="仙灵女巫">仙灵女巫</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/115.html" tipurl="/lol/hero/115" title="爆破鬼才"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/ziggs_square_0.jpg" alt="爆破鬼才" ></a>
+		<h6><a href="/lol/heros/details/115.html" tipurl="/lol/hero/115" title="爆破鬼才">爆破鬼才</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/114.html" tipurl="/lol/hero/114" title="无双剑姬"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/fiora_square_0.jpg" alt="无双剑姬" ></a>
+		<h6><a href="/lol/heros/details/114.html" tipurl="/lol/hero/114" title="无双剑姬">无双剑姬</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/113.html" tipurl="/lol/hero/113" title="凛冬之怒"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/sejuani_square_0.jpg" alt="凛冬之怒" ></a>
+		<h6><a href="/lol/heros/details/113.html" tipurl="/lol/hero/113" title="凛冬之怒">凛冬之怒</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/112.html" tipurl="/lol/hero/112" title="机械先驱"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/viktor_square_0.jpg" alt="机械先驱" ></a>
+		<h6><a href="/lol/heros/details/112.html" tipurl="/lol/hero/112" title="机械先驱">机械先驱</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/111.html" tipurl="/lol/hero/111" title="深海泰坦"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/nautilus_square_0.jpg" alt="深海泰坦" ></a>
+		<h6><a href="/lol/heros/details/111.html" tipurl="/lol/hero/111" title="深海泰坦">深海泰坦</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/110.html" tipurl="/lol/hero/110" title="惩戒之箭"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/varus_square_0.jpg" alt="惩戒之箭" ></a>
+		<h6><a href="/lol/heros/details/110.html" tipurl="/lol/hero/110" title="惩戒之箭">惩戒之箭</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/107.html" tipurl="/lol/hero/107" title="傲之追猎者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/rengar_square_0.jpg" alt="傲之追猎者" ></a>
+		<h6><a href="/lol/heros/details/107.html" tipurl="/lol/hero/107" title="傲之追猎者">傲之追猎者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/106.html" tipurl="/lol/hero/106" title="雷霆咆哮"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/volibear_square_0.jpg" alt="雷霆咆哮" ></a>
+		<h6><a href="/lol/heros/details/106.html" tipurl="/lol/hero/106" title="雷霆咆哮">雷霆咆哮</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/105.html" tipurl="/lol/hero/105" title="潮汐海灵"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/fizz_square_0.jpg" alt="潮汐海灵" ></a>
+		<h6><a href="/lol/heros/details/105.html" tipurl="/lol/hero/105" title="潮汐海灵">潮汐海灵</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/104.html" tipurl="/lol/hero/104" title="法外狂徒"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/graves_square_0.jpg" alt="法外狂徒" ></a>
+		<h6><a href="/lol/heros/details/104.html" tipurl="/lol/hero/104" title="法外狂徒">法外狂徒</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/103.html" tipurl="/lol/hero/103" title="九尾妖狐"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Ahri_Square_0.png" alt="九尾妖狐" ></a>
+		<h6><a href="/lol/heros/details/103.html" tipurl="/lol/hero/103" title="九尾妖狐">九尾妖狐</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/102.html" tipurl="/lol/hero/102" title="龙血武姬"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/shyvana_square_0.jpg" alt="龙血武姬" ></a>
+		<h6><a href="/lol/heros/details/102.html" tipurl="/lol/hero/102" title="龙血武姬">龙血武姬</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/101.html" tipurl="/lol/hero/101" title="远古巫灵"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/xerath_square_0.jpg" alt="远古巫灵" ></a>
+		<h6><a href="/lol/heros/details/101.html" tipurl="/lol/hero/101" title="远古巫灵">远古巫灵</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/99.html" tipurl="/lol/hero/99" title="光辉女郎"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/lux_square_0.jpg" alt="光辉女郎" ></a>
+		<h6><a href="/lol/heros/details/99.html" tipurl="/lol/hero/99" title="光辉女郎">光辉女郎</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/98.html" tipurl="/lol/hero/98" title="暮光之眼"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Shen_Square_0.png" alt="暮光之眼" ></a>
+		<h6><a href="/lol/heros/details/98.html" tipurl="/lol/hero/98" title="暮光之眼">暮光之眼</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/96.html" tipurl="/lol/hero/96" title="深渊巨口"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/kogmaw_square_0.jpg" alt="深渊巨口" ></a>
+		<h6><a href="/lol/heros/details/96.html" tipurl="/lol/hero/96" title="深渊巨口">深渊巨口</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/92.html" tipurl="/lol/hero/92" title="放逐之刃"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/riven_square_0.jpg" alt="放逐之刃" ></a>
+		<h6><a href="/lol/heros/details/92.html" tipurl="/lol/hero/92" title="放逐之刃">放逐之刃</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/91.html" tipurl="/lol/hero/91" title="刀锋之影"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/talon_square_0.jpg" alt="刀锋之影" ></a>
+		<h6><a href="/lol/heros/details/91.html" tipurl="/lol/hero/91" title="刀锋之影">刀锋之影</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/90.html" tipurl="/lol/hero/90" title="虚空先知"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/malzahar_square_0.jpg" alt="虚空先知" ></a>
+		<h6><a href="/lol/heros/details/90.html" tipurl="/lol/hero/90" title="虚空先知">虚空先知</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/89.html" tipurl="/lol/hero/89" title="曙光女神"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/leona_square_0.jpg" alt="曙光女神" ></a>
+		<h6><a href="/lol/heros/details/89.html" tipurl="/lol/hero/89" title="曙光女神">曙光女神</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/86.html" tipurl="/lol/hero/86" title="德玛西亚之力"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/garen_square_0.jpg" alt="德玛西亚之力" ></a>
+		<h6><a href="/lol/heros/details/86.html" tipurl="/lol/hero/86" title="德玛西亚之力">德玛西亚之力</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/85.html" tipurl="/lol/hero/85" title="狂暴之心"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/kennen_square_0.jpg" alt="狂暴之心" ></a>
+		<h6><a href="/lol/heros/details/85.html" tipurl="/lol/hero/85" title="狂暴之心">狂暴之心</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/84.html" tipurl="/lol/hero/84" title="暗影之拳"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/akali_square_0.jpg" alt="暗影之拳" ></a>
+		<h6><a href="/lol/heros/details/84.html" tipurl="/lol/hero/84" title="暗影之拳">暗影之拳</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/83.html" tipurl="/lol/hero/83" title="掘墓者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/yorick_square_0.jpg" alt="掘墓者" ></a>
+		<h6><a href="/lol/heros/details/83.html" tipurl="/lol/hero/83" title="掘墓者">掘墓者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/82.html" tipurl="/lol/hero/82" title="铁铠冥魂"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/mordekaiser_square_0.jpg" alt="铁铠冥魂" ></a>
+		<h6><a href="/lol/heros/details/82.html" tipurl="/lol/hero/82" title="铁铠冥魂">铁铠冥魂</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/81.html" tipurl="/lol/hero/81" title="探险家"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/ezreal_square_0.jpg" alt="探险家" ></a>
+		<h6><a href="/lol/heros/details/81.html" tipurl="/lol/hero/81" title="探险家">探险家</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/80.html" tipurl="/lol/hero/80" title="战争之王"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/pantheon_square_0.jpg" alt="战争之王" ></a>
+		<h6><a href="/lol/heros/details/80.html" tipurl="/lol/hero/80" title="战争之王">战争之王</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/79.html" tipurl="/lol/hero/79" title="酒桶"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/gragas_square_0.jpg" alt="酒桶" ></a>
+		<h6><a href="/lol/heros/details/79.html" tipurl="/lol/hero/79" title="酒桶">酒桶</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/78.html" tipurl="/lol/hero/78" title="圣锤之毅"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Poppy_Square_0.png" alt="圣锤之毅" ></a>
+		<h6><a href="/lol/heros/details/78.html" tipurl="/lol/hero/78" title="圣锤之毅">圣锤之毅</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/77.html" tipurl="/lol/hero/77" title="兽灵行者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/udyr_square_0.jpg" alt="兽灵行者" ></a>
+		<h6><a href="/lol/heros/details/77.html" tipurl="/lol/hero/77" title="兽灵行者">兽灵行者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/76.html" tipurl="/lol/hero/76" title="狂野女猎手"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/nidalee_square_0.jpg" alt="狂野女猎手" ></a>
+		<h6><a href="/lol/heros/details/76.html" tipurl="/lol/hero/76" title="狂野女猎手">狂野女猎手</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/75.html" tipurl="/lol/hero/75" title="沙漠死神"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/nasus_square_0.jpg" alt="沙漠死神" ></a>
+		<h6><a href="/lol/heros/details/75.html" tipurl="/lol/hero/75" title="沙漠死神">沙漠死神</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/74.html" tipurl="/lol/hero/74" title="大发明家"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/heimerdinger_square_0.jpg" alt="大发明家" ></a>
+		<h6><a href="/lol/heros/details/74.html" tipurl="/lol/hero/74" title="大发明家">大发明家</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/72.html" tipurl="/lol/hero/72" title="水晶先锋"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/skarner_square_0.jpg" alt="水晶先锋" ></a>
+		<h6><a href="/lol/heros/details/72.html" tipurl="/lol/hero/72" title="水晶先锋">水晶先锋</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/69.html" tipurl="/lol/hero/69" title="魔蛇之拥"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/cassiopeia_square_0.jpg" alt="魔蛇之拥" ></a>
+		<h6><a href="/lol/heros/details/69.html" tipurl="/lol/hero/69" title="魔蛇之拥">魔蛇之拥</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/68.html" tipurl="/lol/hero/68" title="机械公敌"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Rumble_Square_0.png" alt="机械公敌" ></a>
+		<h6><a href="/lol/heros/details/68.html" tipurl="/lol/hero/68" title="机械公敌">机械公敌</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/67.html" tipurl="/lol/hero/67" title="暗夜猎手"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/vayne_square_0.jpg" alt="暗夜猎手" ></a>
+		<h6><a href="/lol/heros/details/67.html" tipurl="/lol/hero/67" title="暗夜猎手">暗夜猎手</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/64.html" tipurl="/lol/hero/64" title="盲僧"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/leesin_square_0.jpg" alt="盲僧" ></a>
+		<h6><a href="/lol/heros/details/64.html" tipurl="/lol/hero/64" title="盲僧">盲僧</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/63.html" tipurl="/lol/hero/63" title="复仇焰魂"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/brand_square_0.jpg" alt="复仇焰魂" ></a>
+		<h6><a href="/lol/heros/details/63.html" tipurl="/lol/hero/63" title="复仇焰魂">复仇焰魂</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/62.html" tipurl="/lol/hero/62" title="齐天大圣"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/monkeyking_square_0.jpg" alt="齐天大圣" ></a>
+		<h6><a href="/lol/heros/details/62.html" tipurl="/lol/hero/62" title="齐天大圣">齐天大圣</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/61.html" tipurl="/lol/hero/61" title="发条魔灵"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/orianna_square_0.jpg" alt="发条魔灵" ></a>
+		<h6><a href="/lol/heros/details/61.html" tipurl="/lol/hero/61" title="发条魔灵">发条魔灵</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/60.html" tipurl="/lol/hero/60" title="蜘蛛女皇"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/elise_square_0.jpg" alt="蜘蛛女皇" ></a>
+		<h6><a href="/lol/heros/details/60.html" tipurl="/lol/hero/60" title="蜘蛛女皇">蜘蛛女皇</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/59.html" tipurl="/lol/hero/59" title="德玛西亚皇子"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/jarvaniv_square_0.jpg" alt="德玛西亚皇子" ></a>
+		<h6><a href="/lol/heros/details/59.html" tipurl="/lol/hero/59" title="德玛西亚皇子">德玛西亚皇子</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/58.html" tipurl="/lol/hero/58" title="荒漠屠夫"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/renekton_square_0.jpg" alt="荒漠屠夫" ></a>
+		<h6><a href="/lol/heros/details/58.html" tipurl="/lol/hero/58" title="荒漠屠夫">荒漠屠夫</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/57.html" tipurl="/lol/hero/57" title="扭曲树精"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/maokai_square_0.jpg" alt="扭曲树精" ></a>
+		<h6><a href="/lol/heros/details/57.html" tipurl="/lol/hero/57" title="扭曲树精">扭曲树精</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/56.html" tipurl="/lol/hero/56" title="永恒梦魇"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/nocturne_square_0.jpg" alt="永恒梦魇" ></a>
+		<h6><a href="/lol/heros/details/56.html" tipurl="/lol/hero/56" title="永恒梦魇">永恒梦魇</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/55.html" tipurl="/lol/hero/55" title="不祥之刃"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/katarina_square_0.jpg" alt="不祥之刃" ></a>
+		<h6><a href="/lol/heros/details/55.html" tipurl="/lol/hero/55" title="不祥之刃">不祥之刃</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/54.html" tipurl="/lol/hero/54" title="熔岩巨兽"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/malphite_square_0.jpg" alt="熔岩巨兽" ></a>
+		<h6><a href="/lol/heros/details/54.html" tipurl="/lol/hero/54" title="熔岩巨兽">熔岩巨兽</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/53.html" tipurl="/lol/hero/53" title="蒸汽机器人"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/blitzcrank_square_0.jpg" alt="蒸汽机器人" ></a>
+		<h6><a href="/lol/heros/details/53.html" tipurl="/lol/hero/53" title="蒸汽机器人">蒸汽机器人</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/51.html" tipurl="/lol/hero/51" title="皮城女警"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/caitlyn_square_0.jpg" alt="皮城女警" ></a>
+		<h6><a href="/lol/heros/details/51.html" tipurl="/lol/hero/51" title="皮城女警">皮城女警</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/50.html" tipurl="/lol/hero/50" title="策士统领"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/swain_square_0.jpg" alt="策士统领" ></a>
+		<h6><a href="/lol/heros/details/50.html" tipurl="/lol/hero/50" title="策士统领">策士统领</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/48.html" tipurl="/lol/hero/48" title="巨魔之王"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/trundle_square_0.jpg" alt="巨魔之王" ></a>
+		<h6><a href="/lol/heros/details/48.html" tipurl="/lol/hero/48" title="巨魔之王">巨魔之王</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/45.html" tipurl="/lol/hero/45" title="邪恶小法师"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/veigar_square_0.jpg" alt="邪恶小法师" ></a>
+		<h6><a href="/lol/heros/details/45.html" tipurl="/lol/hero/45" title="邪恶小法师">邪恶小法师</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/44.html" tipurl="/lol/hero/44" title="宝石骑士"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/taric_square_0.jpg" alt="宝石骑士" ></a>
+		<h6><a href="/lol/heros/details/44.html" tipurl="/lol/hero/44" title="宝石骑士">宝石骑士</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/43.html" tipurl="/lol/hero/43" title="天启者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/karma_square_0.jpg" alt="天启者" ></a>
+		<h6><a href="/lol/heros/details/43.html" tipurl="/lol/hero/43" title="天启者">天启者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/42.html" tipurl="/lol/hero/42" title="英勇投弹手"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/corki_square_0.jpg" alt="英勇投弹手" ></a>
+		<h6><a href="/lol/heros/details/42.html" tipurl="/lol/hero/42" title="英勇投弹手">英勇投弹手</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/41.html" tipurl="/lol/hero/41" title="海洋之灾"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/gangplank_square_0.jpg" alt="海洋之灾" ></a>
+		<h6><a href="/lol/heros/details/41.html" tipurl="/lol/hero/41" title="海洋之灾">海洋之灾</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/40.html" tipurl="/lol/hero/40" title="风暴之怒"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/janna_square_0.jpg" alt="风暴之怒" ></a>
+		<h6><a href="/lol/heros/details/40.html" tipurl="/lol/hero/40" title="风暴之怒">风暴之怒</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/39.html" tipurl="/lol/hero/39" title="刀锋意志"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/irelia_square_0.jpg" alt="刀锋意志" ></a>
+		<h6><a href="/lol/heros/details/39.html" tipurl="/lol/hero/39" title="刀锋意志">刀锋意志</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/38.html" tipurl="/lol/hero/38" title="虚空行者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/kassadin_square_0.jpg" alt="虚空行者" ></a>
+		<h6><a href="/lol/heros/details/38.html" tipurl="/lol/hero/38" title="虚空行者">虚空行者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/37.html" tipurl="/lol/hero/37" title="琴瑟仙女"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/sona_square_0.jpg" alt="琴瑟仙女" ></a>
+		<h6><a href="/lol/heros/details/37.html" tipurl="/lol/hero/37" title="琴瑟仙女">琴瑟仙女</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/36.html" tipurl="/lol/hero/36" title="祖安狂人"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/drmundo_square_0.jpg" alt="祖安狂人" ></a>
+		<h6><a href="/lol/heros/details/36.html" tipurl="/lol/hero/36" title="祖安狂人">祖安狂人</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/35.html" tipurl="/lol/hero/35" title="恶魔小丑"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Shaco_Square_0.png" alt="恶魔小丑" ></a>
+		<h6><a href="/lol/heros/details/35.html" tipurl="/lol/hero/35" title="恶魔小丑">恶魔小丑</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/34.html" tipurl="/lol/hero/34" title="冰晶凤凰"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/anivia_square_0.jpg" alt="冰晶凤凰" ></a>
+		<h6><a href="/lol/heros/details/34.html" tipurl="/lol/hero/34" title="冰晶凤凰">冰晶凤凰</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/33.html" tipurl="/lol/hero/33" title="披甲龙龟"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Rammus_Square_0.png" alt="披甲龙龟" ></a>
+		<h6><a href="/lol/heros/details/33.html" tipurl="/lol/hero/33" title="披甲龙龟">披甲龙龟</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/32.html" tipurl="/lol/hero/32" title="殇之木乃伊"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/amumu_square_0.jpg" alt="殇之木乃伊" ></a>
+		<h6><a href="/lol/heros/details/32.html" tipurl="/lol/hero/32" title="殇之木乃伊">殇之木乃伊</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/31.html" tipurl="/lol/hero/31" title="虚空恐惧"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/chogath_square_0.jpg" alt="虚空恐惧" ></a>
+		<h6><a href="/lol/heros/details/31.html" tipurl="/lol/hero/31" title="虚空恐惧">虚空恐惧</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/30.html" tipurl="/lol/hero/30" title="死亡颂唱者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/karthus_square_0.jpg" alt="死亡颂唱者" ></a>
+		<h6><a href="/lol/heros/details/30.html" tipurl="/lol/hero/30" title="死亡颂唱者">死亡颂唱者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/29.html" tipurl="/lol/hero/29" title="瘟疫之源"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/twitch_square_0.jpg" alt="瘟疫之源" ></a>
+		<h6><a href="/lol/heros/details/29.html" tipurl="/lol/hero/29" title="瘟疫之源">瘟疫之源</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/28.html" tipurl="/lol/hero/28" title="寡妇制造者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/evelynn_square_0.jpg" alt="寡妇制造者" ></a>
+		<h6><a href="/lol/heros/details/28.html" tipurl="/lol/hero/28" title="寡妇制造者">寡妇制造者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/27.html" tipurl="/lol/hero/27" title="炼金术士"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/singed_square_0.jpg" alt="炼金术士" ></a>
+		<h6><a href="/lol/heros/details/27.html" tipurl="/lol/hero/27" title="炼金术士">炼金术士</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/26.html" tipurl="/lol/hero/26" title="时光守护者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Zilean_Square_0.png" alt="时光守护者" ></a>
+		<h6><a href="/lol/heros/details/26.html" tipurl="/lol/hero/26" title="时光守护者">时光守护者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/25.html" tipurl="/lol/hero/25" title="堕落天使"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/morgana_square_0.jpg" alt="堕落天使" ></a>
+		<h6><a href="/lol/heros/details/25.html" tipurl="/lol/hero/25" title="堕落天使">堕落天使</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/24.html" tipurl="/lol/hero/24" title="武器大师"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/jax_square_0.jpg" alt="武器大师" ></a>
+		<h6><a href="/lol/heros/details/24.html" tipurl="/lol/hero/24" title="武器大师">武器大师</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/23.html" tipurl="/lol/hero/23" title="蛮族之王"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/tryndamere_square_0.jpg" alt="蛮族之王" ></a>
+		<h6><a href="/lol/heros/details/23.html" tipurl="/lol/hero/23" title="蛮族之王">蛮族之王</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/22.html" tipurl="/lol/hero/22" title="寒冰射手"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/ashe_square_0.jpg" alt="寒冰射手" ></a>
+		<h6><a href="/lol/heros/details/22.html" tipurl="/lol/hero/22" title="寒冰射手">寒冰射手</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/21.html" tipurl="/lol/hero/21" title="赏金猎人"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/missfortune_square_0.jpg" alt="赏金猎人" ></a>
+		<h6><a href="/lol/heros/details/21.html" tipurl="/lol/hero/21" title="赏金猎人">赏金猎人</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/20.html" tipurl="/lol/hero/20" title="雪人骑士"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/nunu_square_0.jpg" alt="雪人骑士" ></a>
+		<h6><a href="/lol/heros/details/20.html" tipurl="/lol/hero/20" title="雪人骑士">雪人骑士</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/19.html" tipurl="/lol/hero/19" title="嗜血猎手"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/warwick_square_0.jpg" alt="嗜血猎手" ></a>
+		<h6><a href="/lol/heros/details/19.html" tipurl="/lol/hero/19" title="嗜血猎手">嗜血猎手</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/18.html" tipurl="/lol/hero/18" title="麦林炮手"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/tristana_square_0.jpg" alt="麦林炮手" ></a>
+		<h6><a href="/lol/heros/details/18.html" tipurl="/lol/hero/18" title="麦林炮手">麦林炮手</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/17.html" tipurl="/lol/hero/17" title="迅捷斥候"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/teemo_square_0.jpg" alt="迅捷斥候" ></a>
+		<h6><a href="/lol/heros/details/17.html" tipurl="/lol/hero/17" title="迅捷斥候">迅捷斥候</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/16.html" tipurl="/lol/hero/16" title="众星之子"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/soraka_square_0.jpg" alt="众星之子" ></a>
+		<h6><a href="/lol/heros/details/16.html" tipurl="/lol/hero/16" title="众星之子">众星之子</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/15.html" tipurl="/lol/hero/15" title="战争女神"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/sivir_square_0.jpg" alt="战争女神" ></a>
+		<h6><a href="/lol/heros/details/15.html" tipurl="/lol/hero/15" title="战争女神">战争女神</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/14.html" tipurl="/lol/hero/14" title="亡灵战神"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/sion_square_0.jpg" alt="亡灵战神" ></a>
+		<h6><a href="/lol/heros/details/14.html" tipurl="/lol/hero/14" title="亡灵战神">亡灵战神</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/13.html" tipurl="/lol/hero/13" title="流浪法师"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/ryze_square_0.jpg" alt="流浪法师" ></a>
+		<h6><a href="/lol/heros/details/13.html" tipurl="/lol/hero/13" title="流浪法师">流浪法师</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/12.html" tipurl="/lol/hero/12" title="牛头酋长"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/Alistar_Square_0.png" alt="牛头酋长" ></a>
+		<h6><a href="/lol/heros/details/12.html" tipurl="/lol/hero/12" title="牛头酋长">牛头酋长</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/11.html" tipurl="/lol/hero/11" title="无极剑圣"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/masteryi_square_0.jpg" alt="无极剑圣" ></a>
+		<h6><a href="/lol/heros/details/11.html" tipurl="/lol/hero/11" title="无极剑圣">无极剑圣</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/10.html" tipurl="/lol/hero/10" title="审判天使"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/kayle_square_0.jpg" alt="审判天使" ></a>
+		<h6><a href="/lol/heros/details/10.html" tipurl="/lol/hero/10" title="审判天使">审判天使</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/9.html" tipurl="/lol/hero/9" title="末日使者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/fiddlesticks_square_0.jpg" alt="末日使者" ></a>
+		<h6><a href="/lol/heros/details/9.html" tipurl="/lol/hero/9" title="末日使者">末日使者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/8.html" tipurl="/lol/hero/8" title="猩红收割者"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/vladimir_square_0.jpg" alt="猩红收割者" ></a>
+		<h6><a href="/lol/heros/details/8.html" tipurl="/lol/hero/8" title="猩红收割者">猩红收割者</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/7.html" tipurl="/lol/hero/7" title="诡术妖姬"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/leblanc_square_0.jpg" alt="诡术妖姬" ></a>
+		<h6><a href="/lol/heros/details/7.html" tipurl="/lol/hero/7" title="诡术妖姬">诡术妖姬</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/6.html" tipurl="/lol/hero/6" title="首领之傲"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/urgot_square_0.jpg" alt="首领之傲" ></a>
+		<h6><a href="/lol/heros/details/6.html" tipurl="/lol/hero/6" title="首领之傲">首领之傲</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/5.html" tipurl="/lol/hero/5" title="德邦总管"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/xinzhao_square_0.jpg" alt="德邦总管" ></a>
+		<h6><a href="/lol/heros/details/5.html" tipurl="/lol/hero/5" title="德邦总管">德邦总管</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/4.html" tipurl="/lol/hero/4" title="卡牌大师"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/twistedfate_square_0.jpg" alt="卡牌大师" ></a>
+		<h6><a href="/lol/heros/details/4.html" tipurl="/lol/hero/4" title="卡牌大师">卡牌大师</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/3.html" tipurl="/lol/hero/3" title="哨兵之殇"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/galio_square_0.jpg" alt="哨兵之殇" ></a>
+		<h6><a href="/lol/heros/details/3.html" tipurl="/lol/hero/3" title="哨兵之殇">哨兵之殇</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/2.html" tipurl="/lol/hero/2" title="狂战士"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/olaf_square_0.jpg" alt="狂战士" ></a>
+		<h6><a href="/lol/heros/details/2.html" tipurl="/lol/hero/2" title="狂战士">狂战士</a></h6>
+	</li>
+		<li>
+		<a href="/lol/heros/details/1.html" tipurl="/lol/hero/1" title="黑暗之女"><img src="http://i1.17173cdn.com/1tx6lh/YWxqaGBf/images/hero/annie_square_0.jpg" alt="黑暗之女" ></a>
+		<h6><a href="/lol/heros/details/1.html" tipurl="/lol/hero/1" title="黑暗之女">黑暗之女</a></h6>
+	</li>
+	</ul>
+<!--游戏列表end--> <!--底部开始-->
+<script src="http://cha.17173.com/static/js/footer.js"></script>
+<div class="copyright">
+
+<div class="global-footer">
+	<a href="http://about.17173.com/" target="_blank">&#x5173;&#x4E8E;17173</a> |
+	<a href="http://about.17173.com/join-us.shtml" target="_blank">&#x4EBA;&#x624D;&#x62DB;&#x8058;</a> |
+	<a href="http://marketing.17173.com" target="_blank">&#x5E7F;&#x544A;&#x670D;&#x52A1;</a> |
+	<a href="http://about.17173.com/business-cooperate.shtml" target="_blank">&#x5546;&#x52A1;&#x6D3D;&#x8C08;</a> |
+	<a href="http://about.17173.com/contact-us.shtml" target="_blank">&#x8054;&#x7CFB;&#x65B9;&#x5F0F;</a> |
+	<a href="http://help.17173.com/" target="_blank">&#x5BA2;&#x670D;&#x4E2D;&#x5FC3;</a> |
+	<a href="http://about.17173.com/site-map.shtml" target="_blank">&#x7F51;&#x7AD9;&#x5BFC;&#x822A;</a> <br />
+	<span class="copyright">Copyright &copy; 2001-2016 17173. All rights reserved.</span>
+</div>
+
+
+
+
+</div>
+
+
+
+
+<script type="text/javascript">
+if(!window.Passport){
+document.write('<script type="text/javascript" src="http://s.ue.17173cdn.com/a/lib/passport/v2/js/passport.js"><' + '/script>');
+}
+</script>
+
+<script type="text/javascript" src="http://ue.17173cdn.com/a/lib/topbar/v2/js/topbar.js?201512101011"></script>
+<script type="text/javascript" src=" http://ue.17173cdn.com/a/lib/vda/sources/adzhanneituiguang/ydd-zntg.js"></script>
+
+<script type="text/javascript">advConfigs.loadConfigFile('http://s.17173cdn.com/global/global.js');</script>
+<script type="text/javascript" src="http://ue.17173cdn.com/a/money/2014/app-tip/apptip.js"></script>
+
+
+
+
+
+
+<!-- START 17173 Site Census -->
+<script type="text/javascript" src="http://js.17173.com/ping.js"></script>
+<noscript>
+	<img src="http://log.17173.com/ping.gif" height="0" width="0" alt="" />
+</noscript>
+<!-- END 17173 Site Census -->
+
+<script type="text/javascript" src="http://ue8.17173.itc.cn/cache/lib/v2/odvmonitor/lp.min.js"></script>
+
+
+
+<!--头部end-->
+<img src="http://c.cnzz.com/wapstat.php?siteid=1256267870&r=&rnd=725515181" width="0" height="0"/></body>
+</html>

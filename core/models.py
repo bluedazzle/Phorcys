@@ -15,7 +15,7 @@ class BaseModel(models.Model):
 
 
 class Country(BaseModel):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     flag = models.ImageField()
 
     def __unicode__(self):
@@ -51,7 +51,7 @@ class BaseComment(BaseModel):
 class BasePlayer(BaseModel):
     name = models.CharField(max_length=50)
     nick = models.CharField(max_length=50)
-    avatar = models.ImageField()
+    avatar = models.ImageField(default='http://www.fibar.cn')
     nationality = models.ForeignKey(Country, related_name='country_players', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
@@ -77,9 +77,9 @@ class BaseWeibo(BaseModel):
 
 
 class BaseTeam(BaseModel):
-    short_name = models.CharField(max_length=10)
+    abbreviation = models.CharField(max_length=20)
     name = models.CharField(max_length=100)
-    logo = models.ImageField()
+    logo = models.ImageField(default='http://www.fibar.cn')
     info = models.TextField()
     country = models.ForeignKey(Country, related_name='country_teams', on_delete=models.SET_NULL, null=True, blank=True)
 
