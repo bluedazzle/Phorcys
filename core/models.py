@@ -14,6 +14,14 @@ class BaseModel(models.Model):
         abstract = True
 
 
+class Country(BaseModel):
+    name = models.CharField(max_length=30)
+    flag = models.ImageField()
+
+    def __unicode__(self):
+        return self.name
+
+
 class BaseNews(BaseModel):
     title = models.CharField(max_length=100)
     content = models.TextField()
@@ -43,6 +51,8 @@ class BaseComment(BaseModel):
 class BasePlayer(BaseModel):
     name = models.CharField(max_length=50)
     nick = models.CharField(max_length=50)
+    avatar = models.ImageField()
+    nationality = models.ForeignKey(Country, related_name='country_players', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -67,8 +77,11 @@ class BaseWeibo(BaseModel):
 
 
 class BaseTeam(BaseModel):
+    short_name = models.CharField(max_length=10)
     name = models.CharField(max_length=100)
+    logo = models.ImageField()
     info = models.TextField()
+    country = models.ForeignKey(Country, related_name='country_teams', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         abstract = True

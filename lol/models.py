@@ -24,6 +24,7 @@ class Topic(BaseTopic):
 
 
 class Team(BaseTeam):
+
     def __unicode__(self):
         return self.name
 
@@ -79,6 +80,66 @@ class TopicComment(BaseComment):
 
     def __unicode__(self):
         return self.create_by.nick
+
+
+class SummonerSpells(BaseModel):
+    name = models.CharField(max_length=20, unique=True)
+    picture = models.ImageField()
+
+    def __unicode__(self):
+        return self.name
+
+
+class Equipment(BaseModel):
+    name = models.CharField(max_length=30, unique=True)
+    picture = models.ImageField()
+
+    def __unicode__(self):
+        return self.name
+
+
+class Hero(BaseModel):
+    hero = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    picture = models.ImageField()
+
+    def __unicode__(self):
+        return self.hero
+
+
+class TournamentTeamInfo(BaseModel):
+    team = models.ForeignKey(Team, related_name='team_ttinfos', on_delete=models.SET_NULL, null=True, blank=True)
+    tournament = models.ForeignKey(Tournament, related_name='team_tournaments', on_delete=models.SET_NULL, null=True, blank=True)
+    rank = models.IntegerField(default=0)
+    kda = models.FloatField(default=0.0)
+    average_kill = models.FloatField(default=0.0)
+    average_dead = models.FloatField(default=0.0)
+    average_assist = models.FloatField(default=0.0)
+    average_time = models.FloatField(default=0.0)
+    average_money_pm = models.FloatField(default=0.0)
+    victory_times = models.IntegerField(default=0)
+    tied_times = models.IntegerField(default=0)
+    fail_times = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return '{0}-{1}'.format(self.team.short_name, self.tournament.name)
+
+
+class PlayerInfo(BaseModel):
+    player = models.ForeignKey(Player, related_name='player_ttinfos', on_delete=models.SET_NULL, null=True, blank=True)
+    tournament = models.ForeignKey(Tournament, related_name='player_tournaments', on_delete=models.SET_NULL, null=True, blank=True)
+    kda = models.FloatField(default=0.0)
+    average_kill = models.FloatField(default=0.0)
+    average_dead = models.FloatField(default=0.0)
+    average_assist = models.FloatField(default=0.0)
+    average_time = models.FloatField(default=0.0)
+    average_money_pm = models.FloatField(default=0.0)
+    victory_times = models.IntegerField(default=0)
+    tied_times = models.IntegerField(default=0)
+    fail_times = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return '{0}-{1}'.format(self.player.nick, self.tournament.name)
 
 
 class LOLInfoExtend(BaseModel):

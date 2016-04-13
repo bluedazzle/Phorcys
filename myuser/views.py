@@ -8,16 +8,15 @@ import string
 
 import datetime
 
-from django.http import Http404
 from django.utils.timezone import get_current_timezone
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
 
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckTokenMixin
 from core.Mixin.StatusWrapMixin import *
 from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, JsonResponseMixin
-from django.shortcuts import render
 
 # Create your views here.
+from lol.models import LOLInfoExtend
 from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLoginForm, UserChangePasswordForm
 from myuser.models import EUser, Verify
 
@@ -82,8 +81,15 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
     count = 64
     token = ''
 
+    def create_extend(self):
+        new_lol_extend = LOLInfoExtend()
+        new_lol_extend.save()
+        self.object.lol = new_lol_extend
+        return self.object
+
     def form_valid(self, form):
         super(UserRegisterView, self).form_valid(form)
+        self.create_extend()
         self.token = self.create_token()
         self.object.token = self.token
         self.object.set_password(form.cleaned_data.get('password'))
@@ -107,6 +113,7 @@ class UserResetView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Upda
     model = EUser
     http_method_names = ['post']
     success_url = 'localhost'
+    datetime_type = 'timestamp'
     include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
     pk_url_kwarg = 'phone'
     count = 64
@@ -154,6 +161,7 @@ class UserLoginView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Upda
     count = 64
     http_method_names = ['post']
     pk_url_kwarg = 'phone'
+    datetime_type = 'timestamp'
     include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
     success_url = 'localhost'
     token = ''
