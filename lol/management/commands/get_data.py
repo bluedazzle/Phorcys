@@ -5,10 +5,10 @@ from lol.spider import get_summoner, get_hero, get_equipment, get_area, get_posi
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        # get_hero()
-        # get_equipment()
-        # get_summoner()
-        # get_area()
-        # get_position()
-        # get_teams()
-        # get_players()
+        get_hero()
+        get_equipment()
+        get_summoner()
+        get_area()
+        get_position()
+        get_teams()
+        get_players()
