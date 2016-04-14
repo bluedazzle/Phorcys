@@ -172,6 +172,8 @@ class UserLoginView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Upda
                           self.count)).replace(" ", "")
 
     def form_invalid(self, form):
+        if not self.object:
+            return self.render_to_response(dict())
         super(UserLoginView, self).form_invalid(form)
         self.status_code = ERROR_DATA
         self.message = json.loads(form.errors.as_json()).values()[0][0].get('message')

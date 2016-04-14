@@ -209,7 +209,8 @@ class PlayerDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, D
 
     model = Player
     http_method_names = ['get']
-    exclude_attr = ['modify_time']
+    exclude_attr = ['modify_time', 'create_time']
+    foreign = True
     pk_url_kwarg = 'id'
 
 
@@ -220,7 +221,8 @@ class TeamDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Det
 
     model = Team
     http_method_names = ['get']
-    exclude_attr = ['modify_time']
+    exclude_attr = ['modify_time', 'create_time']
+    foreign = True
     pk_url_kwarg = 'id'
 
 
@@ -231,7 +233,8 @@ class PlayerListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMi
 
     model = Player
     http_method_names = ['get']
-    exclude_attr = ['modify_time']
+    exclude_attr = ['modify_time', 'create_time', 'belong']
+    foreign = True
     paginate_by = 20
 
 
@@ -242,7 +245,7 @@ class TeamListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
 
     model = Team
     http_method_names = ['get']
-    exclude_attr = ['modify_time']
+    exclude_attr = ['modify_time', 'create_time']
     paginate_by = 20
 
 
@@ -253,7 +256,7 @@ class TournamentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonRespon
 
     model = Tournament
     http_method_names = ['get']
-    exclude_attr = ['modify_time']
+    exclude_attr = ['modify_time', 'create_time']
     paginate_by = 20
 
 

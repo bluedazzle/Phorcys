@@ -7,6 +7,7 @@ import copy
 import json
 
 import xmltodict
+from django.db.models.fields.files import ImageFieldFile
 
 from .TimeFormatFactory import TimeFormatFactory
 from .Warning import remove_check
@@ -66,6 +67,8 @@ def _get_attr(model_data, time_func, foreign, many):
                 dic_list[itm] = many_list
         elif isinstance(attribute, (datetime.datetime, datetime.date)):
             dic_list[itm] = time_func(getattr(model_data, itm))
+        elif isinstance(attribute, ImageFieldFile):
+            dic_list[itm] = attribute.name
         else:
             dic_list[itm] = getattr(model_data, itm)
     if '_state' in dic_list:
