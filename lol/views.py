@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckTokenMixin
@@ -17,18 +17,20 @@ from myuser.models import EUser
 
 class NewsListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     """
-    咨询列表
+    咨讯列表
     """
 
     model = News
     datetime_type = 'timestamp'
     paginate_by = 10
+    include_attr = ['create_time', 'title', 'comment_number', 'follow_number']
     http_method_names = ['get']
 
-    def get(self, request, *args, **kwargs):
-        self.message = 'success'
-        self.status_code = INFO_SUCCESS
-        return super(NewsListView, self).get(request, *args, **kwargs)
+    def get_queryset(self):
+        queryset = super(NewsListView, self).get_queryset()
+        queryset = queryset.annotate(comment_number=Count('news_comments'))
+        queryset = queryset.annotate(follow_number=Count('news_followers'))
+        return queryset
 
 
 class NewsDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
@@ -383,7 +385,7 @@ class SearchView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, ListVie
     model = Team
     type = 1
     content = ''
-    include_attr = ['name', 'nick', 'logo', 'avatar', 'id']
+    include_attr = ['name', 'nick', 'logo', 'avatar', 'id', 'abbreviation']
 
     def get_queryset(self):
         result_dict = {}

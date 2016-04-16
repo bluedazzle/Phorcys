@@ -48,7 +48,7 @@ def _exclude_check(exclude_attr, attr_dict):
 
 
 def _get_attr(model_data, time_func, foreign, many):
-    dic_list = {}
+    dic_list = model_data.__dict__
     attr_list = model_data._meta.get_all_field_names()
     for itm in attr_list:
         if not hasattr(model_data, itm):
@@ -65,7 +65,7 @@ def _get_attr(model_data, time_func, foreign, many):
                     many_item = _get_attr(mitm, time_func, foreign, many)
                     many_list.append(many_item)
                 dic_list[itm] = many_list
-        elif isinstance(attribute, (datetime.datetime, datetime.date)):
+        elif isinstance(attribute, (datetime.datetime, datetime.date, datetime.time)):
             dic_list[itm] = time_func(getattr(model_data, itm))
         elif isinstance(attribute, ImageFieldFile):
             dic_list[itm] = attribute.name
