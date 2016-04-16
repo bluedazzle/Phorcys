@@ -388,13 +388,117 @@ GET /bbs/new
 
 ##**搜索关注**
 ```
-GET /focus/player/search
+GET /search
 ```
 ###**Parameters**
 * content(_Required_|string)-搜索内容
+* type(_Optional_|integer)-搜索类型，默认 :1 
+
+|type码|状态|
+| --------------  | :---: |
+|1|搜索所有|
+|2|搜索战队与选手|
+
 ###**Return**
 ```
-{"status":1,"body":{}, "msg": "success"}
+{
+  "body": {
+    "paginator": null,
+    "page_obj": null,
+    "is_paginated": false,
+    "object_list": {
+      "players": [
+        {
+          "nick": "Ace",
+          "id": 9,
+          "avatar": "/static/image/lol/player/145.jpg",
+          "name": ""
+        },
+        {
+          "nick": "biecepti0n",
+          "id": 90,
+          "avatar": "/static/image/lol/player/614.jpg",
+          "name": ""
+        },
+        {
+          "nick": "Celaver",
+          "id": 153,
+          "avatar": "/static/image/lol/player/573.jpg",
+          "name": ""
+        },
+        {
+          "nick": "Cejlon",
+          "id": 168,
+          "avatar": "/static/image/lol/player/807.jpg",
+          "name": ""
+        },
+        {
+          "nick": "Face",
+          "id": 296,
+          "avatar": "/static/image/lol/player/60ef3938ba06934bf08b07927fb48251.jpg",
+          "name": ""
+        },
+        {
+          "nick": "Police",
+          "id": 693,
+          "avatar": "/static/image/lol/player/60ef3938ba06934bf08b07927fb48251.jpg",
+          "name": ""
+        },
+        {
+          "nick": "Scenery",
+          "id": 746,
+          "avatar": "/static/image/lol/player/e968853eb32a8a4e2bdf74af095bcc72.jpg",
+          "name": ""
+        },
+        {
+          "nick": "Space",
+          "id": 759,
+          "avatar": "/static/image/lol/player/114.jpg",
+          "name": ""
+        },
+        {
+          "nick": "ShorterACE",
+          "id": 786,
+          "avatar": "/static/image/lol/player/324.jpg",
+          "name": ""
+        },
+        {
+          "nick": "TrAce",
+          "id": 863,
+          "avatar": "/static/image/lol/player/100.jpg",
+          "name": ""
+        },
+        {
+          "nick": "Trance",
+          "id": 886,
+          "avatar": "/static/image/lol/player/664.jpg",
+          "name": ""
+        },
+        {
+          "nick": "Westrice",
+          "id": 936,
+          "avatar": "/static/image/lol/player/305.jpg",
+          "name": ""
+        }
+      ],
+      "teams": [
+        {
+          "logo": "/static/image/lol/team/3f23f084df048d3a6716c542af4a08b4.png",
+          "name": "Splyce",
+          "id": 69
+        },
+        {
+          "logo": "/static/image/lol/team/78.png",
+          "name": "Alliance",
+          "id": 115
+        }
+      ]
+    },
+    "view": null
+  },
+  "status": 1,
+  "msg": "success"
+}
 ```
 
 ##**关注/取关选手**

@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckTokenMixin
@@ -391,7 +392,7 @@ class SearchView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, ListVie
         if self.content == '':
             return result_dict
         player_list = Player.objects.filter(nick__icontains=self.content)
-        team_list = Team.objects.filter(name__icontains=self.content)
+        team_list = Team.objects.filter(Q(name__icontains=self.content) | Q(abbreviation__icontains=self.content))
         result_dict['players'] = player_list
         result_dict['teams'] = team_list
         if self.type == 2:
