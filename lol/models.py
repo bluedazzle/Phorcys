@@ -122,6 +122,68 @@ class Hero(BaseModel):
         return self.hero
 
 
+class Match(BaseModel):
+    match_choice = [
+        (1, 'BO1'),
+        (2, 'BO2'),
+        (3, 'BO3'),
+        (4, 'BO5')
+    ]
+    name = models.CharField(max_length=100, default='默认比赛')
+    match_type = models.IntegerField(default=1, choices=match_choice)
+    match_time = models.DateTimeField()
+    team1_score = models.IntegerField(default=0)
+    team2_score = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Game(BaseModel):
+    game_time = models.DateTimeField()
+    team1_win = models.BooleanField(default=False)
+    team2_win = models.BooleanField(default=True)
+    duration = models.IntegerField(default=0)
+    team1 = models.ForeignKey(Team, related_name='team_blue_gamees',
+                                  null=True, blank=True, on_delete=models.SET_NULL)
+    team2 = models.ForeignKey(Team, related_name='team_red_gamees',
+                                 null=True, blank=True, on_delete=models.SET_NULL)
+    match = models.ForeignKey(Match, related_name='match_games', null=True, blank=True, on_delete=models.SET_NULL)
+    team1_ban = models.ManyToManyField(Hero, related_name='blue_ban_heros', null=True, blank=True)
+    team2_ban = models.ManyToManyField(Hero, related_name='red_ban_heros', null=True, blank=True)
+
+    def __unicode__(self):
+        return self.match_time
+
+
+class GamePlayer(BaseModel):
+    site_choice = [
+        (1, '蓝方'),
+        (2, '红方')
+    ]
+    game = models.ForeignKey(Game, related_name='game_gameps',  null=True, blank=True, on_delete=models.SET_NULL)
+    player = models.ForeignKey(Player, related_name='player_game_players',
+                               null=True, blank=True, on_delete=models.SET_NULL)
+    hero = models.ForeignKey(Hero, related_name='hero_gps', null=True, blank=True, on_delete=models.SET_NULL)
+    summoner1 = models.ForeignKey(SummonerSpells, related_name='summoner1_gps', null=True, blank=True, on_delete=models.SET_NULL)
+    summoner2 = models.ForeignKey(SummonerSpells, related_name='summoner2_gps', null=True, blank=True, on_delete=models.SET_NULL)
+    site = models.IntegerField(default=1, choices=site_choice)
+    level = models.IntegerField(default=0)
+    kill = models.IntegerField(default=0)
+    dead = models.IntegerField(default=0)
+    assist = models.IntegerField(default=0)
+    kda = models.FloatField(default=0.0)
+    war_rate = models.FloatField(default=0.0)
+    farming = models.IntegerField(default=0)
+    damage_rage = models.FloatField(default=0.0)
+    economic = models.FloatField(default=0.0)
+    equipments = models.ManyToManyField(Equipment, related_name='equipment_gps', null=True, blank=True)
+    guard = models.ForeignKey(Equipment, null=True, related_name='guard_gps', blank=True, on_delete=models.SET_NULL)
+
+    def __unicode__(self):
+        return self.player.nick
+
+
 class TournamentTeamInfo(BaseModel):
     team = models.ForeignKey(Team, related_name='team_ttinfos', on_delete=models.SET_NULL, null=True, blank=True)
     tournament = models.ForeignKey(Tournament, related_name='team_tournaments', on_delete=models.SET_NULL, null=True,

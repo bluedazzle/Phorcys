@@ -373,3 +373,29 @@ class ThumbView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonRespon
         return self.render_to_response({'thumb': False})
 
 
+class SearchView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, ListView):
+    """
+    搜索视图
+    """
+
+    http_method_names = ['get']
+    model = Team
+    type = 1
+    content = ''
+    include_attr = ['name', 'nick', 'logo', 'avatar', 'id']
+
+    def get_queryset(self):
+        result_dict = {}
+        self.type = int(self.request.GET.get('type', 1))
+        self.content = self.request.GET.get('content', '')
+        if self.content == '':
+            return result_dict
+        player_list = Player.objects.filter(nick__icontains=self.content)
+        team_list = Team.objects.filter(name__icontains=self.content)
+        result_dict['players'] = player_list
+        result_dict['teams'] = team_list
+        if self.type == 2:
+            return result_dict
+        tournament_list = Tournament.objects.filter(name__icontains=self.content)
+        result_dict['tournaments'] = tournament_list
+        return result_dict

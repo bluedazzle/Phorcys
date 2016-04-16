@@ -19,4 +19,5 @@ urlpatterns = patterns('',
                        url(r'^tournaments', TournamentListView.as_view()),
                        url(r'^comment', CommentCreateView.as_view()),
                        url(r'^thumb', ThumbView.as_view()),
+                       url(r'^search', SearchView.as_view()),
                        )
