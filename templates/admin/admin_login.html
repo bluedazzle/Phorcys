@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>管理登陆</title>
+    <link rel="stylesheet" href="/s/css/semantic.min.css">
+</head>
+<body>
+<div style="height: 300px;"></div>
+<div class="ui raised very padded text container segment">
+
+    <h2 class="ui header">后台管理</h2>
+    <div class="ui two column middle aligned very relaxed stackable grid">
+        <div class="column">
+            <form class="ui form" method="post" action="/admin/login">
+                <div class="field">
+                    <label>用户名</label>
+                    {% ifequal username True %}
+                        <div class="ui left icon input">
+                        {% else %}
+                        <div class="ui left icon error input">
+                    {% endifequal %}
+                        <input type="text" placeholder="Username" name="username" value="{{ username_value }}">
+                        <i class="user icon"></i>
+                    </div>
+                    <div class="ui small red" style="color: red;">{{ username_info }}</div>
+                </div>
+                <div class="field">
+                    <label>密码</label>
+                    {% ifequal password True %}
+                        <div class="ui left icon input">
+                        {% else %}
+                        <div class="ui left icon error input">
+                    {% endifequal %}
+                        <input type="password" placeholder="Password" name="password" value="{{ password_value }}">
+                        <i class="lock icon"></i>
+                    </div>
+                    <div class="ui small red" style="color: red;">{{ password_info }}</div>
+                </div>
+                <button type="submit" class="ui blue submit button">登陆</button>
+            </form>
+        </div>
+        <div class="ui vertical divider"></div>
+        <div class="center aligned column">
+            <h2 class="ui center aligned icon header"><i class="circular unlock alternate icon"></i> 菠萝电竞 </h2>
+        </div>
+    </div>
+</div>
+<script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/s/js/semantic.min.js"></script>
+</body>
+</html>

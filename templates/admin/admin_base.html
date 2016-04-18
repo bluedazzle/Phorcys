@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}菠萝管理{% endblock %}</title>
+    <link rel="stylesheet" href="/s/css/semantic.min.css">
+    <link rel="stylesheet" href="/s/css/boloAdmin.css">
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+<nav class="ui menu" style="margin: -1px 0;">
+    <div class="ui header item">Bolo Admin</div>
+    <div class=" right menu">
+        <div id="dropdown" class="ui dropdown item">
+            <img class="ui mini circular image" src="/s/image/site/elyse.png">
+            <div class="content">
+                <div class="ui sub header">管理员</div>
+                rapospectre
+                <i class="dropdown icon"></i>
+            </div>
+            <div class="menu">
+                <div class="item"><i class="ui icon setting"></i>设置</div>
+                <div class="item"><i class="ui icon sign out"></i>退出</div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="ui bottom attached segment pushable">
+    <div class="ui visible left vertical sidebar menu">
+        <a class="item" href="/admin/index"><i class="dashboard icon" ></i> 控制台 </a>
+        <a class="item" href="/admin/news"><i class="block newspaper icon"></i> 资讯 </a>
+        <a class="item" href="/admin/tournaments"><i class="game icon"></i> 赛事 </a>
+        <a class="item" href="/admin/teams"><i class="users icon"></i> 战队 </a>
+        <a class="item" href="/admin/players"><i class="user icon"></i> 选手 </a>
+        <a class="item" href="/admin/topics"><i class="browser icon"></i> 社区 </a>
+    </div>
+    <div class="pusher" style="width: 80%;">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+
+<script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/s/js/semantic.min.js"></script>
+<script>
+    $('.dropdown').dropdown({
+        on: 'hover'
+    });
+</script>
+{% block script %}
+{% endblock %}
+</body>
+</html>
