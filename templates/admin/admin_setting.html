@@ -1,0 +1,76 @@
+{% extends 'admin/admin_base.html' %}
+{% block content %}
+    <div class="boloContainer">
+        <div class="ui breadcrumb">
+            <a class="section">设置</a>
+            <i class="right angle icon divider"></i>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui grid">
+            <div class="six wide column">
+                <div class="ui card">
+                    <div class="image">
+                        <img src="/s/image/site/elyse.png">
+                    </div>
+                    <div class="content">
+                        <a class="header">rapospectre</a>
+                        <div class="meta">
+                            <span class="date">15608059720</span>
+                        </div>
+                        <div class="description">
+                            拥有权限: 所有
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <a><i class="time icon"></i>2015-11-22 22:22:22</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ten wide column">
+                <h2>
+                    操作
+                </h2>
+                <div class="ui styled fluid accordion">
+                    <div class="title"><i class="dropdown icon"></i> 修改密码</div>
+                    <div class="content">
+                        <form action="" class="ui form" method="post">
+                            <div class="field">
+                                <label for="">原密码</label>
+                                <input type="text" placeholder="原密码" name="old_password">
+                            </div>
+                            <div class="field">
+                                <label for="">新密码</label>
+                                <input type="text" placeholder="新密码" name="new_password">
+                            </div>
+                            <div class="ui green button">提交</div>
+                        </form>
+                    </div>
+                    <div class="title"><i class="dropdown icon"></i> 暂时没想好</div>
+                    <div class="content">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        function deletePlayer(id) {
+            mid = '#delModal' + id.toString();
+            $(mid)
+                    .modal('setting', 'closable', false)
+                    .modal('show');
+        }
+        function addPlayer() {
+            $('#addModal')
+                    .modal('setting', 'closable', false)
+                    .modal('setting', 'transition', 'horizontal flip')
+                    .modal('show');
+        }
+        $('.ui.accordion')
+                .accordion()
+        ;
+    </script>
+{% endblock %}

@@ -9,4 +9,7 @@ urlpatterns = patterns('',
                        url(r'^teams', AdminTeamListView.as_view()),
                        url(r'^tournaments', AdminTournamentListView.as_view()),
                        url(r'^topics', AdminTopicListView.as_view()),
+                       url(r'^setting', AdminSettingView.as_view()),
+                       url(r'^logout', AdminLogoutView.as_view()),
+                       url(r'^users', AdminUserListView.as_view()),
                        )

@@ -4,11 +4,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 
 # Create your views here.
-from django.views.generic import UpdateView, DetailView, TemplateView, ListView
+from django.views.generic import UpdateView, DetailView, TemplateView, ListView, RedirectView
 
 from lol.models import News, Tournament, Team, Player, Topic
 from myadmin.forms import AdminLoginForm
 from myadmin.models import EAdmin
+from myuser.models import EUser
 
 
 class AdminView(UpdateView):
@@ -94,5 +95,16 @@ class AdminTopicListView(ListView):
     paginate_by = 20
 
 
+class AdminUserListView(ListView):
+    model = EUser
+    template_name = 'admin/admin_users.html'
+    paginate_by = 20
 
 
+class AdminSettingView(TemplateView):
+    template_name = 'admin/admin_setting.html'
+    http_method_names = ['get']
+
+
+class AdminLogoutView(RedirectView):
+    url = '/admin/login'

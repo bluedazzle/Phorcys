@@ -5,6 +5,129 @@
             <a class="section">赛事</a>
             <i class="right angle icon divider"></i>
         </div>
-    <div class="ui divider"></div>
+        <div class="ui divider"></div>
+        <div style="margin-bottom: 100px;">
+            <div class="ui left floated small primary labeled icon button" onclick="addPlayer()"><i
+                    class="game icon"></i> 新赛事
+            </div>
+        </div>
+        <h2>活跃的赛事</h2>
+        <div id="tournamentList" class="ui very relaxed horizontal list">
+            <div class="item">
+                <div class="ui card" href="#">
+                    <a class="image" href="#">
+                        <img src="/s/image/site/elyse.png">
+                    </a>
+                    <div class="content">
+                        <a class="header" href="#">Steve Jobes</a>
+                        <div class="meta">
+                            <a>Last Seen 2 days ago</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ui card">
+                    <a class="image" href="#">
+                        <img src="/s/image/site/elyse.png">
+                    </a>
+                    <div class="content">
+                        <a class="header" href="#">Steve Jobes</a>
+                        <div class="meta">
+                            <a>Last Seen 2 days ago</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ui card">
+                    <a class="image" href="#">
+                        <img src="/s/image/site/elyse.png">
+                    </a>
+                    <div class="content">
+                        <a class="header" href="#">Steve Jobes</a>
+                        <div class="meta">
+                            <a>Last Seen 2 days ago</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ui card">
+                    <a class="image" href="#">
+                        <img src="/s/image/site/elyse.png">
+                    </a>
+                    <div class="content">
+                        <a class="header" href="#">Steve Jobes</a>
+                        <div class="meta">
+                            <a>Last Seen 2 days ago</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui divider"></div>
+        <h2>过去的赛事</h2>
+        <div id="tournamentList" class="ui very relaxed horizontal list">
+            <div class="item">
+                <div class="ui card">
+                    <a class="image" href="#">
+                        <img src="/s/image/site/elyse.png" class="">
+                    </a>
+                    <div class="content">
+                        <a class="header" href="#">Steve Jobes</a>
+                        <div class="meta">
+                            <a>Last Seen 2 days ago</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ui card">
+                    <a class="image" href="#">
+                        <img src="/s/image/site/elyse.png">
+                    </a>
+                    <div class="content">
+                        <a class="header" href="#">Steve Jobes</a>
+                        <div class="meta">
+                            <a>Last Seen 2 days ago</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ui card">
+                    <a class="image" href="#">
+                        <img src="/s/image/site/elyse.png">
+                    </a>
+                    <div class="content">
+                        <a class="header" href="#">Steve Jobes</a>
+                        <div class="meta">
+                            <a>Last Seen 2 days ago</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ui card">
+                    <a class="image" href="#">
+                        <img src="/s/image/site/elyse.png">
+                    </a>
+                    <div class="content">
+                        <a class="header" href="#">Steve Jobes</a>
+                        <div class="meta">
+                            <a>Last Seen 2 days ago</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+{% endblock %}
+{% block script %}
+    <script>
+        $('#tournamentList.item.card.a.image').dimmer({
+            on: 'hover'
+        });
+    </script>
 {% endblock %}

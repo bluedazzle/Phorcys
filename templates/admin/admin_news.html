@@ -5,6 +5,167 @@
             <a class="section">资讯</a>
             <i class="right angle icon divider"></i>
         </div>
-    <div class="ui divider"></div>
+        <div class="ui divider"></div>
+        <table class="ui celled selectable table">
+            <thead>
+            <tr>
+                <th>资讯</th>
+                <th>创建时间</th>
+                <th>状态</th>
+                <th>类型</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <h4 class="ui image header">
+                        <img src="/s/image/site/elyse.png" class="ui mini rounded image">
+                        <div class="content">标题
+                            <div class="sub header">
+                                <span><i class="eye icon"></i>200</span>
+                                <span>&nbsp;</span>
+                                <span><i class="comments icon"></i>200</span>
+                            </div>
+                        </div>
+                    </h4>
+                </td>
+                <td>2015-04-22 22:18:00</td>
+                <td>已发布</td>
+                <td>
+                    原创
+                </td>
+                <td>
+                    <button class="ui small blue button">详情</button>
+                    <button class="ui small gray labeled icon button" onclick="deletePlayer(1)"><i
+                            class="icon download"></i>取消发布</button>
+                    <button class="ui small green labeled icon button" onclick="deletePlayer(1)"><i
+                            class="icon upload"></i>发布</button>
+                    <button class="ui small red labeled icon button" onclick="deletePlayer(1)"><i
+                            class="icon delete"></i>删除
+                    </button>
+                    <div class="ui basic modal" id="delModal1">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            删除选手 XX
+                        </div>
+                        <div class="image content">
+                            <div class="image">
+                                <i class="remove user icon"></i>
+                            </div>
+                            <div class="description">
+                                <p>情确认,您要删除选手 XX 吗?</p>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="two fluid ui inverted buttons">
+                                <div class="ui red basic inverted button">
+                                    <i class="remove icon"></i>
+                                    废话
+                                </div>
+                                <div class="ui green basic inverted button">
+                                    <i class="checkmark icon"></i>
+                                    不不,点错了
+                                </div>
+                            </div>
+                        </div>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="5">
+                    <div class="ui left floated small green labeled icon button" onclick="addPlayer()"><i
+                            class="newspaper icon"></i> 添加资讯
+                    </div>
+                    <div class="ui modal" id="addModal">
+                        <div class="header">
+                            新选手
+                        </div>
+                        <div class="image content">
+                            <div class="ui medium image">
+                                <div class="field">
+                                    <img src="/s/image/site/elyse.png">
+                                    <input type="file" class="ui uploadBtn" value="上传头像">
+                                </div>
+                            </div>
+                            <div class="description" style="width: 500px;">
+                                <form action="" method="post" class="ui form">
+                                    <div class="field">
+                                        <label>选手姓名</label>
+                                        <input type="text" name="name" placeholder="选手姓名">
+                                    </div>
+                                    <div class="field">
+                                        <label>选手ID</label>
+                                        <input type="text" name="nick" placeholder="选手ID">
+                                    </div>
+                                    <div class="field">
+                                        <label for="">位置</label>
+                                        <select name="position" id="" class="ui dropdown">
+                                            <option value="1">打野</option>
+                                            <option value="2">上单</option>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label>战队</label>
+                                        <select class="ui search dropdown">
+                                            <option value="">选择战队</option>
+                                            <option value="AF">LGD</option>
+                                            <option value="AX">LGD</option>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label>国籍</label>
+                                        <select class="ui search dropdown">
+                                            <option value="">选择国籍</option>
+                                            <option value="AF">Afghanistan</option>
+                                            <option value="AX">Åland Islands</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="ui black deny button">
+                                算了
+                            </div>
+                            <div class="ui positive right labeled icon button">
+                                好了
+                                <i class="checkmark icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui right floated pagination menu">
+                        <a class="icon item">
+                            <i class="left chevron icon"></i>
+                        </a>
+                        <a class="item">1</a>
+                        <a class="item">2</a>
+                        <a class="item">3</a>
+                        <a class="item">4</a>
+                        <a class="icon item">
+                            <i class="right chevron icon"></i>
+                        </a>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
     </div>
+{% endblock %}
+{% block script %}
+    <script>
+        function deletePlayer(id) {
+            mid = '#delModal' + id.toString();
+            $(mid)
+                    .modal('setting', 'closable', false)
+                    .modal('show');
+        }
+        function addPlayer() {
+            $('#addModal')
+                    .modal('setting', 'closable', false)
+                    .modal('setting', 'transition', 'horizontal flip')
+                    .modal('show');
+        }
+    </script>
 {% endblock %}

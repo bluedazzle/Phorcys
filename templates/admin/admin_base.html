@@ -20,8 +20,8 @@
                 <i class="dropdown icon"></i>
             </div>
             <div class="menu">
-                <div class="item"><i class="ui icon setting"></i>设置</div>
-                <div class="item"><i class="ui icon sign out"></i>退出</div>
+                <a href="/admin/setting" class="item"><i class="ui icon setting"></i>设置</a>
+                <a href="/admin/logout" class="item"><i class="ui icon sign out"></i>退出</a>
             </div>
         </div>
     </div>
@@ -34,6 +34,8 @@
         <a class="item" href="/admin/teams"><i class="users icon"></i> 战队 </a>
         <a class="item" href="/admin/players"><i class="user icon"></i> 选手 </a>
         <a class="item" href="/admin/topics"><i class="browser icon"></i> 社区 </a>
+        <div class="ui divider"></div>
+        <a class="item" href="/admin/users" target="_self"><i class="user icon"></i> 用户 </a>
     </div>
     <div class="pusher" style="width: 80%;">
         {% block content %}
