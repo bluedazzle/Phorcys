@@ -7,9 +7,10 @@ import hashlib
 import datetime
 
 from django.utils.timezone import get_current_timezone
-
+from django.http import HttpResponseRedirect
 from core.Mixin.StatusWrapMixin import ERROR_PERMISSION_DENIED, ERROR_TOKEN, INFO_EXPIRE
 from core.models import Secret
+from myadmin.models import EAdmin
 from myuser.models import EUser
 
 
@@ -77,7 +78,7 @@ class CheckTokenMixin(object):
     user = None
 
     def get_current_token(self):
-        self.token = self.request.GET.get('token', '')
+        self.token = self.request.GET.get('token') or self.request.session.get('token', '')
         return self.token
 
     def check_token(self):
@@ -95,3 +96,37 @@ class CheckTokenMixin(object):
             self.status_code = ERROR_TOKEN
             return False
         return True
+
+
+class CheckAdminPermissionMixin(object):
+    token = None
+    admin = None
+
+    def get_current_token(self):
+        self.token = self.request.GET.get('token') or self.request.GET.session.get('token', '')
+        return self.token
+
+    def check_token(self):
+        self.get_current_token()
+        admin_list = EAdmin.objects.filter(token=self.token)
+        if admin_list.exists():
+            self.admin = admin_list[0]
+            return True
+        return False
+
+    def wrap_check_token_result(self):
+        result = self.check_token()
+        if not result:
+            self.message = 'token已过期, 请重新登陆'
+            self.status_code = ERROR_TOKEN
+            return False
+        return True
+
+
+class CheckAdminPagePermissionMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        token = request.session.get('token')
+        if token:
+            if EAdmin.objects.filter(token=token).exists():
+                return super(CheckAdminPagePermissionMixin, self).dispatch(request, *args, **kwargs)
+        return HttpResponseRedirect('/admin/login')

@@ -92,7 +92,7 @@ def _data_convert(data, time_func, foreign, many, include_attr, exclude_attr):
         return result
     elif isinstance(data, (datetime.datetime, datetime.date)):
         return time_func(data)
-    elif isinstance(data, (unicode, str, bool, float)):
+    elif isinstance(data, (unicode, str, bool, float, int)):
         return data
     elif isinstance(data, dict):
         for k, v in data.iteritems():

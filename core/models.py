@@ -35,6 +35,7 @@ class BaseTournament(BaseModel):
     start_time = models.DateField()
     end_time = models.DateField()
     thumb = models.IntegerField(default=0)
+    cover = models.ImageField(default='')
 
     class Meta:
         abstract = True

@@ -1,4 +1,8 @@
 {% extends 'admin/admin_base.html' %}
+{% block css %}
+    <link href="http://cdn.bootcss.com/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.standalone.min.css"
+          rel="stylesheet">
+{% endblock %}
 {% block content %}
     <div class="boloContainer">
         <div class="ui breadcrumb">
@@ -10,124 +14,166 @@
             <div class="ui left floated small primary labeled icon button" onclick="addPlayer()"><i
                     class="game icon"></i> 新赛事
             </div>
+            <div class="ui modal" id="addModal">
+                <div class="header">
+                    新赛事
+                </div>
+                <div class="image content">
+                    <div class="ui medium image">
+                        <div class="field">
+                            <label for="">赛事封面</label>
+                            <span class="ui fluid button btn-file">
+                                    <img id="uploadPicture" src="" alt="">
+                                    <span id="buttonLabel">选择图片</span>
+                                        <input type="file" name="img">
+                                    </span>
+                        </div>
+                    </div>
+                    <div class="description" style="width: 500px;">
+                        <form action="" method="post" class="ui form">
+                            <div class="field">
+                                <label>赛事名称</label>
+                                <input type="text" name="name" placeholder="赛事名称">
+                            </div>
+                            <div class="field">
+                                <label>开始时间</label>
+                                <input type="text" id="start_time" class="ui dropdown" name="start_time"
+                                       placeholder="开始时间">
+                            </div>
+                            <div class="field">
+                                <label>结束时间</label>
+                                <input type="text" id="end_time" class="ui dropdown" name="end_time" placeholder="结束时间">
+                            </div>
+                            <div class="field">
+                                <label>参赛战队</label>
+                                <select multiple="" class="ui search dropdown">
+                                    <option value="">选择战队</option>
+                                    <option value="AF">LGD</option>
+                                    <option value="AX">LGD</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">
+                        算了
+                    </div>
+                    <div class="ui positive right labeled icon button">
+                        好了
+                        <i class="checkmark icon"></i>
+                    </div>
+                </div>
+            </div>
         </div>
         <h2>活跃的赛事</h2>
         <div id="tournamentList" class="ui very relaxed horizontal list">
             <div class="item">
-                <div class="ui card" href="#">
-                    <a class="image" href="#">
-                        <img src="/s/image/site/elyse.png">
-                    </a>
-                    <div class="content">
-                        <a class="header" href="#">Steve Jobes</a>
-                        <div class="meta">
-                            <a>Last Seen 2 days ago</a>
+                <div class="ui special cards">
+                    <div class="card">
+                        <div class="blurring dimmable image">
+                            <div class="ui dimmer">
+                                <a class="content" href="/admin/tournament/${ id }}">
+                                    <div class="center">
+                                        <i class="big icon search"></i>
+                                    </div>
+                                </a>
+                            </div>
+                            <img src="/s/image/site/elyse.png">
+                        </div>
+                        <div class="content">
+                            <a class="header" style="font-size: 1.5em;">2016 国际邀请赛</a>
+                            <div class="meta">
+                                <span class="date" style="font-size: 0.9em;">当前: 39支队伍 78局比赛</span>
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            <div class="left floated colorOrange">
+                                开始:2015-05-05
+                            </div>
+                            <div class="right floated colorOrange">
+                                结束:2016-06-01
+                            </div>
+                        </div>
+                        <div class="ui indicating tiny progress" data-percent="74" id="progress1" style="margin-bottom:0;">
+                            <div class="bar"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="item">
-                <div class="ui card">
-                    <a class="image" href="#">
-                        <img src="/s/image/site/elyse.png">
-                    </a>
-                    <div class="content">
-                        <a class="header" href="#">Steve Jobes</a>
-                        <div class="meta">
-                            <a>Last Seen 2 days ago</a>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="item">
-                <div class="ui card">
-                    <a class="image" href="#">
-                        <img src="/s/image/site/elyse.png">
-                    </a>
-                    <div class="content">
-                        <a class="header" href="#">Steve Jobes</a>
-                        <div class="meta">
-                            <a>Last Seen 2 days ago</a>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="item">
-                <div class="ui card">
-                    <a class="image" href="#">
-                        <img src="/s/image/site/elyse.png">
-                    </a>
-                    <div class="content">
-                        <a class="header" href="#">Steve Jobes</a>
-                        <div class="meta">
-                            <a>Last Seen 2 days ago</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="ui divider"></div>
         <h2>过去的赛事</h2>
-        <div id="tournamentList" class="ui very relaxed horizontal list">
-            <div class="item">
-                <div class="ui card">
-                    <a class="image" href="#">
-                        <img src="/s/image/site/elyse.png" class="">
-                    </a>
-                    <div class="content">
-                        <a class="header" href="#">Steve Jobes</a>
-                        <div class="meta">
-                            <a>Last Seen 2 days ago</a>
+        <div class="ui styled fluid accordion">
+            <div class="title"><i class="dropdown icon"></i> 过去的赛事</div>
+            <div class="content">
+                <div id="tournamentList" class="ui very relaxed horizontal list">
+                    <div class="item">
+                        <div class="ui card">
+                            <a class="image" href="#">
+                                <img src="/s/image/site/elyse.png" class="">
+                            </a>
+                            <div class="content">
+                                <a class="header" href="#">Steve Jobes</a>
+                                <div class="meta">
+                                    <a>Last Seen 2 days ago</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="ui card">
+                            <a class="image" href="#">
+                                <img src="/s/image/site/elyse.png">
+                            </a>
+                            <div class="content">
+                                <a class="header" href="#">Steve Jobes</a>
+                                <div class="meta">
+                                    <a>Last Seen 2 days ago</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="ui card">
+                            <a class="image" href="#">
+                                <img src="/s/image/site/elyse.png">
+                            </a>
+                            <div class="content">
+                                <a class="header" href="#">Steve Jobes</a>
+                                <div class="meta">
+                                    <a>Last Seen 2 days ago</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="ui card">
+                            <a class="image" href="#">
+                                <img src="/s/image/site/elyse.png">
+                            </a>
+                            <div class="content">
+                                <a class="header" href="#">Steve Jobes</a>
+                                <div class="meta">
+                                    <a>Last Seen 2 days ago</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="item">
-                <div class="ui card">
-                    <a class="image" href="#">
-                        <img src="/s/image/site/elyse.png">
-                    </a>
-                    <div class="content">
-                        <a class="header" href="#">Steve Jobes</a>
-                        <div class="meta">
-                            <a>Last Seen 2 days ago</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="ui card">
-                    <a class="image" href="#">
-                        <img src="/s/image/site/elyse.png">
-                    </a>
-                    <div class="content">
-                        <a class="header" href="#">Steve Jobes</a>
-                        <div class="meta">
-                            <a>Last Seen 2 days ago</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="ui card">
-                    <a class="image" href="#">
-                        <img src="/s/image/site/elyse.png">
-                    </a>
-                    <div class="content">
-                        <a class="header" href="#">Steve Jobes</a>
-                        <div class="meta">
-                            <a>Last Seen 2 days ago</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
 {% endblock %}
 {% block script %}
-    <script>
-        $('#tournamentList.item.card.a.image').dimmer({
-            on: 'hover'
-        });
-    </script>
+    <script src="http://cdn.bootcss.com/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-datepicker/1.6.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="/s/js/src/tournament.js"></script>
 {% endblock %}

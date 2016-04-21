@@ -1,6 +1,6 @@
 {% extends 'admin/admin_base.html' %}
 {% block content %}
-    <div class="boloContainer">
+    <div id="vIndex" class="boloContainer">
         <div class="ui breadcrumb">
             <a class="section">控制台</a>
             <i class="right angle icon divider"></i>
@@ -15,7 +15,8 @@
                                 <i class="icon users big" style="font-size: 6em;"></i>
                             </div>
                             <div class="right floated right aligned" style="padding-top: 1.5em;">
-                                <div style="font-size: 3em;padding-bottom: 0.5em;">22</div>
+                                <div v-show="noData" :class="noData ? classLoading : ''"></div>
+                                <div v-else="noData" style="font-size: 3em;padding-bottom: 0.5em;" v-cloak>${ data.users }}</div>
                                 <div style="font-size: 2em;">注册用户数</div>
                             </div>
                         </div>
@@ -33,7 +34,8 @@
                                 <i class="icon newspaper big" style="font-size: 6em;"></i>
                             </div>
                             <div class="right floated right aligned" style="padding-top: 1.5em;">
-                                <div style="font-size: 3em;padding-bottom: 0.5em;">22</div>
+                                <div v-show="noData" :class="noData ? classLoading : ''"></div>
+                                <div style="font-size: 3em;padding-bottom: 0.5em;"  v-else="noData" v-cloak="">${ data.news }}</div>
                                 <div style="font-size: 2em;">赛事文章数</div>
                             </div>
                         </div>
@@ -51,7 +53,8 @@
                                 <i class="icon comments big" style="font-size: 6em;"></i>
                             </div>
                             <div class="right floated right aligned" style="padding-top: 1.5em;">
-                                <div style="font-size: 3em;padding-bottom: 0.5em;">22</div>
+                                <div v-show="noData" :class="noData ? classLoading : ''"></div>
+                                <div style="font-size: 3em;padding-bottom: 0.5em;"  v-else="noData" v-cloak="">${ data.topics }}</div>
                                 <div style="font-size: 2em;">社区发帖数</div>
                             </div>
                         </div>
@@ -65,4 +68,7 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block script %}
+    <script src="/s/js/src/index.js"></script>
 {% endblock %}

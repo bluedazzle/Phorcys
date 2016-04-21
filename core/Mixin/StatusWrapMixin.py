@@ -34,3 +34,20 @@ class StatusWrapMixin(object):
         if self.status_code != INFO_SUCCESS:
             return_data['body'] = {}
         return return_data
+
+
+class AdminStatusWrapMixin(StatusWrapMixin):
+    def wrapper(self, context):
+        data = super(AdminStatusWrapMixin, self).wrapper(context)
+        if isinstance(self.message, unicode):
+            data['msg'] = {'message': self.message}
+            return data
+        error_data = {}
+        if isinstance(self.message, list):
+            for itm in self.message:
+                error_data[itm[0]] = itm[1]
+        if isinstance(self.message, dict):
+            for k, v in self.message.iteritems():
+                error_data[k] = v[0].get('message', '')
+        data['msg'] = error_data
+        return data

@@ -9,19 +9,19 @@
     {% endblock %}
 </head>
 <body>
-<nav class="ui menu" style="margin: -1px 0;">
+<nav id="vBase" class="ui menu" style="margin: -1px 0;">
     <div class="ui header item">Bolo Admin</div>
     <div class=" right menu">
         <div id="dropdown" class="ui dropdown item">
             <img class="ui mini circular image" src="/s/image/site/elyse.png">
-            <div class="content">
+            <div class="content" v-cloak>
                 <div class="ui sub header">管理员</div>
-                rapospectre
+                ${ admin.nick }}
                 <i class="dropdown icon"></i>
             </div>
             <div class="menu">
                 <a href="/admin/setting" class="item"><i class="ui icon setting"></i>设置</a>
-                <a href="/admin/logout" class="item"><i class="ui icon sign out"></i>退出</a>
+                <div @click="logout" class="item"><i class="ui icon sign out"></i>退出</div>
             </div>
         </div>
     </div>
@@ -42,9 +42,12 @@
         {% endblock %}
     </div>
 </div>
-
+<script src="http://cdn.bootcss.com/vue/1.0.17/vue.min.js"></script>
+<script src="http://cdn.bootcss.com/vue-resource/0.7.0/vue-resource.min.js"></script>
 <script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
 <script src="/s/js/semantic.min.js"></script>
+<script src="/s/js/src/http.js"></script>
+<script src="/s/js/src/base.js"></script>
 <script>
     $('.dropdown').dropdown({
         on: 'hover'
