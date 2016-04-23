@@ -16,7 +16,7 @@ class BaseModel(models.Model):
 
 class Country(BaseModel):
     name = models.CharField(max_length=30, unique=True)
-    flag = models.ImageField()
+    flag = models.CharField(max_length=100, default='')
 
     def __unicode__(self):
         return self.name
@@ -30,12 +30,12 @@ class BaseNews(BaseModel):
         abstract = True
 
 
-class BaseTournament(BaseModel):
-    name = models.CharField(max_length=100)
+class  BaseTournament(BaseModel):
+    name = models.CharField(max_length=100, unique=True)
     start_time = models.DateField()
     end_time = models.DateField()
     thumb = models.IntegerField(default=0)
-    cover = models.ImageField(default='')
+    cover = models.CharField(default='', max_length=100)
 
     class Meta:
         abstract = True
@@ -52,7 +52,7 @@ class BaseComment(BaseModel):
 class BasePlayer(BaseModel):
     name = models.CharField(max_length=50)
     nick = models.CharField(max_length=50)
-    avatar = models.ImageField(default='http://www.fibar.cn')
+    avatar = models.CharField(default='http://www.fibar.cn', max_length=100)
     nationality = models.ForeignKey(Country, related_name='country_players', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
@@ -80,7 +80,7 @@ class BaseWeibo(BaseModel):
 class BaseTeam(BaseModel):
     abbreviation = models.CharField(max_length=20)
     name = models.CharField(max_length=100)
-    logo = models.ImageField(default='http://www.fibar.cn')
+    logo = models.CharField(default='http://www.fibar.cn', max_length=100)
     info = models.TextField()
     country = models.ForeignKey(Country, related_name='country_teams', on_delete=models.SET_NULL, null=True, blank=True)
 

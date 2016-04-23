@@ -1,0 +1,150 @@
+{% extends 'admin/admin_base.html' %}
+{% block css %}
+    <link href="/s/css/bootstrap-datetimepicker-standalone.css"
+          rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="boloContainer" id="vMatch">
+        <div class="ui breadcrumb">
+            <a class="section" href="/admin/tournaments">赛事</a>
+            <i class="right angle icon divider"></i>
+            <a class="section" href="/admin/tournament/${ match.tournament_id }}">${ match.tournament.name }}</a>
+            <i class="right angle icon divider"></i>
+            <a class="section" href="/admin/tournament/${ match.tournament_id }}/match/${ match.id }}">${ match.name
+                }}</a>
+            <i class="right angle icon divider"></i>
+        </div>
+        <div class="ui divider"></div>
+        <h2 class="ui center aligned icon header">
+            <img src="${ tournament.cover }}" class="ui small circular image" alt="">
+            <div>
+                ${ tournament.name }}
+            </div>
+        </h2>
+        <div style="margin-bottom: 100px;">
+            <div class="ui left floated small primary labeled icon button" @click="getHero" onclick="addPlayer()"><i
+                    class="game icon"></i> 新的对局
+            </div>
+            <div class="ui modal scrolling" id="addModal">
+                <div class="header">
+                    对局 ${ newGame.game_id }}
+                </div>
+                <div class="image content">
+                    <div class="description" style="width: 500px;">
+                        <form action="" method="post" class="ui form">
+                            <div class="field">
+                                <label>对局时长</label>
+                                <input type="text" name="game_time" v-model="newGame.duration" placeholder="对局时长"
+                                       value="0">
+                            </div>
+                            <div class="field">
+                                <label>对局时间</label>
+                                <input type="text" id="start_time" v-model="newGame.game_time"
+                                       value="${ match.game_time }}"
+                                       class="ui dropdown" name="game_time"
+                                       placeholder="对局时间">
+                            </div>
+                            <div class="grouped fields">
+                                <label for="fruit">对局结果: ${ newGame.win }}</label>
+                                <div class="field">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" name="winner" id="w1" v-model="newGame.win"
+                                               value="${ match.team1.id }}" class="hidden">
+                                        <label>${ match.team1.abbreviation }}</label>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" name="winner" id="w2" v-model="newGame.win"
+                                               value="${ match.team2.id }}" class="hidden">
+                                        <label>${ match.team2.abbreviation }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>${ match.team1.abbreviation }} BAN: ${ newGame.team1_ban }}</label>
+                                <select multiple="" id="mt1b" v-model="newGame.team1_ban"
+                                        class="ui search dropdown ban">
+                                    <option value="">选择英雄</option>
+                                    <option v-for="hero in heros" value="${ hero.id }}">${ hero.hero }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>${ match.team2.abbreviation }} BAN: ${ newGame.team2_ban }}</label>
+                                <select multiple="" id="mt2b" v-model="newGame.team2_ban"
+                                        class="ui search dropdown ban">
+                                    <option value="">选择英雄</option>
+                                    <option v-for="hero in heros" value="${ hero.id }}">${ hero.hero }}
+                                    </option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">
+                        算了
+                    </div>
+                    <div class="ui positive right labeled icon button" @click="createNewGame">
+                        好了
+                        <i class="checkmark icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-show="noData" class="ui active inverted dimmer">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <div class="ui styled fluid accordion">
+            <div v-for="(index, game) in games">
+                <div class="title"><i class="dropdown icon"></i>对局ID: ${ game.game_id }} 对局时间: ${ game.game_time }} 时长: ${ game.duration }}分钟 结果: ${ game.win.abbreviation }} 赢
+                </div>
+                <div class="content">
+                    <div class="ui grid">
+                        <a href="/admin/team/${ game.team1.id }}" class="three wide column">
+                            <h4 class="ui image header ">
+                                <img src="${ game.team1.logo }}" class="ui mini rounded image">
+                                <div class="content">${ game.team1.name }}
+                                    <div class="sub header">${ game.team1.abbreviation }}</div>
+                                </div>
+                            </h4>
+                        </a>
+                        <div class="three wide column" style="font-size: 2em; font-weight: 500;">VS</div>
+                        <a href="/admin/team/${ game.team2.id }}" class="three wide column">
+                            <h4 class="ui image header ">
+                                <img src="${ game.team2.logo }}" class="ui mini rounded image">
+                                <div class="content">${ game.team2.name }}
+                                    <div class="sub header">${ game.team2.abbreviation }}</div>
+                                </div>
+                            </h4>
+                        </a>
+                        <div class="seven wide column">
+                            <div class="ui blue button" @click="modifyGame($event)" id="add${ index }}">编辑</div>
+                            <div class="ui blue button">增加详情</div>
+                            <div class="ui red button">删除</div>
+                        </div>
+                    </div>
+                    <div class="ui grid">
+                        <div class="five wide column">
+                            ${ game.team1.abbreviation }} BAN:
+                            <img v-for="hero in game.team1_bans" src="${ hero.picture }}" alt="">
+                        </div>
+                        <div class="four wide column"></div>
+                        <div class="five wide column">
+                            ${ game.team2.abbreviation }} BAN:
+                            <img v-for="hero in game.team2_bans" src="${ hero.picture }}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="http://cdn.bootcss.com/moment.js/2.11.2/moment.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/s/js/src/match.js"></script>
+{% endblock %}

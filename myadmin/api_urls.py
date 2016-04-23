@@ -6,4 +6,8 @@ urlpatterns = patterns('',
                        url(r'^logout', AdminLogoutView.as_view()),
                        url(r'^index', AdminIndexView.as_view()),
                        url(r'^admin', AdminUserView.as_view()),
+                       url(r'^tournament/(?P<tid>(\d)+)/match/(?P<mid>(\d)+)/game', AdminGameView.as_view()),
+                       url(r'^tournament/(?P<tid>(\d)+)/match', AdminMatchView.as_view()),
+                       url(r'^tournaments', AdminTournamentListView.as_view()),
+                       url(r'^tournament', AdminTournamentView.as_view()),
                        )

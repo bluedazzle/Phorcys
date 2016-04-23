@@ -1,0 +1,184 @@
+{% extends 'admin/admin_base.html' %}
+{% block css %}
+    <link href="/s/css/bootstrap-datetimepicker-standalone.css"
+          rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="boloContainer" id="vTournamentDetail">
+        <div class="ui breadcrumb">
+            <a class="section" href="/admin/tournaments">赛事</a>
+            <i class="right angle icon divider"></i>
+            <a class="section" href="/admin/tournament/${ tournament.id }}">${ tournament.name }}</a>
+            <i class="right angle icon divider"></i>
+        </div>
+        <div class="ui divider"></div>
+        <h2 class="ui center aligned icon header">
+            <img src="${ tournament.cover }}" class="ui small circular image" alt="">
+            <div>
+                ${ tournament.name }}
+            </div>
+        </h2>
+        <div style="margin-bottom: 100px;">
+            <div class="ui left floated small primary labeled icon button" @click="getTeams" onclick="addPlayer()"><i
+                    class="game icon"></i> 新的比赛
+            </div>
+            <div class="ui modal scrolling" id="addModal">
+                <div class="header">
+                    新的比赛
+                </div>
+                <div class="image content">
+                    <div class="description" style="width: 500px;">
+                        <form action="" method="post" class="ui form">
+                            <div class="field">
+                                <label>比赛名称</label>
+                                <input type="text" name="name" v-model="newMatch.name" placeholder="比赛名称" value="默认比赛">
+                            </div>
+                            <div class="field">
+                                <label>开始时间</label>
+                                <input type="text" id="start_time" v-model="newMatch.start_time"
+                                       class="ui dropdown" name="start_time"
+                                       placeholder="开始时间">
+                            </div>
+                            <div class="field">
+                                <label>比赛类型</label>
+                                <select type="text" v-model="newMatch.match_type" class="ui dropdown"
+                                        name="match_type" placeholder="比赛类型">
+                                    <option value="1" selected>BO1</option>
+                                    <option value="2">BO2</option>
+                                    <option value="3">BO3</option>
+                                    <option value="4">BO5</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>参赛战队</label>
+                                <select multiple="" v-model="newMatch.teams" class="ui search dropdown">
+                                    <option value="">选择战队</option>
+                                    <option v-for="team in teams" value="${ team.id }}">${ team.abbreviation }}</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">
+                        算了
+                    </div>
+                    <div class="ui positive right labeled icon button" @click="createMatch">
+                        好了
+                        <i class="checkmark icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-show="noData" class="ui active inverted dimmer">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <table class="ui celled selectable table">
+            <thead>
+            <tr>
+                <th>名称</th>
+                <th>时间</th>
+                <th>类型</th>
+                <th>对局</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="match in matches">
+                <td>
+                    ${ match.name }}
+                </td>
+                <td>${ match.match_time }}</td>
+                <td>${ formatType(match.match_type) }}</td>
+                <td>
+                    <div class="ui grid">
+                        <a href="/admin/team/${ match.team1.id }}" class="five wide column">
+                            <h4 class="ui image header ">
+                                <img src="${ match.team1.logo }}" class="ui mini rounded image">
+                                <div class="content">${ match.team1.name }}
+                                    <div class="sub header">${ match.team1.abbreviation }}</div>
+                                </div>
+                            </h4>
+                        </a>
+                        <div class="four wide column" style="font-size: 2em; font-weight: 300;margin-top: 10px;">${
+                            match.team1_score }} : ${ match.team2_score }}
+                        </div>
+                        <a href="/admin/team/${ match.team2.id }}" class="seven wide column">
+                            <h4 class="ui image header " style="margin-top: 0;">
+                                <div class="content">${ match.team2.name }}
+                                    <div class="sub header">${ match.team2.abbreviation }}</div>
+                                </div>
+                                <img src="${ match.team2.logo }}" class="ui mini rounded image">
+                            </h4>
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    ${ formatStatus(match.status) }}
+                </td>
+                <td>
+                    <a href="/admin/tournament/${ tournament.id }}/match/${ match.id }}" class="ui small blue button">详情</a>
+                    <button class="ui small red labeled icon button" onclick="deletePlayer(${ match.id }})"><i
+                            class="icon delete"></i>删除
+                    </button>
+                    <div class="ui basic modal" id="delModal${ match.id }}">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            删除比赛 ${ match.name }}
+                        </div>
+                        <div class="image content">
+                            <div class="image">
+                                <i class="remove user icon"></i>
+                            </div>
+                            <div class="description">
+                                <p>情确认,您要删除比赛 ${ match.name }} 吗?</p>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="two fluid ui inverted buttons">
+                                <div class="ui red basic inverted button">
+                                    <i class="remove icon"></i>
+                                    废话
+                                </div>
+                                <div class="ui green basic inverted button">
+                                    <i class="checkmark icon"></i>
+                                    不不,点错了
+                                </div>
+                            </div>
+                        </div>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="6">
+                    <div class="ui right floated pagination menu">
+                        <a class="icon item " :class="{'disabled': pageObj.previous == undefined}"
+                           @click="getData($event, pageObj.previous)">
+                            <i class="left chevron icon"></i>
+                        </a>
+                        {#                        <a class="item" v-for="page in pageObj.page_range"></a>#}
+                        <a class="item" v-for="page in pageObj.page_range"
+                           :class="{'active': page.page == pageObj.current}" @click="getData($event, page.page)">${
+                            page.page }}</a>
+                        </a>
+                        <a class="icon item" :class="{'disabled': pageObj.next == undefined}"
+                           @click="getData($event, pageObj.next)">
+                            <i class="right chevron icon"></i>
+                        </a>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="http://cdn.bootcss.com/moment.js/2.11.2/moment.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/s/js/src/tournamentDetail.js"></script>
+    <script>
+    </script>
+{% endblock %}

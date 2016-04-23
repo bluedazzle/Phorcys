@@ -26,30 +26,30 @@ class AdminView(UpdateView):
                 return HttpResponseRedirect('/admin/index')
         return render_to_response('admin/admin_login.html')
 
-    # def post(self, request, *args, **kwargs):
-    #     username = request.POST.get('username')
-    #     password = unicode(request.POST.get('password'))
-    #     if password:
-    #         if not username:
-    #             self.res_dict['username_info'] = '请输入帐号'
-    #             self.res_dict['username'] = False
-    #             return render_to_response('admin/admin_login.html', self.res_dict)
-    #         users = EAdmin.objects.filter(phone=username)
-    #         if users.exists():
-    #             user = users[0]
-    #             if user.check_password(password):
-    #                 return HttpResponseRedirect(self.success_url)
-    #             self.res_dict['password_info'] = '密码不正确'
-    #             self.res_dict['password'] = False
-    #         else:
-    #             self.res_dict['username_info'] = '用户不存在'
-    #             self.res_dict['username'] = False
-    #     else:
-    #         self.res_dict['password_info'] = '请输入密码'
-    #         self.res_dict['password'] = False
-    #     self.res_dict['username_value'] = username
-    #     self.res_dict['password_value'] = password
-    #     return render_to_response('admin/admin_login.html', self.res_dict)
+        # def post(self, request, *args, **kwargs):
+        #     username = request.POST.get('username')
+        #     password = unicode(request.POST.get('password'))
+        #     if password:
+        #         if not username:
+        #             self.res_dict['username_info'] = '请输入帐号'
+        #             self.res_dict['username'] = False
+        #             return render_to_response('admin/admin_login.html', self.res_dict)
+        #         users = EAdmin.objects.filter(phone=username)
+        #         if users.exists():
+        #             user = users[0]
+        #             if user.check_password(password):
+        #                 return HttpResponseRedirect(self.success_url)
+        #             self.res_dict['password_info'] = '密码不正确'
+        #             self.res_dict['password'] = False
+        #         else:
+        #             self.res_dict['username_info'] = '用户不存在'
+        #             self.res_dict['username'] = False
+        #     else:
+        #         self.res_dict['password_info'] = '请输入密码'
+        #         self.res_dict['password'] = False
+        #     self.res_dict['username_value'] = username
+        #     self.res_dict['password_value'] = password
+        #     return render_to_response('admin/admin_login.html', self.res_dict)
 
 
 class AdminIndexView(CheckAdminPagePermissionMixin, TemplateView):
@@ -67,10 +67,16 @@ class AdminNewsListView(ListView):
     paginate_by = 20
 
 
-class AdminTournamentListView(ListView):
-    model = Tournament
+class AdminTournamentListView(TemplateView):
     template_name = 'admin/admin_tournaments.html'
-    paginate_by = 20
+
+
+class AdminTournamentDetailView(TemplateView):
+    template_name = 'admin/admin_tournament.html'
+
+
+class AdminTournamentMatchView(TemplateView):
+    template_name = 'admin/admin_match.html'
 
 
 class AdminTeamListView(ListView):

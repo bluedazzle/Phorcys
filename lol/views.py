@@ -10,7 +10,8 @@ from core.Mixin.StatusWrapMixin import *
 from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, JsonResponseMixin
 
 # Create your views here.
-from lol.models import News, NewsComment, Topic, Player, Team, Tournament, Weibo
+from core.dss.Serializer import serializer
+from lol.models import News, NewsComment, Topic, Player, Team, Tournament, Weibo, Match, TournamentTeamInfo, Game, Hero
 from lol.forms import *
 from myuser.models import EUser
 
@@ -249,7 +250,27 @@ class TeamListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
     model = Team
     http_method_names = ['get']
     exclude_attr = ['modify_time', 'create_time']
+    foreign = True
     paginate_by = 20
+
+    def get_queryset(self):
+        queryset = super(TeamListView, self).get_queryset()
+        if self.request.GET.get('add_player'):
+            map(self.add_player, queryset)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        all = request.GET.get('all')
+        if all:
+            self.paginate_by = 0
+        return super(TeamListView, self).get(request, *args, **kwargs)
+
+    def add_player(self, team):
+        player_list = team.team_players.all()
+        if player_list.exists():
+            setattr(team, 'players', player_list)
+        else:
+            setattr(team, 'players', None)
 
 
 class TournamentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
@@ -271,7 +292,46 @@ class TournamentDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixi
     model = Tournament
     http_method_names = ['get']
     exclude_attr = ['modify_time']
+    foreign = True
     pk_url_kwarg = 'id'
+
+    def get_context_data(self, **kwargs):
+        match_list = Match.objects.filter(tournament=self.object)
+        team_list = self.object.tournament_teams.all()
+        context = super(TournamentDetailView, self).get_context_data(**kwargs)
+        context['match_list'] = match_list
+        context['team_list'] = team_list
+        return context
+
+
+class MatchDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+    """
+    联赛比赛详情
+    """
+
+    model = Match
+    http_method_names = ['get']
+    foreign = True
+    pk_url_kwarg = 'id'
+
+    def get_context_data(self, **kwargs):
+        game_list = Game.objects.filter(match=self.object)
+        context = super(MatchDetailView, self).get_context_data(**kwargs)
+        map(self.get_ban_list, game_list)
+        context['game_list'] = game_list
+        return context
+
+    def get_ban_list(self, game):
+        team1_ban = game.team1_ban.all()
+        team2_ban = game.team2_ban.all()
+        if team1_ban.exists():
+            setattr(game, 'team1_bans', team1_ban)
+        else:
+            setattr(game, 'team1_bans', None)
+        if team2_ban.exists():
+            setattr(game, 'team2_bans', team2_ban)
+        else:
+            setattr(game, 'team2_bans', None)
 
 
 class CommentCreateView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, CreateView):
@@ -281,6 +341,7 @@ class CommentCreateView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Js
 
     http_method_names = ['post']
     pk_url_kwarg = 'token'
+    exclude_attr = ['modify_time', 'country', 'flag']
     success_url = 'localhost'
     obj = None
     type = 0
@@ -402,3 +463,19 @@ class SearchView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, ListVie
         tournament_list = Tournament.objects.filter(name__icontains=self.content)
         result_dict['tournaments'] = tournament_list
         return result_dict
+
+
+class HeroListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    """
+    英雄列表
+    """
+
+    model = Hero
+    paginate_by = 20
+    include_attr = ['picture', 'hero', 'name', 'id']
+
+    def get(self, request, *args, **kwargs):
+        all = request.GET.get('all')
+        if all:
+            self.paginate_by = 0
+        return super(HeroListView, self).get(request, *args, **kwargs)

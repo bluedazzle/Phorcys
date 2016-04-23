@@ -4,17 +4,17 @@
           rel="stylesheet">
 {% endblock %}
 {% block content %}
-    <div class="boloContainer">
+    <div class="boloContainer" id="vTournament" v-cloak>
         <div class="ui breadcrumb">
             <a class="section">赛事</a>
             <i class="right angle icon divider"></i>
         </div>
         <div class="ui divider"></div>
         <div style="margin-bottom: 100px;">
-            <div class="ui left floated small primary labeled icon button" onclick="addPlayer()"><i
+            <div class="ui left floated small primary labeled icon button" @click="getTeams" onclick="addPlayer()"><i
                     class="game icon"></i> 新赛事
             </div>
-            <div class="ui modal" id="addModal">
+            <div class="ui modal scrolling" id="addModal">
                 <div class="header">
                     新赛事
                 </div>
@@ -22,34 +22,36 @@
                     <div class="ui medium image">
                         <div class="field">
                             <label for="">赛事封面</label>
+                            <form action="" id="form1">
                             <span class="ui fluid button btn-file">
                                     <img id="uploadPicture" src="" alt="">
                                     <span id="buttonLabel">选择图片</span>
-                                        <input type="file" name="img">
-                                    </span>
+                                        <input type="file" id="fileupload_input" name="img">
+                                    </span></form>
                         </div>
                     </div>
                     <div class="description" style="width: 500px;">
                         <form action="" method="post" class="ui form">
                             <div class="field">
                                 <label>赛事名称</label>
-                                <input type="text" name="name" placeholder="赛事名称">
+                                <input type="text" name="name" v-model="newTournament.name" placeholder="赛事名称">
                             </div>
                             <div class="field">
                                 <label>开始时间</label>
-                                <input type="text" id="start_time" class="ui dropdown" name="start_time"
+                                <input type="text" id="start_time" v-model="newTournament.start_time"
+                                       class="ui dropdown" name="start_time"
                                        placeholder="开始时间">
                             </div>
                             <div class="field">
                                 <label>结束时间</label>
-                                <input type="text" id="end_time" class="ui dropdown" name="end_time" placeholder="结束时间">
+                                <input type="text" id="end_time" v-model="newTournament.end_time" class="ui dropdown"
+                                       name="end_time" placeholder="结束时间">
                             </div>
                             <div class="field">
                                 <label>参赛战队</label>
-                                <select multiple="" class="ui search dropdown">
+                                <select multiple="" v-model="newTournament.teams" class="ui search dropdown">
                                     <option value="">选择战队</option>
-                                    <option value="AF">LGD</option>
-                                    <option value="AX">LGD</option>
+                                    <option v-for="team in teams" value="${ team.id }}">${ team.abbreviation }}</option>
                                 </select>
                             </div>
                         </form>
@@ -59,7 +61,7 @@
                     <div class="ui black deny button">
                         算了
                     </div>
-                    <div class="ui positive right labeled icon button">
+                    <div class="ui positive right labeled icon button" @click="createNewTournament">
                         好了
                         <i class="checkmark icon"></i>
                     </div>
@@ -67,45 +69,45 @@
             </div>
         </div>
         <h2>活跃的赛事</h2>
+        <div v-show="noData" class="ui active inverted dimmer">
+            <div class="ui text loader">Loading</div>
+        </div>
+        <p></p>
         <div id="tournamentList" class="ui very relaxed horizontal list">
-            <div class="item">
+            <div class="item" v-for="tournament in data.tournaments.activity_tournaments">
                 <div class="ui special cards">
                     <div class="card">
                         <div class="blurring dimmable image">
                             <div class="ui dimmer">
-                                <a class="content" href="/admin/tournament/${ id }}">
+                                <a class="content" href="/admin/tournament/${ tournament.id }}">
                                     <div class="center">
                                         <i class="big icon search"></i>
                                     </div>
                                 </a>
                             </div>
-                            <img src="/s/image/site/elyse.png">
+                            <img src="${ tournament.cover }}" style="height: 290px;">
                         </div>
                         <div class="content">
-                            <a class="header" style="font-size: 1.5em;">2016 国际邀请赛</a>
+                            <a class="header" style="font-size: 1.5em;" href="/admin/tournament/${ tournament.id }}">${
+                                tournament.name }}</a>
                             <div class="meta">
-                                <span class="date" style="font-size: 0.9em;">当前: 39支队伍 78局比赛</span>
+                                <span class="date" style="font-size: 0.9em;">当前: ${ tournament.team_numbers }}支队伍 ${ tournament.match_numbers }} 局比赛</span>
                             </div>
                         </div>
                         <div class="extra content">
                             <div class="left floated colorOrange">
-                                开始:2015-05-05
+                                开始: ${ tournament.start_time }}
                             </div>
                             <div class="right floated colorOrange">
-                                结束:2016-06-01
+                                结束: ${ tournament.end_time }}
                             </div>
                         </div>
-                        <div class="ui indicating tiny progress" data-percent="74" id="progress1" style="margin-bottom:0;">
+                        <div class="ui indicating tiny progress" id="aProgress${ tournament.id }}"
+                             style="margin-bottom:0;" data-percent="${ tournament.percent }}">
                             <div class="bar"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="item">
-            </div>
-            <div class="item">
-            </div>
-            <div class="item">
             </div>
         </div>
         <div class="ui divider"></div>
@@ -114,58 +116,41 @@
             <div class="title"><i class="dropdown icon"></i> 过去的赛事</div>
             <div class="content">
                 <div id="tournamentList" class="ui very relaxed horizontal list">
-                    <div class="item">
-                        <div class="ui card">
-                            <a class="image" href="#">
-                                <img src="/s/image/site/elyse.png" class="">
-                            </a>
-                            <div class="content">
-                                <a class="header" href="#">Steve Jobes</a>
-                                <div class="meta">
-                                    <a>Last Seen 2 days ago</a>
+                    <div class="item" v-for="tournament in data.tournaments.finished_tournaments">
+                        <div class="ui special cards">
+                            <div class="card">
+                                <div class="blurring dimmable image">
+                                    <div class="ui dimmer">
+                                        <a class="content" href="/admin/tournament/${ tournament.id }}">
+                                            <div class="center">
+                                                <i class="big icon search"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <img src="${ tournament.cover }}" style="height: 290px;">
+                                </div>
+                                <div class="content">
+                                    <a class="header" style="font-size: 1.5em;">${ tournament.name }}</a>
+                                    <div class="meta">
+                                        <span class="date" style="font-size: 0.9em;">当前: ${ tournament.team_numbers }}支队伍 ${ tournament.match_numbers }} 局比赛</span>
+                                    </div>
+                                </div>
+                                <div class="extra content">
+                                    <div class="left floated">
+                                        开始: ${ tournament.start_time }}
+                                    </div>
+                                    <div class="right floated">
+                                        结束: ${ tournament.end_time }}
+                                    </div>
+                                </div>
+                                <div class="ui indicating tiny progress" data-percent="100"
+                                     style="margin-bottom:0;">
+                                    <div class="bar"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="ui card">
-                            <a class="image" href="#">
-                                <img src="/s/image/site/elyse.png">
-                            </a>
-                            <div class="content">
-                                <a class="header" href="#">Steve Jobes</a>
-                                <div class="meta">
-                                    <a>Last Seen 2 days ago</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="ui card">
-                            <a class="image" href="#">
-                                <img src="/s/image/site/elyse.png">
-                            </a>
-                            <div class="content">
-                                <a class="header" href="#">Steve Jobes</a>
-                                <div class="meta">
-                                    <a>Last Seen 2 days ago</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="ui card">
-                            <a class="image" href="#">
-                                <img src="/s/image/site/elyse.png">
-                            </a>
-                            <div class="content">
-                                <a class="header" href="#">Steve Jobes</a>
-                                <div class="meta">
-                                    <a>Last Seen 2 days ago</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
             </div>

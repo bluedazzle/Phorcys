@@ -27,6 +27,9 @@ def _include_check(include_attr, attr_dict):
     for itm in attr_dict.itervalues():
         if isinstance(itm, dict):
             _include_check(include_attr, itm)
+        elif isinstance(itm, list):
+            for sitm in itm:
+                _include_check(include_attr, sitm)
     if include_attr:
         ex_attr_dict = copy.deepcopy(attr_dict)
         attr_dict.clear()
@@ -40,6 +43,9 @@ def _exclude_check(exclude_attr, attr_dict):
     for itm in attr_dict.itervalues():
         if isinstance(itm, dict):
             _exclude_check(exclude_attr, itm)
+        elif isinstance(itm, list):
+            for sitm in itm:
+                _exclude_check(exclude_attr, sitm)
     if exclude_attr:
         for attr in exclude_attr:
             if attr in attr_dict:
@@ -69,11 +75,24 @@ def _get_attr(model_data, time_func, foreign, many):
             dic_list[itm] = time_func(getattr(model_data, itm))
         elif isinstance(attribute, ImageFieldFile):
             dic_list[itm] = attribute.name
+        elif isinstance(attribute, (list, QuerySet)):
+            i_list = []
+            for i in attribute:
+                i_list.append(_get_attr(i, time_func, foreign, many))
+            dic_list[itm] = i_list
         else:
             dic_list[itm] = getattr(model_data, itm)
-    if '_state' in dic_list:
-            dic_list.pop('_state')
-    return dic_list
+    return_dict = {}
+    for k, v in dic_list.iteritems():
+        if not (unicode(k).startswith('_') and unicode(k).endswith('_cache')) and not (unicode(k) == '_state'):
+            if isinstance(v, (list, QuerySet)):
+                i_list = []
+                for i in v:
+                    i_list.append(_get_attr(i, time_func, False, False))
+                return_dict[k] = i_list
+            else:
+                return_dict[k] = v
+    return return_dict
 
 
 def _data_convert(data, time_func, foreign, many, include_attr, exclude_attr):
@@ -82,7 +101,7 @@ def _data_convert(data, time_func, foreign, many, include_attr, exclude_attr):
         _include_check(include_attr, attr_list)
         _exclude_check(exclude_attr, attr_list)
         return attr_list
-    elif isinstance(data, (QuerySet, Page)):
+    elif isinstance(data, QuerySet):
         result = []
         for itm in data:
             attr_list = _get_attr(itm, time_func, foreign, many)

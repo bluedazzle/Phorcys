@@ -4,12 +4,17 @@ from __future__ import unicode_literals
 import hashlib
 
 import requests
+import time
+
+from PIL import Image
 
 from Phorcys.settings import BASE_DIR
 from core.models import Secret
 
 import random
 import string
+
+UPLOAD_PATH = BASE_DIR + '/static'
 
 
 def create_secret(count=64):
@@ -33,16 +38,26 @@ def check_sign(timestamp, sign):
 
 
 def save_image(url, type='lol/hero', name="default.jpg"):
-    dir_path = '/static/image/{0}/{1}'.format(type, name)
-    save_path = '{0}{1}'.format(BASE_DIR, dir_path)
+    dir_path = '/image/{0}/{1}'.format(type, name)
+    save_path = '{0}{1}'.format(UPLOAD_PATH, dir_path)
     response = requests.get(url, stream=True)
     image = response.content
+    img = Image.open(image)
+    img.save(save_path)
+    return '/s{0}'.format(dir_path), save_path
+
+
+def upload_picture(pic_file, folder='lol'):
+    pic_name = "{0}{1}".format(unicode(int(time.time())), pic_file.name)
+    pic_path = '/image/upload/{0}/{1}'.format(folder, pic_name)
+    save_path = UPLOAD_PATH + pic_path
     try:
-        with open(save_path, "wb") as jpg:
-            jpg.write(image)
-            return True, dir_path
-    except IOError:
-        print("IO Error\n")
+        img = Image.open(pic_file)
+        img.save(save_path)
+    except:
         return False, None
-    finally:
-        jpg.close
+    return True, '/s{0}'.format(pic_path)
+
+
+def create_game_id(type='01'):
+    return '{0}{1}{2}'.format(unicode(time.time()).replace('.', ''), type, random.randint(1000, 9999))

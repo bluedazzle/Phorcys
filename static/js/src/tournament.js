@@ -41,8 +41,95 @@ $('#start_time').datepicker({
 $('#end_time').datepicker({
     format: 'yyyy-mm-dd'
 });
-
 $('.ui.accordion')
     .accordion()
 ;
-$('#progress1').progress();
+$('.dropdown').dropdown({
+        on: 'hover'
+    });
+
+Vue.config.delimiters = ['${', '}}'];
+var vm = new Vue({
+    el: '#vTournament',
+    data: {
+        newTournament: {
+            name: '',
+            start_time: '',
+            end_time: '',
+            teams: [],
+        }
+    },
+    methods: {
+        getData: function (event) {
+
+            url = generateUrlWithToken('admin/api/tournaments', getCookie('token'));
+            this.$http.get(url, function (data) {
+                if (data.status == 1) {
+                    this.$set('data', data.body);
+                    Vue.nextTick(function () {
+                        // DOM 更新
+                        $('.progress').progress();
+                        $('.special.cards .image').dimmer({
+                            on: 'hover'
+                        });
+
+                    });
+                } else if (data.status == 3) {
+                    window.location.href = '/admin/login';
+                }
+            })
+        },
+        getTeams: function (event) {
+            if (this.noTeams) {
+                url = generateUrl('api/v1/lol/teams') + '&all=1';
+                this.$http.get(url, function (data) {
+                    if (data.status == 1) {
+                        this.$set('teams', data.body.team_list);
+                    }
+                })
+            }
+        },
+        getFile: function (event) {
+            var file = event.target.files[0];
+            this.newTournament.cover = file;
+        },
+        createNewTournament: function (event) {
+            url = generateUrlWithToken('admin/api/tournament', getCookie('token'));
+            var formData = new FormData($("#form1")[0]);
+            formData.append('name', this.newTournament.name);
+            formData.append('start_time', this.newTournament.start_time);
+            formData.append('end_time', this.newTournament.end_time);
+            formData.append('teams', this.newTournament.teams);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType : false,
+                success: function (data) {
+                    if(data.status == 1){
+                        window.location.href = '/admin/tournaments';
+                    }
+                },
+                error: function (data) {
+                    //alert(returndata);
+                }
+            });
+        }
+    },
+    ready: function () {
+        this.getData(null);
+    },
+    computed: {
+        noData: function () {
+            return this.data == undefined;
+            //return true;
+        },
+        noTeams: function () {
+            return this.teams == undefined;
+        }
+    }
+});
+
+
+

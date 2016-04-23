@@ -32,6 +32,8 @@ class Topic(BaseTopic):
 
 
 class Team(BaseTeam):
+    tournaments = models.ManyToManyField(Tournament, related_name='tournament_teams')
+
     def __unicode__(self):
         return self.name
 
@@ -99,7 +101,7 @@ class TopicComment(BaseComment):
 
 class SummonerSpells(BaseModel):
     name = models.CharField(max_length=20, unique=True)
-    picture = models.ImageField(default='http://www.fibar.cn')
+    picture = models.CharField(default='http://www.fibar.cn', max_length=100)
 
     def __unicode__(self):
         return self.name
@@ -107,7 +109,7 @@ class SummonerSpells(BaseModel):
 
 class Equipment(BaseModel):
     name = models.CharField(max_length=30, unique=True)
-    picture = models.ImageField(default='http://www.fibar.cn')
+    picture = models.CharField(default='http://www.fibar.cn', max_length=100)
 
     def __unicode__(self):
         return self.name
@@ -116,7 +118,7 @@ class Equipment(BaseModel):
 class Hero(BaseModel):
     hero = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=50, unique=True)
-    picture = models.ImageField(default='http://www.fibar.cn')
+    picture = models.CharField(default='http://www.fibar.cn', max_length=100)
 
     def __unicode__(self):
         return self.hero
@@ -129,31 +131,41 @@ class Match(BaseModel):
         (3, 'BO3'),
         (4, 'BO5')
     ]
+    status_choice = [
+        (1, '未进行'),
+        (2, '进行中'),
+        (3, '已结束')
+    ]
     name = models.CharField(max_length=100, default='默认比赛')
     match_type = models.IntegerField(default=1, choices=match_choice)
     match_time = models.DateTimeField()
     team1_score = models.IntegerField(default=0)
     team2_score = models.IntegerField(default=0)
+    team1 = models.ForeignKey(Team, related_name='team1_matches', null=True, blank=True, on_delete=models.SET_NULL)
+    team2 = models.ForeignKey(Team, related_name='team2_matches', null=True, blank=True, on_delete=models.SET_NULL)
+    tournament = models.ForeignKey(Tournament, related_name='tournament_matches', null=True, blank=True,
+                                   on_delete=models.SET_NULL)
+    status = models.IntegerField(default=1, choices=status_choice)
 
     def __unicode__(self):
         return self.name
 
 
 class Game(BaseModel):
+    game_id = models.CharField(max_length=20, unique=True)
     game_time = models.DateTimeField()
-    team1_win = models.BooleanField(default=False)
-    team2_win = models.BooleanField(default=True)
+    win = models.ForeignKey(Team, related_name='team_wins', null=True, blank=True, on_delete=models.SET_NULL)
     duration = models.IntegerField(default=0)
-    team1 = models.ForeignKey(Team, related_name='team_blue_gamees',
-                                  null=True, blank=True, on_delete=models.SET_NULL)
-    team2 = models.ForeignKey(Team, related_name='team_red_gamees',
-                                 null=True, blank=True, on_delete=models.SET_NULL)
+    team1 = models.ForeignKey(Team, related_name='team_blue_games',
+                              null=True, blank=True, on_delete=models.SET_NULL)
+    team2 = models.ForeignKey(Team, related_name='team_red_games',
+                              null=True, blank=True, on_delete=models.SET_NULL)
     match = models.ForeignKey(Match, related_name='match_games', null=True, blank=True, on_delete=models.SET_NULL)
     team1_ban = models.ManyToManyField(Hero, related_name='blue_ban_heros', null=True, blank=True)
     team2_ban = models.ManyToManyField(Hero, related_name='red_ban_heros', null=True, blank=True)
 
     def __unicode__(self):
-        return self.match_time
+        return self.game_id
 
 
 class GamePlayer(BaseModel):
@@ -161,12 +173,14 @@ class GamePlayer(BaseModel):
         (1, '蓝方'),
         (2, '红方')
     ]
-    game = models.ForeignKey(Game, related_name='game_gameps',  null=True, blank=True, on_delete=models.SET_NULL)
+    game = models.ForeignKey(Game, related_name='game_gameps', null=True, blank=True, on_delete=models.SET_NULL)
     player = models.ForeignKey(Player, related_name='player_game_players',
                                null=True, blank=True, on_delete=models.SET_NULL)
     hero = models.ForeignKey(Hero, related_name='hero_gps', null=True, blank=True, on_delete=models.SET_NULL)
-    summoner1 = models.ForeignKey(SummonerSpells, related_name='summoner1_gps', null=True, blank=True, on_delete=models.SET_NULL)
-    summoner2 = models.ForeignKey(SummonerSpells, related_name='summoner2_gps', null=True, blank=True, on_delete=models.SET_NULL)
+    summoner1 = models.ForeignKey(SummonerSpells, related_name='summoner1_gps', null=True, blank=True,
+                                  on_delete=models.SET_NULL)
+    summoner2 = models.ForeignKey(SummonerSpells, related_name='summoner2_gps', null=True, blank=True,
+                                  on_delete=models.SET_NULL)
     site = models.IntegerField(default=1, choices=site_choice)
     level = models.IntegerField(default=0)
     kill = models.IntegerField(default=0)
@@ -200,7 +214,8 @@ class TournamentTeamInfo(BaseModel):
     fail_times = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return '{0}-{1}'.format(self.team.short_name, self.tournament.name)
+        return unicode(self.id)
+        # return '{0}-{1}'.format(self.team.abbreviation, self.tournament.name)
 
 
 class PlayerInfo(BaseModel):
