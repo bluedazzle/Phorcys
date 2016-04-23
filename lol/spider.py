@@ -85,33 +85,31 @@ def get_summoner():
 
 
 def get_area():
-    new_area = Country(name='港澳台', flag='/static/image/area/1.png')
-    new_area.save()
-    new_area = Country(name='中国', flag='/static/image/area/1.png')
-    new_area.save()
-    new_area = Country(name='韩国', flag='/static/image/area/2.png')
-    new_area.save()
-    new_area = Country(name='欧洲', flag='/static/image/area/3.png')
-    new_area.save()
-    new_area = Country(name='北美', flag='/static/image/area/4.png')
-    new_area.save()
-    new_area = Country(name='其他', flag='/static/image/area/6.png')
-    new_area.save()
-    new_area = Country(name='未知', flag='/static/image/area/7.png')
-    new_area.save()
+    areas = [
+        {'name': '港澳台', 'flag': '/s/image/area/1.png'},
+        {'name': '中国', 'flag': '/s/image/area/1.png'},
+        {'name': '韩国', 'flag': '/s/image/area/2.png'},
+        {'name': '欧洲', 'flag': '/s/image/area/3.png'},
+        {'name': '北美', 'flag': '/s/image/area/4.png'},
+        {'name': '其他', 'flag': '/s/image/area/6.png'},
+        {'name': '未知', 'flag': '/s/image/area/7.png'},
+    ]
+    for itm in areas:
+        try:
+            new_area = Country(name=itm['name'], flag=itm['flag'])
+            new_area.save()
+        except Exception, e:
+            continue
 
 
 def get_position():
-    new_position = Position(title='中单')
-    new_position.save()
-    new_position = Position(title='ADC')
-    new_position.save()
-    new_position = Position(title='上单')
-    new_position.save()
-    new_position = Position(title='辅助')
-    new_position.save()
-    new_position = Position(title='打野')
-    new_position.save()
+    titles = ['中单', 'ADC', '上单', '辅助', '打野']
+    for itm in titles:
+        try:
+            new_position = Position(title=itm)
+            new_position.save()
+        except Exception, e:
+            continue
 
 
 def get_teams():
