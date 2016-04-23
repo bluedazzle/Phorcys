@@ -42,21 +42,21 @@ def save_image(url, type='lol/hero', name="default.jpg"):
     save_path = '{0}{1}'.format(UPLOAD_PATH, dir_path)
     response = requests.get(url, stream=True)
     image = response.content
-    img = Image.open(image)
-    img.save(save_path)
-    return '/s{0}'.format(dir_path), save_path
+    try:
+        img = Image.open(image)
+        img.save(save_path)
+    except:
+        return False, None
+    return True, '/s{0}'.format(dir_path)
 
 
 def upload_picture(pic_file, folder='lol'):
     pic_name = "{0}{1}".format(unicode(int(time.time())), pic_file.name)
     pic_path = '/image/upload/{0}/{1}'.format(folder, pic_name)
     save_path = UPLOAD_PATH + pic_path
-    try:
-        img = Image.open(pic_file)
-        img.save(save_path)
-    except:
-        return False, None
-    return True, '/s{0}'.format(pic_path)
+    img = Image.open(pic_file)
+    img.save(save_path)
+    return '/s{0}'.format(pic_path), save_path
 
 
 def create_game_id(type='01'):
