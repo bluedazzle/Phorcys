@@ -51,7 +51,7 @@ def get_hero():
         name = content.find('h6').text.replace(hero, '')
         if Hero.objects.filter(hero=hero).exists():
             continue
-        pic = unicode(content.find('img').attrs.get('src'))
+        pic = unicode(li.find('a').find('img').attrs.get('src'))
         new_hero = Hero()
         new_hero.hero = hero
         new_hero.name = name
