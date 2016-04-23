@@ -56,7 +56,7 @@ def get_hero():
         new_hero.hero = hero
         new_hero.name = name
         img_name = pic.split('/')[-1]
-        status, path = save_image(url, type='lol/hero', name=img_name)
+        status, path = save_image(pic, type='lol/hero', name=img_name)
         if status:
             new_hero.picture = path
         new_hero.save()
@@ -78,7 +78,7 @@ def get_summoner():
         img_name = pic.split('/')[-1]
         new_summoner = SummonerSpells()
         new_summoner.name = name
-        status, path = save_image(url, type='lol/summoner', name=img_name)
+        status, path = save_image(pic, type='lol/summoner', name=img_name)
         if status:
             new_summoner.picture = path
         new_summoner.save()

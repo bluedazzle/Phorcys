@@ -43,11 +43,12 @@ def save_image(url, type='lol/hero', name="default.jpg"):
     response = requests.get(url, stream=True)
     image = response.content
     try:
-        img = Image.open(image)
-        img.save(save_path)
-    except:
+        with open(save_path, "wb") as jpg:
+            jpg.write(image)
+            return True, '/s{0}'.format(dir_path)
+    except IOError:
+        print("IO Error\n")
         return False, None
-    return True, '/s{0}'.format(dir_path)
 
 
 def upload_picture(pic_file, folder='lol'):

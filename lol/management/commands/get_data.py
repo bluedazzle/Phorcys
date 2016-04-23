@@ -7,7 +7,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # get_hero()
         # get_equipment()
-        # get_summoner()
+        get_summoner()
         # get_area()
         # get_position()
         # get_teams()
