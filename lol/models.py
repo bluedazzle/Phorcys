@@ -8,6 +8,7 @@ from core.models import *
 
 class Position(BaseModel):
     title = models.CharField(max_length=10, unique=True)
+    code = models.IntegerField(default=1)
 
     def __unicode__(self):
         return self.title
@@ -163,16 +164,24 @@ class Game(BaseModel):
     match = models.ForeignKey(Match, related_name='match_games', null=True, blank=True, on_delete=models.SET_NULL)
     team1_ban = models.ManyToManyField(Hero, related_name='blue_ban_heros', null=True, blank=True)
     team2_ban = models.ManyToManyField(Hero, related_name='red_ban_heros', null=True, blank=True)
+    team1_total_economic = models.FloatField(default=0.0)
+    team2_total_economic = models.FloatField(default=0.0)
+    team1_kill = models.IntegerField(default=0)
+    team2_kill = models.IntegerField(default=0)
+    team1_tower = models.IntegerField(default=0)
+    team2_tower = models.IntegerField(default=0)
+    team1_dragon = models.IntegerField(default=0)
+    team2_dragon = models.IntegerField(default=0)
+    team1_nahsor = models.IntegerField(default=0)
+    team2_nahsor = models.IntegerField(default=0)
+    over = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.game_id
 
 
 class GamePlayer(BaseModel):
-    site_choice = [
-        (1, '蓝方'),
-        (2, '红方')
-    ]
+    gid = models.CharField(max_length=64, unique=True)
     game = models.ForeignKey(Game, related_name='game_gameps', null=True, blank=True, on_delete=models.SET_NULL)
     player = models.ForeignKey(Player, related_name='player_game_players',
                                null=True, blank=True, on_delete=models.SET_NULL)
@@ -181,7 +190,9 @@ class GamePlayer(BaseModel):
                                   on_delete=models.SET_NULL)
     summoner2 = models.ForeignKey(SummonerSpells, related_name='summoner2_gps', null=True, blank=True,
                                   on_delete=models.SET_NULL)
-    site = models.IntegerField(default=1, choices=site_choice)
+    team = models.ForeignKey(Team, related_name='team_gplayers', null=True, blank=True, on_delete=models.SET_NULL)
+    position = models.ForeignKey(Position, related_name='position_gplayers',
+                                 null=True, blank=True, on_delete=models.SET_NULL)
     level = models.IntegerField(default=0)
     kill = models.IntegerField(default=0)
     dead = models.IntegerField(default=0)
@@ -189,7 +200,7 @@ class GamePlayer(BaseModel):
     kda = models.FloatField(default=0.0)
     war_rate = models.FloatField(default=0.0)
     farming = models.IntegerField(default=0)
-    damage_rage = models.FloatField(default=0.0)
+    damage_rate = models.FloatField(default=0.0)
     economic = models.FloatField(default=0.0)
     equipments = models.ManyToManyField(Equipment, related_name='equipment_gps', null=True, blank=True)
     guard = models.ForeignKey(Equipment, null=True, related_name='guard_gps', blank=True, on_delete=models.SET_NULL)

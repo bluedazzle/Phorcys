@@ -30,8 +30,8 @@
                     对局 ${ newGame.game_id }}
                 </div>
                 <div class="image content">
-                    <div class="description" style="width: 500px;">
-                        <form action="" method="post" class="ui form">
+                    <div class="description ui grid" style="width: 500px;">
+                        <form action="" method="post" class="ui form seven wide column">
                             <div class="field">
                                 <label>对局时长</label>
                                 <input type="text" name="game_time" v-model="newGame.duration" placeholder="对局时长"
@@ -47,14 +47,14 @@
                             <div class="grouped fields">
                                 <label for="fruit">对局结果: ${ newGame.win }}</label>
                                 <div class="field">
-                                    <div class="ui radio checkbox">
+                                    <div class="ui radio checkbox" :class="{'checked': w1Check}">
                                         <input type="radio" name="winner" id="w1" v-model="newGame.win"
                                                value="${ match.team1.id }}" class="hidden">
                                         <label>${ match.team1.abbreviation }}</label>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <div class="ui radio checkbox">
+                                    <div class="ui radio checkbox" :class="{'checked': !w1Check}">
                                         <input type="radio" name="winner" id="w2" v-model="newGame.win"
                                                value="${ match.team2.id }}" class="hidden">
                                         <label>${ match.team2.abbreviation }}</label>
@@ -79,6 +79,45 @@
                                     </option>
                                 </select>
                             </div>
+                            <div class="inline field">
+                                <div class="ui slider checkbox">
+                                    <input type="checkbox" id="over" tabindex="0" v-model="newGame.over" class="hidden">
+                                    <label>封盘</label>
+                                </div>
+                                <label></label>
+                            </div>
+                        </form>
+                        <form action="" class="ui form seven wide column">
+                            <div class="field">
+                                <label>${ match.team1.abbreviation }} 小龙</label>
+                                <input type="number" name="game_time" v-model="newGame.team1_dragon" placeholder="小龙"
+                                       value="0">
+                            </div>
+                            <div class="field">
+                                <label>${ match.team2.abbreviation }} 小龙</label>
+                                <input type="number" name="game_time" v-model="newGame.team2_dragon" placeholder="小龙"
+                                       value="0">
+                            </div>
+                            <div class="field">
+                                <label>${ match.team1.abbreviation }} 大龙</label>
+                                <input type="number" name="game_time" v-model="newGame.team1_nahsor" placeholder="大龙"
+                                       value="0">
+                            </div>
+                            <div class="field">
+                                <label>${ match.team2.abbreviation }} 大龙</label>
+                                <input type="number" name="game_time" v-model="newGame.team2_nahsor" placeholder="大龙"
+                                       value="0">
+                            </div>
+                            <div class="field">
+                                <label>${ match.team1.abbreviation }} 推塔</label>
+                                <input type="number" name="game_time" v-model="newGame.team1_tower" placeholder="推塔"
+                                       value="0">
+                            </div>
+                            <div class="field">
+                                <label>${ match.team2.abbreviation }} 推塔</label>
+                                <input type="number" name="game_time" v-model="newGame.team2_tower" placeholder="推塔"
+                                       value="0">
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -93,12 +132,136 @@
                 </div>
             </div>
         </div>
+        <div class="ui raised very padded text segment" v-show="addDetail" transition="expand">
+            <h2 class="ui header">增加对局${ detail.game_id }}详情</h2>
+            <div class="ui divider"></div>
+            <div class="ui content grid ">
+                <form action="" class="ui form seven wide column">
+                    <div class="field">
+                        <label>选择队伍:</label>
+                        <select class="ui dropdown" @change="getPlayers" v-model="detail.team_id">
+                            <option value="">选择战队</option>
+                            <option value="${ match.team1.id }}">${ match.team1.abbreviation }}</option>
+                            <option value="${ match.team2.id }}">${ match.team2.abbreviation }}</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>选择英雄:</label>
+                        <select class="ui dropdown player search" id="sHero" v-model="detail.hero_id">
+                            <option value="">选择英雄</option>
+                            <option v-for="hero in heros" value="${ hero.id }}">${ hero.hero }}</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>选择召唤师技能1</label>
+                        <select class="ui dropdown player" id="sS1" v-model="detail.summoner1">
+                            <option value="">选择技能</option>
+                            <option v-for="summoner in summoners" value="${ summoner.id }}">${ summoner.name }}</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>选择装备</label>
+                        <select multiple="" class="ui search dropdown" id="selectEquip" v-model="detail.equipments">
+                            <option value="">选择装备</option>
+                            <option v-for="equipment in equipments" value="${ equipment.id }}">${ equipment.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>等级</label>
+                        <input type="number" class="ui input" v-model="detail.level">
+                    </div>
+                    <div class="field">
+                        <label>助攻</label>
+                        <input type="number" class="ui input" v-model="detail.assist">
+                    </div>
+                    <div class="field">
+                        <label>参战率</label>
+                        <div class="ui right labeled input">
+                            <input type="number" placeholder="参战率" v-model="detail.war_rate">
+                            <div class="ui basic label">%</div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>补兵</label>
+                        <div class="ui right labeled input">
+                            <input type="number" placeholder="补兵" v-model="detail.farming">
+                            <div class="ui basic label">个</div>
+                        </div>
+                    </div>
+                </form>
+                <form action="" class="ui form seven wide column">
+                    <div class="field">
+                        <label>选择选手</label>
+                        <select class="ui dropdown player" id="sPlayer" v-model="detail.player_id">
+                            <option value="">选择选手</option>
+                            <option v-for="player in players" value="${ player.id }}">${ player.nick }}</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>选择位置</label>
+                        <select class="ui dropdown player" id="sPosition" v-model="detail.position">
+                            <option value="">选择位置</option>
+                            <option value="1">中单</option>
+                            <option value="2">ADC</option>
+                            <option value="3">上单</option>
+                            <option value="4">辅助</option>
+                            <option value="5">打野</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>选择召唤师技能2</label>
+                        <select class="ui dropdown player" id="sS2" v-model="detail.summoner2">
+                            <option value="">选择技能</option>
+                            <option v-for="summoner in summoners" value="${ summoner.id }}">${ summoner.name }}</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>选择守卫</label>
+                        <select class="ui search dropdown player" id="sGuard" v-model="detail.guard">
+                            <option value="">选择守卫</option>
+                            <option v-for="equipment in equipments" value="${ equipment.id }}">${ equipment.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>击杀</label>
+                        <input type="number" class="ui input" v-model="detail.kill">
+                    </div>
+                    <div class="field">
+                        <label>死亡</label>
+                        <input type="number" class="ui input" v-model="detail.dead">
+                    </div>
+                    <div class="field">
+                        <label>伤害输出</label>
+                        <div class="ui right labeled input">
+                            <input type="number" placeholder="伤害输出" v-model="detail.damage_rate">
+                            <div class="ui basic label">%</div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>经济</label>
+                        <div class="ui right labeled input">
+                            <input type="number" placeholder="经济" v-model="detail.economic">
+                            <div class="ui basic label">k</div>
+                        </div>
+                    </div>
+                    <div class="align-right">
+                        <div class="ui gray button" @click="cancelDetail">取消</div>
+                        <div class="ui green button" @click="saveDetail">保存</div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div v-show="noData" class="ui active inverted dimmer">
             <div class="ui text loader">Loading</div>
         </div>
         <div class="ui styled fluid accordion">
             <div v-for="(index, game) in games">
-                <div class="title"><i class="dropdown icon"></i>对局ID: ${ game.game_id }} 对局时间: ${ game.game_time }} 时长: ${ game.duration }}分钟 结果: ${ game.win.abbreviation }} 赢
+                <div class="title" @click="getDetail" id="detail${ game.game_id }}"><i class="dropdown icon"></i>对局ID:
+                    ${ game.game_id }} 对局时间: ${ game.game_time }} 时长:
+                    ${ game.duration }}分钟 结果: ${ game.win.abbreviation }} 赢 <i v-if="games[index].over"
+                                                                               class="ui red tag label">已封盘</i>
                 </div>
                 <div class="content">
                     <div class="ui grid">
@@ -121,21 +284,153 @@
                         </a>
                         <div class="seven wide column">
                             <div class="ui blue button" @click="modifyGame($event)" id="add${ index }}">编辑</div>
-                            <div class="ui blue button">增加详情</div>
+                            <div class="ui blue button" @click="createDetail($event)" id="addDetail${ index }}">增加详情
+                            </div>
                             <div class="ui red button">删除</div>
                         </div>
                     </div>
                     <div class="ui grid">
-                        <div class="five wide column">
+                        <div class="four wide column">
                             ${ game.team1.abbreviation }} BAN:
-                            <img v-for="hero in game.team1_bans" src="${ hero.picture }}" alt="">
+                            <div class="ui horizontal list">
+                                <div class="item" v-for="hero in game.team1_bans">
+                                    <img class="ui mini circular image" src="${ hero.picture }}">
+                                    <div class="content">
+                                        <div class="ui sub header">${ hero.hero }}</div>
+                                        ${ hero.name }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="four wide column"></div>
-                        <div class="five wide column">
+                        <div class="two wide column"></div>
+                        <div class="four wide column">
                             ${ game.team2.abbreviation }} BAN:
-                            <img v-for="hero in game.team2_bans" src="${ hero.picture }}" alt="">
+                            <div class="ui horizontal list">
+                                <div class="item" v-for="hero in game.team2_bans">
+                                    <img class="ui mini circular image" src="${ hero.picture }}">
+                                    <div class="content">
+                                        <div class="ui sub header">${ hero.hero }}</div>
+                                        ${ hero.name }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="ui grid">
+                        <div class="four wide column">
+                            总击杀: ${ game.team1_kill }}
+                            总经济: ${ game.team1_total_economic }}k
+                            总推塔: ${ game.team1_tower }}
+                            大龙: ${ game.team1_nahsor }}
+                            小龙: ${ game.team1_dragon }}
+                        </div>
+                        <div class="two wide column"></div>
+                        <div class="four wide column">
+                            总击杀: ${ game.team2_kill }}
+                            总经济: ${ game.team2_total_economic }}k
+                            总推塔: ${ game.team2_tower }}
+                            大龙: ${ game.team2_nahsor }}
+                            小龙: ${ game.team2_dragon }}
+                        </div>
+                    </div>
+                    <div v-if="noDetails" class="ui active centered inline loader"></div>
+                    <table v-else="noDetails" class="ui celled selectable table">
+                        <thead>
+                        <tr>
+                            <th>战队</th>
+                            <th>选手</th>
+                            <th>英雄</th>
+                            <th>位置</th>
+                            <th>召唤师技能</th>
+                            <th>守卫</th>
+                            <th>装备</th>
+                            <th>等级</th>
+                            <th>击杀</th>
+                            <th>死亡</th>
+                            <th>助攻</th>
+                            <th>参战率</th>
+                            <th>补刀</th>
+                            <th>经济</th>
+                            <th>输出</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(sindex, detail) in details" translate="expand">
+                            <td>
+                                ${ detail.team.abbreviation }}
+                            </td>
+                            <td>${ detail.player.nick }}</td>
+                            <td>
+                                <h4 class="ui image header">
+                                    <img src="${ detail.hero.picture }}" class="ui mini rounded image">
+                                    <div class="content">${ detail.hero.hero }}
+                                        <div class="sub header">
+                                            ${ detail.hero.name }}
+                                        </div>
+                                    </div>
+                                </h4>
+                            </td>
+                            <td>
+                                ${ detail.position.title }}
+                            </td>
+                            <td>
+                                <h4 class="ui image header">
+                                    <img src="${ detail.summoner1.picture }}" alt="" class="ui mini rounded image">
+                                    <img src="${ detail.summoner2.picture }}" alt="" class="ui mini rounded image">
+                                </h4>
+                            </td>
+                            <td>
+                                <img src="${ detail.guard.picture }}" class="ui mini rounded image" alt="">
+                            </td>
+                            <td>
+                                <h4 class="ui image header">
+                                    <img v-for="equipment in detail.equipment_list" src="${ equipment.picture }}"
+                                         class="ui mini rounded image" alt="">
+                                </h4>
+                            </td>
+                            <td>${ detail.level }}</td>
+                            <td>${ detail.kill }}</td>
+                            <td>${ detail.dead }}</td>
+                            <td>${ detail.assist }}</td>
+                            <td>${ detail.war_rate }}%</td>
+                            <td>${ detail.farming }}</td>
+                            <td>${ detail.economic }}k</td>
+                            <td>${ detail.damage_rate }}%</td>
+                            <td>
+                                <button class="ui small blue button" id="dm${ detail.gid }},${ detail.game.game_id }},${ sindex }}" @click="modifyDetail">修改</button>
+                                <button class="ui small red labeled icon button" onclick="deletePlayer(1)"><i
+                                        class="icon delete"></i>删除
+                                </button>
+                                <div class="ui basic modal" id="delModal1">
+                                    <i class="close icon"></i>
+                                    <div class="header">
+                                        删除选手 XX
+                                    </div>
+                                    <div class="image content">
+                                        <div class="image">
+                                            <i class="remove user icon"></i>
+                                        </div>
+                                        <div class="description">
+                                            <p>情确认,您要删除选手 XX 吗?</p>
+                                        </div>
+                                    </div>
+                                    <div class="actions">
+                                        <div class="two fluid ui inverted buttons">
+                                            <div class="ui red basic inverted button">
+                                                <i class="remove icon"></i>
+                                                废话
+                                            </div>
+                                            <div class="ui green basic inverted button">
+                                                <i class="checkmark icon"></i>
+                                                不不,点错了
+                                            </div>
+                                        </div>
+                                    </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -147,4 +442,9 @@
     <script src="http://cdn.bootcss.com/moment.js/2.11.2/moment.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/s/js/src/match.js"></script>
+    <script>
+        $('#sss').on('click', function () {
+            $('#w1').checkbox('check');
+        });
+    </script>
 {% endblock %}

@@ -12,7 +12,7 @@
 <nav id="vBase" class="ui menu" style="margin: -1px 0;">
     <div class="ui header item">Bolo Admin</div>
     <div class=" right menu">
-        <div id="dropdown" class="ui dropdown item">
+        <div id="admin_dropdown" class="ui dropdown item">
             <img class="ui mini circular image" src="/s/image/site/elyse.png">
             <div class="content" v-cloak>
                 <div class="ui sub header">管理员</div>
@@ -49,6 +49,9 @@
 <script src="/s/js/src/http.js"></script>
 <script src="/s/js/src/base.js"></script>
 <script>
+    $('#admin_dropdown').dropdown({
+        on: 'hover'
+    });
 </script>
 {% block script %}
 {% endblock %}

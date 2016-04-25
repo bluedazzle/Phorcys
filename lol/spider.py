@@ -104,9 +104,9 @@ def get_area():
 
 def get_position():
     titles = ['中单', 'ADC', '上单', '辅助', '打野']
-    for itm in titles:
+    for i, itm in enumerate(titles):
         try:
-            new_position = Position(title=itm)
+            new_position = Position(title=itm, code=(i+1))
             new_position.save()
         except Exception, e:
             continue

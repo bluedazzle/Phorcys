@@ -10,4 +10,5 @@ urlpatterns = patterns('',
                        url(r'^tournament/(?P<tid>(\d)+)/match', AdminMatchView.as_view()),
                        url(r'^tournaments', AdminTournamentListView.as_view()),
                        url(r'^tournament', AdminTournamentView.as_view()),
+                       url(r'^game', AdminGameDetailView.as_view()),
                        )

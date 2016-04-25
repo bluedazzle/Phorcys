@@ -11,7 +11,8 @@ from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, Jso
 
 # Create your views here.
 from core.dss.Serializer import serializer
-from lol.models import News, NewsComment, Topic, Player, Team, Tournament, Weibo, Match, TournamentTeamInfo, Game, Hero
+from lol.models import News, NewsComment, Topic, Player, Team, Tournament, Weibo, Match, TournamentTeamInfo, Game, Hero, \
+    SummonerSpells, Equipment, GamePlayer
 from lol.forms import *
 from myuser.models import EUser
 
@@ -229,6 +230,14 @@ class TeamDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Det
     foreign = True
     pk_url_kwarg = 'id'
 
+    def get_object(self, queryset=None):
+        obj = super(TeamDetailView, self).get_object()
+        if self.request.GET.get('add_player'):
+            player_list = Player.objects.filter(belong=obj)
+            if player_list.exists():
+                setattr(obj, 'player_list', player_list)
+        return obj
+
 
 class PlayerListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     """
@@ -315,11 +324,28 @@ class MatchDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, De
     pk_url_kwarg = 'id'
 
     def get_context_data(self, **kwargs):
-        game_list = Game.objects.filter(match=self.object)
+        game_list = Game.objects.filter(match=self.object).order_by('-create_time')
         context = super(MatchDetailView, self).get_context_data(**kwargs)
         map(self.get_ban_list, game_list)
+        # map(self.get_game_detail, game_list)
         context['game_list'] = game_list
         return context
+
+    # def get_game_detail(self, game):
+    #     detail_list = game.game_gameps.all().order_by('team_id')
+    #     if detail_list:
+    #         for itm in detail_list:
+    #             equipments = itm.equipments.all()
+    #             position = itm.position
+    #             itm.position = position
+    #             summoner1 = itm.summoner1
+    #             summoner2 = itm.summoner2
+    #             setattr(itm, 'equipments', equipments)
+    #             setattr(itm, 'summoner1', summoner1)
+    #             setattr(itm, 'summoner2', summoner2)
+    #         setattr(game, 'detail_list', detail_list)
+    #     else:
+    #         setattr(game, 'detail_list', None)
 
     def get_ban_list(self, game):
         team1_ban = game.team1_ban.all()
@@ -332,6 +358,31 @@ class MatchDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, De
             setattr(game, 'team2_bans', team2_ban)
         else:
             setattr(game, 'team2_bans', None)
+
+
+class GameDetailView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    """
+    对局详情
+    """
+
+    model = GamePlayer
+    http_method_names = ['get']
+    foreign = True
+
+    def get_queryset(self):
+        queryset = super(GameDetailView, self).get_queryset()
+        game_id = self.kwargs.get('gid', '')
+        game = Game.objects.get(game_id=game_id)
+        queryset = queryset.filter(game=game)
+        map(self.get_equipments, queryset)
+        return queryset
+
+    def get_equipments(self, detail):
+        equipments = detail.equipments.all()
+        if equipments.exists():
+            setattr(detail, 'equipment_list', equipments)
+        else:
+            setattr(detail, 'equipment_list', None)
 
 
 class CommentCreateView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, CreateView):
@@ -479,3 +530,28 @@ class HeroListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
         if all:
             self.paginate_by = 0
         return super(HeroListView, self).get(request, *args, **kwargs)
+
+
+class SummonerListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    """
+    召唤师技能列表
+    """
+
+    model = SummonerSpells
+    include_attr = ['picture', 'id', 'name']
+
+
+class EquipmentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    """
+    装备列表
+    """
+
+    include_attr = ['picture', 'id', 'name']
+    model = Equipment
+    paginate_by = 20
+
+    def get(self, request, *args, **kwargs):
+        all = request.GET.get('all')
+        if all:
+            self.paginate_by = 0
+        return super(EquipmentListView, self).get(request, *args, **kwargs)

@@ -11,11 +11,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 
 # Create your views here.
+from django.utils.timezone import get_current_timezone
 from django.views.generic import UpdateView, DetailView, TemplateView, ListView, RedirectView, View, CreateView
 from django.views.generic.base import TemplateResponseMixin
 
 from core.utils import upload_picture, create_game_id
-from lol.models import News, Tournament, Team, Player, Topic, TournamentTeamInfo, Match, Game, Hero
+from lol.models import News, Tournament, Team, Player, Topic, TournamentTeamInfo, Match, Game, Hero, GamePlayer, \
+    SummonerSpells, Equipment, Position
 from myadmin.forms import AdminLoginForm
 from myadmin.models import EAdmin
 from myuser.models import EUser
@@ -212,13 +214,13 @@ class AdminGameView(CheckSecurityMixin,
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
-        print request.POST
         mid = unicode(kwargs.get('mid'))
         if mid:
             match = Match.objects.filter(id=mid)
             if match.exists():
                 match = match[0]
-                game_time = datetime.datetime.strptime(unicode(request.POST.get('game_time')), '%Y-%m-%d %H:%M:%S')
+                game_time = datetime.datetime.strptime(unicode(request.POST.get('game_time')), '%Y-%m-%d %H:%M:%S') \
+                    .replace(tzinfo=get_current_timezone())
                 win = unicode(request.POST.get('win'))
                 win = Team.objects.get(id=win)
                 duration = int(request.POST.get('duration'))
@@ -226,7 +228,14 @@ class AdminGameView(CheckSecurityMixin,
                 tid2 = request.POST.get('team2')
                 team1 = Team.objects.get(id=tid1)
                 team2 = Team.objects.get(id=tid2)
+                team1_tower = int(request.POST.get('team1_tower', 0))
+                team2_tower = int(request.POST.get('team1_tower', 0))
+                team1_dragon = int(request.POST.get('team1_dragon', 0))
+                team2_dragon = int(request.POST.get('team2_dragon', 0))
+                team1_nashor = int(request.POST.get('team1_nahsor', 0))
+                team2_nashor = int(request.POST.get('team2_nahsor', 0))
                 game_id = request.POST.get('game_id')
+                over = request.POST.get('over')
                 if game_id:
                     game = Game.objects.filter(game_id=game_id)
                     if game.exists():
@@ -235,6 +244,13 @@ class AdminGameView(CheckSecurityMixin,
                         game.game_time = game_time
                         game.win = win
                         game.duration = duration
+                        game.over = over
+                        game.team1_dragon = team1_dragon
+                        game.team2_dragon = team2_dragon
+                        game.team1_tower = team1_tower
+                        game.team2_tower = team2_tower
+                        game.team1_nahsor = team1_nashor
+                        game.team2_nahsor = team2_nashor
                         game.save()
                 else:
                     game_id = create_game_id()
@@ -244,7 +260,14 @@ class AdminGameView(CheckSecurityMixin,
                                     win=win,
                                     duration=duration,
                                     team1=team1,
-                                    team2=team2
+                                    team2=team2,
+                                    team1_nahsor=team1_nashor,
+                                    team2_nahsor=team2_nashor,
+                                    team1_tower=team1_tower,
+                                    team2_tower=team2_tower,
+                                    team1_dragon=team1_dragon,
+                                    team2_dragon=team2_dragon,
+                                    over=over
                                     )
                     new_game.save()
                 game = Game.objects.get(game_id=game_id)
@@ -266,3 +289,66 @@ class AdminGameView(CheckSecurityMixin,
         self.secret = ERROR_DATA
         return self.render_to_response(dict())
 
+
+class AdminGameDetailView(CheckSecurityMixin,
+                          StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DetailView):
+    model = GamePlayer
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        gid = request.POST.get('game_id')
+        tid = request.POST.get('team_id')
+        pid = request.POST.get('player_id')
+        hid = request.POST.get('hero_id')
+        if gid and tid and pid and hid:
+            game = Game.objects.get(game_id=gid)
+            team = Team.objects.get(id=tid)
+            player = Player.objects.get(id=pid)
+            hero = Hero.objects.get(id=hid)
+            code = request.POST.get('position')
+            summoner1 = SummonerSpells.objects.get(id=request.POST.get('summoner1'))
+            summoner2 = SummonerSpells.objects.get(id=request.POST.get('summoner2'))
+            guard = Equipment.objects.get(id=request.POST.get('guard'))
+            level = request.POST.get('level', 0)
+            kill = request.POST.get('kill', 0)
+            dead = request.POST.get('dead', 0)
+            assist = request.POST.get('assist', 0)
+            war_rate = request.POST.get('war_rate', 0)
+            damage_rate = request.POST.get('damage_rate', 0)
+            farming = request.POST.get('farming', 0)
+            economic = request.POST.get('economic', 0)
+            game_player_id = request.POST.get('game_player_id', '')
+            gid = '{0}{1}'.format(gid, len(game.game_gameps.all()) + 1)
+            if GamePlayer.objects.filter(gid=game_player_id).exists():
+                game_player = GamePlayer.objects.get(gid=game_player_id)
+            else:
+                game_player = GamePlayer()
+            game_player.gid = gid
+            game_player.game = game
+            game_player.team = team
+            game_player.player = player
+            game_player.hero = hero
+            game_player.position = Position.objects.get(code=code)
+            game_player.summoner1 = summoner1
+            game_player.summoner2 = summoner2
+            game_player.guard = guard
+            game_player.level = level
+            game_player.kill = kill
+            game_player.dead = dead
+            game_player.assist = assist
+            game_player.war_rate = war_rate
+            game_player.damage_rate = damage_rate
+            game_player.farming = farming
+            game_player.economic = economic
+            game_player.save()
+            equips = request.POST.get('equipments')
+            if len(equips) > 0:
+                game_player.equipments.clear()
+                for equip in equips:
+                    equipment = Equipment.objects.get(id=equip)
+                    game_player.equipments.add(equipment)
+            game_player.save()
+            return self.render_to_response(dict())
+        self.message = 'ERROR'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
