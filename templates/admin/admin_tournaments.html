@@ -11,12 +11,15 @@
         </div>
         <div class="ui divider"></div>
         <div style="margin-bottom: 100px;">
-            <div class="ui left floated small primary labeled icon button" @click="getTeams" onclick="addPlayer()"><i
-                    class="game icon"></i> 新赛事
+            <div class="ui left floated small primary labeled icon button"  onclick="addPlayer()"><i
+                    class="game icon"></i> 新的赛事主题
+            </div>
+            <div class="ui left floated small primary labeled icon button" @click="getTeams" onclick="addTmodel()"><i
+                    class="game icon"></i> 新的赛事
             </div>
             <div class="ui modal scrolling" id="addModal">
                 <div class="header">
-                    新赛事
+                    新的赛事主题
                 </div>
                 <div class="image content">
                     <div class="ui medium image">
@@ -47,15 +50,44 @@
                                 <input type="text" id="end_time" v-model="newTournament.end_time" class="ui dropdown"
                                        name="end_time" placeholder="结束时间">
                             </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui black deny button">
+                        算了
+                    </div>
+                    <div class="ui positive right labeled icon button" @click="createNewTournamentTheme">
+                        好了
+                        <i class="checkmark icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="ui modal scrolling" id="addTModal">
+                <div class="header">
+                    新的赛事
+                </div>
+                <div class="ui content">
+                        <form action="" method="post" class="ui form">
+                            <div class="field">
+                                <label>赛事名称</label>
+                                <input type="text" name="name" v-model="nt.name" placeholder="赛事名称">
+                            </div>
+                            <div class="field">
+                                <label for="">属于赛事</label>
+                                <select name="" id="" v-model="nt.ttid" class="ui dropdown">
+                                    <option value="">选择赛事</option>
+                                    <option v-for="tt in tts" value="${ tt.id }}">${ tt.name }}</option>
+                                </select>
+                            </div>
                             <div class="field">
                                 <label>参赛战队</label>
-                                <select multiple="" v-model="newTournament.teams" class="ui search dropdown">
+                                <select multiple="" v-model="nt.teams" class="ui search dropdown">
                                     <option value="">选择战队</option>
                                     <option v-for="team in teams" value="${ team.id }}">${ team.abbreviation }}</option>
                                 </select>
                             </div>
                         </form>
-                    </div>
                 </div>
                 <div class="actions">
                     <div class="ui black deny button">
@@ -88,8 +120,7 @@
                             <img src="${ tournament.cover }}" style="height: 290px;">
                         </div>
                         <div class="content">
-                            <a class="header" style="font-size: 1.5em;" href="/admin/tournament/${ tournament.id }}">${
-                                tournament.name }}</a>
+                            <a class="header" style="font-size: 1.5em;" href="/admin/tournament/${ tournament.id }}">${ tournament.name }}</a>
                             <div class="meta">
                                 <span class="date" style="font-size: 0.9em;">当前: ${ tournament.team_numbers }}支队伍 ${ tournament.match_numbers }} 局比赛</span>
                             </div>

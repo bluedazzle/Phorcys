@@ -14,6 +14,14 @@ function addPlayer() {
         .modal('setting', 'transition', 'horizontal flip')
         .modal('show');
 };
+function addTmodel() {
+    $('#addTModal')
+        .modal('setting', 'closable', false)
+        .modal('setting', 'transition', 'horizontal flip')
+        .modal('show');
+};
+
+
 $(document).on('change', '.btn-file :file', function () {
     var input = $(this),
         numFiles = input.get(0).files ? input.get(0).files.length : 1,
@@ -45,8 +53,8 @@ $('.ui.accordion')
     .accordion()
 ;
 $('.dropdown').dropdown({
-        on: 'hover'
-    });
+    on: 'hover'
+});
 
 Vue.config.delimiters = ['${', '}}'];
 var vm = new Vue({
@@ -55,8 +63,12 @@ var vm = new Vue({
         newTournament: {
             name: '',
             start_time: '',
-            end_time: '',
-            teams: [],
+            end_time: ''
+        },
+        nt: {
+            name: '',
+            ttid: '',
+            teams: []
         }
     },
     methods: {
@@ -80,6 +92,7 @@ var vm = new Vue({
             })
         },
         getTeams: function (event) {
+            this.getTT(null);
             if (this.noTeams) {
                 url = generateUrl('api/v1/lol/teams') + '&all=1';
                 this.$http.get(url, function (data) {
@@ -89,27 +102,42 @@ var vm = new Vue({
                 })
             }
         },
+        getTT: function (event) {
+            url = generateUrlWithToken('admin/api/tournamenttheme', getCookie('token'));
+            this.$http.get(url, function (data) {
+                if (data.status == 1) {
+                    this.$set('tts', data.body.tournamenttheme_list)
+                }
+            })
+        },
         getFile: function (event) {
             var file = event.target.files[0];
             this.newTournament.cover = file;
         },
         createNewTournament: function (event) {
             url = generateUrlWithToken('admin/api/tournament', getCookie('token'));
+            this.$http.post(url, this.nt, function (data) {
+                if (data.status == 1) {
+                    this.getData(null);
+                }
+            })
+        },
+        createNewTournamentTheme: function (event) {
+            url = generateUrlWithToken('admin/api/tournamenttheme', getCookie('token'));
             var formData = new FormData($("#form1")[0]);
             formData.append('name', this.newTournament.name);
             formData.append('start_time', this.newTournament.start_time);
             formData.append('end_time', this.newTournament.end_time);
-            formData.append('teams', this.newTournament.teams);
             $.ajax({
                 url: url,
                 type: 'POST',
                 data: formData,
                 processData: false,
-                contentType : false,
+                contentType: false,
                 success: function (data) {
-                    if(data.status == 1){
-                        window.location.href = '/admin/tournaments';
-                    }
+                    //if (data.status == 1) {
+                    //    window.location.href = '/admin/tournaments';
+                    //}
                 },
                 error: function (data) {
                     //alert(returndata);

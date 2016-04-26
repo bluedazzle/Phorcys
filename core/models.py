@@ -30,7 +30,7 @@ class BaseNews(BaseModel):
         abstract = True
 
 
-class  BaseTournament(BaseModel):
+class BaseTournament(BaseModel):
     name = models.CharField(max_length=100, unique=True)
     start_time = models.DateField()
     end_time = models.DateField()

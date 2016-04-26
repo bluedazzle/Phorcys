@@ -12,7 +12,7 @@ from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, Jso
 # Create your views here.
 from core.dss.Serializer import serializer
 from lol.models import News, NewsComment, Topic, Player, Team, Tournament, Weibo, Match, TournamentTeamInfo, Game, Hero, \
-    SummonerSpells, Equipment, GamePlayer
+    SummonerSpells, Equipment, GamePlayer, TournamentTheme
 from lol.forms import *
 from myuser.models import EUser
 
@@ -287,13 +287,13 @@ class TournamentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonRespon
     联赛列表
     """
 
-    model = Tournament
+    model = TournamentTheme
     http_method_names = ['get']
     exclude_attr = ['modify_time', 'create_time']
     paginate_by = 20
 
 
-class TournamentDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+class TournamentDetailView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     """
     联赛详情
     """
@@ -303,14 +303,58 @@ class TournamentDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixi
     exclude_attr = ['modify_time']
     foreign = True
     pk_url_kwarg = 'id'
+    object = None
+    is_tournament = None
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        pk = self.kwargs.get(self.pk_url_kwarg, None)
+        queryset = queryset.filter(pk=pk)
+        try:
+            obj = queryset.get()
+        except Exception, e:
+            self.message = 'no data'
+            self.status_code = INFO_NO_EXIST
+        return obj
+
+    def get(self, request, *args, **kwargs):
+        self.is_tournament = request.GET.get('ist')
+        if self.is_tournament:
+            self.object_list = self.get_queryset()
+            self.object = self.get_object()
+            context = self.get_context_data(object=self.object)
+            return self.render_to_response(context)
+        else:
+            return super(TournamentDetailView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        match_list = Match.objects.filter(tournament=self.object)
-        team_list = self.object.tournament_teams.all()
         context = super(TournamentDetailView, self).get_context_data(**kwargs)
-        context['match_list'] = match_list
-        context['team_list'] = team_list
-        return context
+        if self.is_tournament:
+            match_list = Match.objects.filter(tournament=self.object)
+            team_list = self.object.tournament_teams.all()
+            context['tournament'] = self.object
+            del context['tournament_list']
+            context['match_list'] = match_list
+            context['team_list'] = team_list
+            return context
+        else:
+            tournament_list = context['tournament_list']
+            pk = self.kwargs.get(self.pk_url_kwarg, None)
+            tt = TournamentTheme.objects.filter(id=pk)
+            if tt.exists():
+                tournament_list = tournament_list.filter(belong=tt)
+                map(self.get_match_and_team, tournament_list)
+                context['tournament_list'] = tournament_list
+                return context
+            self.message = 'no data'
+            self.status_code = INFO_NO_EXIST
+            return dict()
+
+    def get_match_and_team(self, tournament):
+        match_list = Match.objects.filter(tournament=tournament)
+        team_list = tournament.tournament_teams.all()
+        setattr(tournament, 'match_list', match_list)
+        setattr(tournament, 'team_list', team_list)
 
 
 class MatchDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
@@ -373,7 +417,7 @@ class GameDetailView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMi
         queryset = super(GameDetailView, self).get_queryset()
         game_id = self.kwargs.get('gid', '')
         game = Game.objects.get(game_id=game_id)
-        queryset = queryset.filter(game=game)
+        queryset = queryset.filter(game=game).order_by('team_id', '-create_time')
         map(self.get_equipments, queryset)
         return queryset
 

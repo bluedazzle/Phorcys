@@ -12,12 +12,13 @@ from django.shortcuts import render, render_to_response
 
 # Create your views here.
 from django.utils.timezone import get_current_timezone
-from django.views.generic import UpdateView, DetailView, TemplateView, ListView, RedirectView, View, CreateView
+from django.views.generic import UpdateView, DetailView, TemplateView, ListView, RedirectView, View, CreateView, \
+    DeleteView
 from django.views.generic.base import TemplateResponseMixin
 
 from core.utils import upload_picture, create_game_id
 from lol.models import News, Tournament, Team, Player, Topic, TournamentTeamInfo, Match, Game, Hero, GamePlayer, \
-    SummonerSpells, Equipment, Position
+    SummonerSpells, Equipment, Position, TournamentTheme
 from myadmin.forms import AdminLoginForm
 from myadmin.models import EAdmin
 from myuser.models import EUser
@@ -120,16 +121,20 @@ class AdminTournamentListView(CheckSecurityMixin,
                               StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     model = Tournament
     http_method_names = ['get']
+    foreign = True
     context_object_name = 'tournaments'
-    include_attr = ['name', 'start_time', 'end_time', 'cover', 'match_numbers', 'team_numbers', 'id', 'percent']
+    include_attr = ['name', 'start_time', 'end_time', 'cover', 'match_numbers', 'team_numbers', 'id', 'percent',
+                    'belong']
 
     def get_queryset(self):
         today = datetime.date.today()
-        activity_tournaments = Tournament.objects.filter(end_time__gte=today) \
-            .annotate(team_numbers=Count('team_tournaments')).annotate(match_numbers=Count('tournament_matches'))
-        finished_tournaments = Tournament.objects.filter(end_time__lt=today) \
-            .annotate(team_numbers=Count('team_tournaments')).annotate(match_numbers=Count('tournament_matches'))
+        activity_tournaments = Tournament.objects.filter(end_time__gte=today)
+        # .annotate(team_numbers=Count('team_tournaments')).annotate(match_numbers=Count('tournament_matches'))
+        finished_tournaments = Tournament.objects.filter(end_time__lt=today)
+        # .annotate(team_numbers=Count('team_tournaments')).annotate(match_numbers=Count('tournament_matches'))
         map(self.get_percent, activity_tournaments)
+        map(self.get_extra_number, activity_tournaments)
+        map(self.get_extra_number, finished_tournaments)
         tournaments = {'activity_tournaments': activity_tournaments,
                        'finished_tournaments': finished_tournaments}
         return tournaments
@@ -147,11 +152,17 @@ class AdminTournamentListView(CheckSecurityMixin,
             percent = 0
         setattr(tournament, 'percent', percent)
 
+    def get_extra_number(self, tournament):
+        tn = tournament.team_tournaments.all().count()
+        setattr(tournament, 'team_numbers', tn)
+        mn = tournament.tournament_matches.all().count()
+        setattr(tournament, 'match_numbers', mn)
 
-class AdminTournamentView(CheckSecurityMixin,
-                          StatusWrapMixin, JsonResponseMixin, JsonRequestMixin, DetailView):
-    model = Tournament
-    http_method_names = ['post']
+
+class AdminTournamentThemeView(CheckSecurityMixin,
+                               StatusWrapMixin, MultipleJsonResponseMixin, JsonRequestMixin, ListView):
+    model = TournamentTheme
+    http_method_names = ['post', 'get']
 
     def post(self, request, *args, **kwargs):
         img = request.FILES.get('img')
@@ -160,22 +171,48 @@ class AdminTournamentView(CheckSecurityMixin,
             name = request.POST.get('name')
             start_time = datetime.datetime.strptime(unicode(request.POST.get('start_time')), "%Y-%m-%d")
             end_time = datetime.datetime.strptime(unicode(request.POST.get('end_time')), "%Y-%m-%d")
-            teams = request.POST.get('teams').split(',')
-            Tournament(
+            # teams = request.POST.get('teams').split(',')
+            TournamentTheme(
                 name=name,
                 start_time=start_time,
                 end_time=end_time,
                 cover=re_path
             ).save()
-            tournament = Tournament.objects.get(name=name)
-            for tid in teams:
-                team = Team.objects.filter(id=tid)
-                if team.exists():
-                    team = team[0]
-                    TournamentTeamInfo(team=team,
-                                       tournament=tournament).save()
-                    team.tournaments.add(tournament)
+            # tournament = TournamentTheme.objects.get(name=name)
+            # for tid in teams:
+            #     team = Team.objects.filter(id=tid)
+            #     if team.exists():
+            #         team = team[0]
+            #         TournamentTeamInfo(team=team,
+            #                            tournament=tournament).save()
+            #         team.tournaments.add(tournament)
             return self.render_to_response(dict())
+
+
+class AdminTournamentView(CheckSecurityMixin,
+                          StatusWrapMixin, JsonResponseMixin, JsonRequestMixin, DetailView):
+    model = Tournament
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        ttid = request.POST.get('ttid')
+        tt = TournamentTheme.objects.get(id=ttid)
+        name = '{0}-{1}'.format(tt.name, request.POST.get('name'))
+        teams = request.POST.get('teams')
+        Tournament(name=name,
+                   start_time=tt.start_time,
+                   end_time=tt.end_time,
+                   cover=tt.cover,
+                   belong=tt).save()
+        tournament = Tournament.objects.get(name=name)
+        for tid in teams:
+            team = Team.objects.filter(id=tid)
+            if team.exists():
+                team = team[0]
+                TournamentTeamInfo(team=team,
+                                   tournament=tournament).save()
+                team.tournaments.add(tournament)
+        return self.render_to_response(dict())
 
 
 class AdminMatchView(CheckSecurityMixin,
@@ -208,6 +245,42 @@ class AdminMatchView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
+class AdminGameDeleteView(CheckSecurityMixin,
+                          StatusWrapMixin, JsonResponseMixin, DeleteView):
+    model = Game
+    http_method_names = ['delete']
+    pk_url_kwarg = 'gid'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return self.render_to_response(dict())
+
+
+class AdminGamePlayerDeleteView(CheckSecurityMixin,
+                                StatusWrapMixin, JsonResponseMixin, DeleteView):
+    model = GamePlayer
+    http_method_names = ['delete']
+    pk_url_kwarg = 'gpid'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return self.render_to_response(dict())
+
+
+class AdminMatchDeleteView(CheckSecurityMixin,
+                           StatusWrapMixin, JsonResponseMixin, DeleteView):
+    model = Match
+    http_method_names = ['delete']
+    pk_url_kwarg = 'mid'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return self.render_to_response(dict())
+
+
 class AdminGameView(CheckSecurityMixin,
                     StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DetailView):
     model = Game
@@ -221,13 +294,16 @@ class AdminGameView(CheckSecurityMixin,
                 match = match[0]
                 game_time = datetime.datetime.strptime(unicode(request.POST.get('game_time')), '%Y-%m-%d %H:%M:%S') \
                     .replace(tzinfo=get_current_timezone())
-                win = unicode(request.POST.get('win'))
-                win = Team.objects.get(id=win)
                 duration = int(request.POST.get('duration'))
                 tid1 = request.POST.get('team1')
                 tid2 = request.POST.get('team2')
                 team1 = Team.objects.get(id=tid1)
                 team2 = Team.objects.get(id=tid2)
+                win = request.POST.get('win')
+                if win:
+                    win = Team.objects.get(id=win)
+                else:
+                    win = Team.objects.get(id=tid1)
                 team1_tower = int(request.POST.get('team1_tower', 0))
                 team2_tower = int(request.POST.get('team1_tower', 0))
                 team1_dragon = int(request.POST.get('team1_dragon', 0))
@@ -271,8 +347,12 @@ class AdminGameView(CheckSecurityMixin,
                                     )
                     new_game.save()
                 game = Game.objects.get(game_id=game_id)
-                team1_ban_list = request.POST.get('team1_ban')
-                team2_ban_list = request.POST.get('team2_ban')
+                team1_ban_list = request.POST.get('team1_ban', [])
+                team2_ban_list = request.POST.get('team2_ban', [])
+                if "" in team1_ban_list:
+                    team1_ban_list = None
+                if "" in team2_ban_list:
+                    team2_ban_list = None
                 if team1_ban_list:
                     game.team1_ban.clear()
                     for hid in team1_ban_list:
@@ -323,7 +403,7 @@ class AdminGameDetailView(CheckSecurityMixin,
                 game_player = GamePlayer.objects.get(gid=game_player_id)
             else:
                 game_player = GamePlayer()
-            game_player.gid = gid
+                game_player.gid = gid
             game_player.game = game
             game_player.team = team
             game_player.player = player
@@ -342,7 +422,7 @@ class AdminGameDetailView(CheckSecurityMixin,
             game_player.economic = economic
             game_player.save()
             equips = request.POST.get('equipments')
-            if len(equips) > 0:
+            if len(equips) > 0 and "" not in equips:
                 game_player.equipments.clear()
                 for equip in equips:
                     equipment = Equipment.objects.get(id=equip)

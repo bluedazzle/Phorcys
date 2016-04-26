@@ -19,7 +19,15 @@ class News(BaseNews):
         return self.title
 
 
+class TournamentTheme(BaseTournament):
+    def __unicode__(self):
+        return self.name
+
+
 class Tournament(BaseTournament):
+    belong = models.ForeignKey(TournamentTheme, related_name='theme_tournaments', null=True, blank=True,
+                               on_delete=models.SET_NULL)
+
     def __unicode__(self):
         return self.name
 
@@ -144,8 +152,7 @@ class Match(BaseModel):
     team2_score = models.IntegerField(default=0)
     team1 = models.ForeignKey(Team, related_name='team1_matches', null=True, blank=True, on_delete=models.SET_NULL)
     team2 = models.ForeignKey(Team, related_name='team2_matches', null=True, blank=True, on_delete=models.SET_NULL)
-    tournament = models.ForeignKey(Tournament, related_name='tournament_matches', null=True, blank=True,
-                                   on_delete=models.SET_NULL)
+    tournament = models.ForeignKey(Tournament, related_name='tournament_matches', null=True, blank=True)
     status = models.IntegerField(default=1, choices=status_choice)
 
     def __unicode__(self):
@@ -161,7 +168,7 @@ class Game(BaseModel):
                               null=True, blank=True, on_delete=models.SET_NULL)
     team2 = models.ForeignKey(Team, related_name='team_red_games',
                               null=True, blank=True, on_delete=models.SET_NULL)
-    match = models.ForeignKey(Match, related_name='match_games', null=True, blank=True, on_delete=models.SET_NULL)
+    match = models.ForeignKey(Match, related_name='match_games', null=True, blank=True)
     team1_ban = models.ManyToManyField(Hero, related_name='blue_ban_heros', null=True, blank=True)
     team2_ban = models.ManyToManyField(Hero, related_name='red_ban_heros', null=True, blank=True)
     team1_total_economic = models.FloatField(default=0.0)
@@ -177,12 +184,12 @@ class Game(BaseModel):
     over = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.game_id
+        return '{0}-{1}'.format(self.game_id, self.id)
 
 
 class GamePlayer(BaseModel):
     gid = models.CharField(max_length=64, unique=True)
-    game = models.ForeignKey(Game, related_name='game_gameps', null=True, blank=True, on_delete=models.SET_NULL)
+    game = models.ForeignKey(Game, related_name='game_gameps', null=True, blank=True)
     player = models.ForeignKey(Player, related_name='player_game_players',
                                null=True, blank=True, on_delete=models.SET_NULL)
     hero = models.ForeignKey(Hero, related_name='hero_gps', null=True, blank=True, on_delete=models.SET_NULL)
@@ -211,8 +218,7 @@ class GamePlayer(BaseModel):
 
 class TournamentTeamInfo(BaseModel):
     team = models.ForeignKey(Team, related_name='team_ttinfos', on_delete=models.SET_NULL, null=True, blank=True)
-    tournament = models.ForeignKey(Tournament, related_name='team_tournaments', on_delete=models.SET_NULL, null=True,
-                                   blank=True)
+    tournament = models.ForeignKey(Tournament, related_name='team_tournaments', null=True, blank=True)
     rank = models.IntegerField(default=0)
     kda = models.FloatField(default=0.0)
     average_kill = models.FloatField(default=0.0)
@@ -230,8 +236,8 @@ class TournamentTeamInfo(BaseModel):
 
 
 class PlayerInfo(BaseModel):
-    player = models.ForeignKey(Player, related_name='player_ttinfos', on_delete=models.SET_NULL, null=True, blank=True)
-    tournament = models.ForeignKey(Tournament, related_name='player_tournaments', on_delete=models.SET_NULL, null=True,
+    player = models.ForeignKey(Player, related_name='player_ttinfos', null=True, blank=True)
+    tournament = models.ForeignKey(Tournament, related_name='player_tournaments', null=True,
                                    blank=True)
     kda = models.FloatField(default=0.0)
     average_kill = models.FloatField(default=0.0)

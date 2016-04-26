@@ -119,8 +119,7 @@
                 </td>
                 <td>
                     <a href="/admin/tournament/${ tournament.id }}/match/${ match.id }}" class="ui small blue button">详情</a>
-                    <button class="ui small red labeled icon button" onclick="deletePlayer(${ match.id }})"><i
-                            class="icon delete"></i>删除
+                    <button class="ui small red labeled icon button" onclick="deleteMatch(${ match.id }})"><i class="icon delete"></i>删除
                     </button>
                     <div class="ui basic modal" id="delModal${ match.id }}">
                         <i class="close icon"></i>
@@ -129,21 +128,21 @@
                         </div>
                         <div class="image content">
                             <div class="image">
-                                <i class="remove user icon"></i>
+                                <i class="remove game icon"></i>
                             </div>
                             <div class="description">
-                                <p>情确认,您要删除比赛 ${ match.name }} 吗?</p>
+                                <p>请确认,您要删除比赛 <span style="color: red;">${ match.name }}</span> 吗? 此操作将会删除此比赛内所有对局与对局详情信息</p>
                             </div>
                         </div>
                         <div class="actions">
                             <div class="two fluid ui inverted buttons">
-                                <div class="ui red basic inverted button">
+                                <div class="ui red basic inverted cancel button">
                                     <i class="remove icon"></i>
-                                    废话
-                                </div>
-                                <div class="ui green basic inverted button">
-                                    <i class="checkmark icon"></i>
                                     不不,点错了
+                                </div>
+                                <div class="ui green basic inverted approve button">
+                                    <i class="checkmark icon"></i>
+                                    废话
                                 </div>
                             </div>
                         </div>

@@ -13,18 +13,18 @@ $('#start_time').datetimepicker({
 });
 
 $('.dropdown').dropdown({
-        on: 'hover'
-    });
+    on: 'hover',
+    maxSelections: 2
+});
 
 Vue.config.delimiters = ['${', '}}'];
-new Vue({
+var vm = new Vue({
     el: '#vTournamentDetail',
-    data: {
-    },
+    data: {},
     methods: {
-        getData: function (event, page) {
+        getData: function (event) {
             tid = window.location.href.toString().split('?')[0].split('/').pop();
-            url = generateUrl('api/v1/lol/tournament/' + tid);
+            url = generateUrl('api/v1/lol/tournament/' + tid) + '&ist=1';
             this.$http.get(url, function (data) {
                 if (data.status == 1) {
                     this.$set('tournament', data.body.tournament);
@@ -44,8 +44,16 @@ new Vue({
                 }
             })
         },
+        deleteMatch: function (mid) {
+            url = generateUrlWithToken('admin/api/tournament/' + this.tournament.id + '/match/' + mid, getCookie('token'));
+            this.$http.delete(url, function (data) {
+                if (data.status == 1) {
+                    this.getData(null);
+                }
+            })
+        },
         formatType: function (type) {
-            switch (type){
+            switch (type) {
                 case 1:
                     return 'BO1';
                 case 2:
@@ -59,7 +67,7 @@ new Vue({
             }
         },
         formatStatus: function (status) {
-            switch  (status) {
+            switch (status) {
                 case 1:
                     return '未进行';
                 case 2:
@@ -78,4 +86,18 @@ new Vue({
         }
     }
 });
+
+function deleteMatch(id) {
+    var mid = '#delModal' + id.toString();
+    $(mid)
+        .modal({
+            closable: false,
+            onDeny: function () {
+            },
+            onApprove: function () {
+                vm.deleteMatch(id.toString());
+            }
+        })
+        .modal('show');
+}
 

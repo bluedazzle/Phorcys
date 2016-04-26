@@ -120,7 +120,7 @@ var vm = new Vue({
                 $('#mt1b').dropdown('set exactly', t1b);
                 this.newGame.team1_ban = t1b;
             } else {
-                this.newGame.team1_ban = null;
+                this.newGame.team1_ban = [];
                 $('#mt1b').dropdown('clear');
             }
             if (game.team2_bans) {
@@ -131,7 +131,7 @@ var vm = new Vue({
                 $('#mt2b').dropdown('set exactly', t2b);
                 this.newGame.team2_ban = t2b;
             } else {
-                this.newGame.team2_ban = null;
+                this.newGame.team2_ban = [];
                 $('#mt2b').dropdown('clear');
             }
             if (game.win.id == game.team1.id) {
@@ -266,6 +266,24 @@ var vm = new Vue({
                 }
             })
         },
+        deleteGame: function(id) {
+            url = generateUrlWithToken('admin/api/game/' + id, getCookie('token'));
+            this.$http.delete(url, function (data) {
+                if (data.status == 1) {
+                    this.getData(null);
+                }
+            })
+
+        },
+        deleteGamePlayer: function(id) {
+            url = generateUrlWithToken('admin/api/gameplayer/' + id, getCookie('token'));
+            this.$http.delete(url, function (data) {
+                if (data.status == 1) {
+                    this.getData(null);
+                }
+            })
+
+        },
         clearFormData: function () {
             this.newGame.duration = 0;
             this.newGame.game_time = '';
@@ -334,3 +352,31 @@ function addPlayer() {
         .modal('show');
     vm.clearFormData();
 };
+
+function deleteGame(id) {
+    var mid = '#delGModal' + id.toString();
+    $(mid)
+        .modal({
+            closable: false,
+            onDeny: function () {
+            },
+            onApprove: function () {
+                vm.deleteGame(id.toString());
+            }
+        })
+        .modal('show');
+};
+
+function deleteGamePlayer(id) {
+    var mid = '#delGPModal' + id.toString();
+    $(mid)
+        .modal({
+            closable: false,
+            onDeny: function () {
+            },
+            onApprove: function () {
+                vm.deleteGamePlayer(id.toString());
+            }
+        })
+        .modal('show');
+}

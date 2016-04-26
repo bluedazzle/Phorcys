@@ -286,7 +286,35 @@
                             <div class="ui blue button" @click="modifyGame($event)" id="add${ index }}">编辑</div>
                             <div class="ui blue button" @click="createDetail($event)" id="addDetail${ index }}">增加详情
                             </div>
-                            <div class="ui red button">删除</div>
+                            <div class="ui small red labeled icon button" onclick="deleteGame(${ game.id }})"><i
+                                    class="icon delete"></i>删除
+                            </div>
+                            <div class="ui basic modal" id="delGModal${ game.id }}">
+                                <i class="close icon"></i>
+                                <div class="header">
+                                    删除对局 ${ game.game_id }}
+                                </div>
+                                <div class="image content">
+                                    <div class="image">
+                                        <i class="remove game icon"></i>
+                                    </div>
+                                    <div class="description">
+                                        <p>请确认,您要删除对局 ${ game.game_id }} 吗? 此操作将删除此对局即其所有对局详情</p>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <div class="two fluid ui inverted buttons">
+                                        <div class="ui red basic inverted cancel button">
+                                            <i class="remove icon"></i>
+                                            不不,点错了
+                                        </div>
+                                        <div class="ui green basic inverted approve  button">
+                                            <i class="checkmark icon"></i>
+                                            废话
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="ui grid">
@@ -398,32 +426,35 @@
                             <td>${ detail.economic }}k</td>
                             <td>${ detail.damage_rate }}%</td>
                             <td>
-                                <button class="ui small blue button" id="dm${ detail.gid }},${ detail.game.game_id }},${ sindex }}" @click="modifyDetail">修改</button>
-                                <button class="ui small red labeled icon button" onclick="deletePlayer(1)"><i
+                                <button class="ui small blue button"
+                                        id="dm${ detail.gid }},${ detail.game.game_id }},${ sindex }}"
+                                        @click="modifyDetail">修改
+                                </button>
+                                <button class="ui small red labeled icon button" onclick="deleteGamePlayer(${ detail.id }})"><i
                                         class="icon delete"></i>删除
                                 </button>
-                                <div class="ui basic modal" id="delModal1">
+                                <div class="ui basic modal" id="delGPModal${ detail.id }}">
                                     <i class="close icon"></i>
                                     <div class="header">
-                                        删除选手 XX
+                                        删除对局详情 ${ detail.gid }}
                                     </div>
                                     <div class="image content">
                                         <div class="image">
                                             <i class="remove user icon"></i>
                                         </div>
                                         <div class="description">
-                                            <p>情确认,您要删除选手 XX 吗?</p>
+                                            <p>情确认,您要删除对局详情 ${ detail.gid }} 吗?</p>
                                         </div>
                                     </div>
                                     <div class="actions">
-                                        <div class="two fluid ui inverted buttons">
+                                        <div class="two fluid ui inverted cancel buttons">
                                             <div class="ui red basic inverted button">
                                                 <i class="remove icon"></i>
-                                                废话
+                                                 不不,点错了
                                             </div>
-                                            <div class="ui green basic inverted button">
+                                            <div class="ui green basic approve inverted button">
                                                 <i class="checkmark icon"></i>
-                                                不不,点错了
+                                               废话
                                             </div>
                                         </div>
                                     </div>
