@@ -14,15 +14,18 @@ new Vue({
         res: {
             username: null,
             password: null
-        }
+        },
+        isLogin: false
     },
 
     methods: {
         login: function (event) {
+            this.isLogin = true;
             url = generateUrl('admin/api/login');
             this.$http.post(url, this.login_dict, function (data) {
                 if(data.status != 1){
                     this.$set('res', data.msg);
+                    this.isLogin = false;
                 }else {
                     setCookie('token', data.body.token);
                     window.location.href = '/admin/index'

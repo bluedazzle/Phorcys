@@ -29,7 +29,7 @@
                     </div>
                     <div v-show="passwordError" class="ui pointing red basic label">${ res.password }}</div>
                 </div>
-                <button @click="login" class="ui blue submit button">登陆</button>
+                <button @click="login" class="ui blue submit button" :class="{'disabled': isLogin}">登陆</button>
             </div>
         </div>
         <div class="ui vertical divider"></div>
