@@ -333,7 +333,7 @@ class AdminGameView(CheckSecurityMixin,
                 else:
                     win = Team.objects.get(id=tid1)
                 team1_tower = int(request.POST.get('team1_tower', 0))
-                team2_tower = int(request.POST.get('team1_tower', 0))
+                team2_tower = int(request.POST.get('team2_tower', 0))
                 team1_dragon = int(request.POST.get('team1_dragon', 0))
                 team2_dragon = int(request.POST.get('team2_dragon', 0))
                 team1_nashor = int(request.POST.get('team1_nahsor', 0))

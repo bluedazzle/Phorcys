@@ -119,6 +119,10 @@ var vm = new Vue({
             this.$http.post(url, this.nt, function (data) {
                 if (data.status == 1) {
                     this.getData(null);
+                     $.scojs_message('新建联赛成功', $.scojs_message.TYPE_OK);
+
+                }else {
+                     $.scojs_message('新建联赛失败', $.scojs_message.TYPE_ERROR);
                 }
             })
         },
@@ -135,12 +139,15 @@ var vm = new Vue({
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    //if (data.status == 1) {
-                    //    window.location.href = '/admin/tournaments';
-                    //}
+                    if (data.status == 1){
+                        $.scojs_message('新建联赛主题成功', $.scojs_message.TYPE_OK);
+                    }else {
+                        $.scojs_message('新建联赛主题失败', $.scojs_message.TYPE_ERROR);
+                    }
+
                 },
                 error: function (data) {
-                    //alert(returndata);
+                    $.scojs_message('网络请求失败', $.scojs_message.TYPE_ERROR);
                 }
             });
         }

@@ -9,14 +9,16 @@
         <div class="ui three column divided grid">
             <div class="stretched row">
                 <div class="column">
-                   <a class="blue ui link card" style="width: 100%; color: #4183C4;" href="/admin/users">
+                    <a class="blue ui link card" style="width: 100%; color: #4183C4;" href="/admin/users">
                         <div class="content">
                             <div class="left floated">
                                 <i class="icon users big" style="font-size: 6em;"></i>
                             </div>
                             <div class="right floated right aligned" style="padding-top: 1.5em;">
                                 <div v-show="noData" :class="noData ? classLoading : ''"></div>
-                                <div v-else="noData" style="font-size: 3em;padding-bottom: 0.5em;" v-cloak>${ data.users }}</div>
+                                <div v-else="noData" style="font-size: 3em;padding-bottom: 0.5em;" v-cloak>${ data.users
+                                    }}
+                                </div>
                                 <div style="font-size: 2em;">注册用户数</div>
                             </div>
                         </div>
@@ -35,7 +37,9 @@
                             </div>
                             <div class="right floated right aligned" style="padding-top: 1.5em;">
                                 <div v-show="noData" :class="noData ? classLoading : ''"></div>
-                                <div style="font-size: 3em;padding-bottom: 0.5em;"  v-else="noData" v-cloak="">${ data.news }}</div>
+                                <div style="font-size: 3em;padding-bottom: 0.5em;" v-else="noData" v-cloak="">${
+                                    data.news }}
+                                </div>
                                 <div style="font-size: 2em;">赛事文章数</div>
                             </div>
                         </div>
@@ -54,7 +58,9 @@
                             </div>
                             <div class="right floated right aligned" style="padding-top: 1.5em;">
                                 <div v-show="noData" :class="noData ? classLoading : ''"></div>
-                                <div style="font-size: 3em;padding-bottom: 0.5em;"  v-else="noData" v-cloak="">${ data.topics }}</div>
+                                <div style="font-size: 3em;padding-bottom: 0.5em;" v-else="noData" v-cloak="">${
+                                    data.topics }}
+                                </div>
                                 <div style="font-size: 2em;">社区发帖数</div>
                             </div>
                         </div>

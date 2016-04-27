@@ -41,6 +41,9 @@ var vm = new Vue({
             this.$http.post(url, this.newMatch, function (data) {
                 if (data.status == 1) {
                     this.getData(null);
+                    $.scojs_message('比赛创建成功', $.scojs_message.TYPE_OK);
+                }else {
+                    $.scojs_message('比赛创建失败', $.scojs_message.TYPE_ERROR);
                 }
             })
         },
@@ -49,6 +52,9 @@ var vm = new Vue({
             this.$http.delete(url, function (data) {
                 if (data.status == 1) {
                     this.getData(null);
+                    $.scojs_message('比赛删除成功', $.scojs_message.TYPE_OK);
+                }else {
+                    $.scojs_message('比赛删除失败', $.scojs_message.TYPE_ERROR);
                 }
             })
         },
@@ -57,6 +63,9 @@ var vm = new Vue({
             this.$http.post(url, {"status": status}, function (data) {
                 if (data.status == 1){
                     this.getData(null);
+                    $.scojs_message('比赛状态更改成功', $.scojs_message.TYPE_OK);
+                }else {
+                    $.scojs_message('比赛状态更改失败', $.scojs_message.TYPE_ERROR);
                 }
             })
         },

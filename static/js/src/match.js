@@ -161,6 +161,9 @@ var vm = new Vue({
             this.$http.post(url, this.newGame, function (data) {
                 if (data.status == 1) {
                     this.getData(null);
+                    $.scojs_message('新建对局成功', $.scojs_message.TYPE_OK);
+                } else {
+                    $.scojs_message('新建对局失败', $.scojs_message.TYPE_ERROR);
                 }
             })
         },
@@ -255,6 +258,9 @@ var vm = new Vue({
                 if (data.status == 1) {
                     this.getData(null);
                     this.addDetail = false;
+                    $.scojs_message('详情保存成功', $.scojs_message.TYPE_OK);
+                } else {
+                    $.scojs_message('详情保存失败', $.scojs_message.TYPE_ERROR);
                 }
             });
         },
@@ -262,26 +268,32 @@ var vm = new Vue({
             this.details = null;
             var id = event.target.id.toString().replace('detail', '');
             url = generateUrl('api/v1/lol/game/' + id);
-            this.$http.get(url, function(data) {
-                if (data.status == 1){
+            this.$http.get(url, function (data) {
+                if (data.status == 1) {
                     this.$set('details', data.body.gameplayer_list);
                 }
             })
         },
-        deleteGame: function(id) {
+        deleteGame: function (id) {
             url = generateUrlWithToken('admin/api/game/' + id, getCookie('token'));
             this.$http.delete(url, function (data) {
                 if (data.status == 1) {
                     this.getData(null);
+                    $.scojs_message('对局删除成功', $.scojs_message.TYPE_OK);
+                } else {
+                    $.scojs_message('对局删除失败', $.scojs_message.TYPE_ERROR);
                 }
             })
 
         },
-        deleteGamePlayer: function(id) {
+        deleteGamePlayer: function (id) {
             url = generateUrlWithToken('admin/api/gameplayer/' + id, getCookie('token'));
             this.$http.delete(url, function (data) {
                 if (data.status == 1) {
                     this.getData(null);
+                    $.scojs_message('对局详情删除成功', $.scojs_message.TYPE_OK);
+                } else {
+                    $.scojs_message('对局详情删除失败', $.scojs_message.TYPE_ERROR);
                 }
             })
 
