@@ -40,7 +40,7 @@ var vm = new Vue({
             this.newMatch.start_time = $('#start_time').val();
             this.$http.post(url, this.newMatch, function (data) {
                 if (data.status == 1) {
-                    location.reload();
+                    this.getData(null);
                 }
             })
         },
@@ -48,6 +48,14 @@ var vm = new Vue({
             url = generateUrlWithToken('admin/api/tournament/' + this.tournament.id + '/match/' + mid, getCookie('token'));
             this.$http.delete(url, function (data) {
                 if (data.status == 1) {
+                    this.getData(null);
+                }
+            })
+        },
+        changeMatchStatus: function (mid, status) {
+            url = generateUrlWithToken('admin/api/tournament/' + this.tournament.id + '/match/' + mid, getCookie('token'));
+            this.$http.post(url, {"status": status}, function (data) {
+                if (data.status == 1){
                     this.getData(null);
                 }
             })

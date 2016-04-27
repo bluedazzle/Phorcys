@@ -16,9 +16,9 @@ from django.views.generic import UpdateView, DetailView, TemplateView, ListView,
     DeleteView
 from django.views.generic.base import TemplateResponseMixin
 
-from core.utils import upload_picture, create_game_id
+from core.utils import upload_picture, create_game_id, create_tournament_id
 from lol.models import News, Tournament, Team, Player, Topic, TournamentTeamInfo, Match, Game, Hero, GamePlayer, \
-    SummonerSpells, Equipment, Position, TournamentTheme
+    SummonerSpells, Equipment, Position, TournamentTheme, PlayerInfo
 from myadmin.forms import AdminLoginForm
 from myadmin.models import EAdmin
 from myuser.models import EUser
@@ -199,19 +199,29 @@ class AdminTournamentView(CheckSecurityMixin,
         tt = TournamentTheme.objects.get(id=ttid)
         name = '{0}-{1}'.format(tt.name, request.POST.get('name'))
         teams = request.POST.get('teams')
+        uuid = create_tournament_id()
         Tournament(name=name,
+                   uuid=uuid,
                    start_time=tt.start_time,
                    end_time=tt.end_time,
                    cover=tt.cover,
                    belong=tt).save()
         tournament = Tournament.objects.get(name=name)
+
         for tid in teams:
             team = Team.objects.filter(id=tid)
             if team.exists():
                 team = team[0]
                 TournamentTeamInfo(team=team,
+                                   uuid='{0}t{1}'.format(uuid, team.id),
                                    tournament=tournament).save()
                 team.tournaments.add(tournament)
+            players = team.team_players.all()
+            for player in players:
+                PlayerInfo(uuid='{0}p{1}'.format(uuid, player.id),
+                           player=player,
+                           tournament=tournament
+                           ).save()
         return self.render_to_response(dict())
 
 
@@ -269,16 +279,35 @@ class AdminGamePlayerDeleteView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminMatchDeleteView(CheckSecurityMixin,
-                           StatusWrapMixin, JsonResponseMixin, DeleteView):
+class AdminMatchModifyView(CheckSecurityMixin,
+                           StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DeleteView):
     model = Match
-    http_method_names = ['delete']
+    http_method_names = ['delete', 'post']
     pk_url_kwarg = 'mid'
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
         return self.render_to_response(dict())
+
+    def post(self, request, *args, **kwargs):
+        status = request.POST.get('status')
+        mid = kwargs.get('mid')
+        if status and mid:
+            matches = Match.objects.filter(id=mid)
+            if matches.exists():
+                match = matches[0]
+                match.status = int(status)
+                match.save()
+                return self.render_to_response(dict())
+            else:
+                self.message = '比赛不存在'
+                self.status_code = INFO_NO_EXIST
+                return self.render_to_response(dict())
+        self.message = '参数缺失'
+        self.message = ERROR_DATA
+        return self.render_to_response(dict())
+
 
 
 class AdminGameView(CheckSecurityMixin,
@@ -292,8 +321,7 @@ class AdminGameView(CheckSecurityMixin,
             match = Match.objects.filter(id=mid)
             if match.exists():
                 match = match[0]
-                game_time = datetime.datetime.strptime(unicode(request.POST.get('game_time')), '%Y-%m-%d %H:%M:%S') \
-                    .replace(tzinfo=get_current_timezone())
+                game_time = datetime.datetime.strptime(unicode(request.POST.get('game_time')), '%Y-%m-%d %H:%M:%S')
                 duration = int(request.POST.get('duration'))
                 tid1 = request.POST.get('team1')
                 tid2 = request.POST.get('team2')
@@ -310,6 +338,7 @@ class AdminGameView(CheckSecurityMixin,
                 team2_dragon = int(request.POST.get('team2_dragon', 0))
                 team1_nashor = int(request.POST.get('team1_nahsor', 0))
                 team2_nashor = int(request.POST.get('team2_nahsor', 0))
+                video = request.POST.get('video', '')
                 game_id = request.POST.get('game_id')
                 over = request.POST.get('over')
                 if game_id:
@@ -327,6 +356,7 @@ class AdminGameView(CheckSecurityMixin,
                         game.team2_tower = team2_tower
                         game.team1_nahsor = team1_nashor
                         game.team2_nahsor = team2_nashor
+                        game.video = video
                         game.save()
                 else:
                     game_id = create_game_id()
@@ -343,7 +373,8 @@ class AdminGameView(CheckSecurityMixin,
                                     team2_tower=team2_tower,
                                     team1_dragon=team1_dragon,
                                     team2_dragon=team2_dragon,
-                                    over=over
+                                    over=over,
+                                    video=video
                                     )
                     new_game.save()
                 game = Game.objects.get(game_id=game_id)
@@ -364,6 +395,17 @@ class AdminGameView(CheckSecurityMixin,
                         hero = Hero.objects.get(id=hid)
                         game.team2_ban.add(hero)
                 game.save()
+
+                games = match.match_games.all()
+                match.team2_score = 0
+                match.team1_score = 0
+                for ga in games:
+                    if ga.over:
+                        if ga.win_id == ga.team1_id:
+                            match.team1_score += 1
+                        else:
+                            match.team2_score += 1
+                match.save()
                 return self.render_to_response(dict())
         self.message = 'error'
         self.secret = ERROR_DATA

@@ -44,6 +44,7 @@ var vm = new Vue({
             team2_nahsor: 0,
             team1_tower: 0,
             team2_tower: 0,
+            video: '',
             over: false
         },
         teamId: null,
@@ -112,6 +113,7 @@ var vm = new Vue({
             this.newGame.team2_nahsor = game.team2_nahsor;
             this.newGame.team1_tower = game.team1_tower;
             this.newGame.team2_tower = game.team2_tower;
+            this.newGame.video = game.video;
             if (game.team1_bans) {
                 var t1b = [];
                 for (var i in game.team1_bans) {
@@ -297,6 +299,7 @@ var vm = new Vue({
             this.newGame.team2_nahsor = 0;
             this.newGame.team1_tower = 0;
             this.newGame.team2_tower = 0;
+            this.newGame.video = '';
             $('.dropdown.ban').dropdown('clear')
         },
         clearDetailData: function () {

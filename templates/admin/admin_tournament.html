@@ -85,7 +85,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="match in matches">
+            <tr v-for="(index, match) in matches">
                 <td>
                     ${ match.name }}
                 </td>
@@ -118,6 +118,8 @@
                     ${ formatStatus(match.status) }}
                 </td>
                 <td>
+                    <a v-show="matches[index].status == 1" @click="changeMatchStatus(matches[index].id, 2)" class="ui small green button">开始</a>
+                    <a v-show="matches[index].status == 2" @click="changeMatchStatus(matches[index].id, 3)" class="ui small green button">结束</a>
                     <a href="/admin/tournament/${ tournament.id }}/match/${ match.id }}" class="ui small blue button">详情</a>
                     <button class="ui small red labeled icon button" onclick="deleteMatch(${ match.id }})"><i class="icon delete"></i>删除
                     </button>

@@ -62,3 +62,7 @@ def upload_picture(pic_file, folder='lol'):
 
 def create_game_id(type='01'):
     return '{0}{1}{2}'.format(unicode(time.time()).replace('.', ''), type, random.randint(1000, 9999))
+
+
+def create_tournament_id(type='02'):
+    return '{0}{1}{2}'.format(unicode(time.time()).replace('.', ''), type, random.randint(1000, 9999))

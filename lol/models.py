@@ -25,6 +25,7 @@ class TournamentTheme(BaseTournament):
 
 
 class Tournament(BaseTournament):
+    uuid = models.CharField(max_length=30, unique=True)
     belong = models.ForeignKey(TournamentTheme, related_name='theme_tournaments', null=True, blank=True,
                                on_delete=models.SET_NULL)
 
@@ -181,6 +182,7 @@ class Game(BaseModel):
     team2_dragon = models.IntegerField(default=0)
     team1_nahsor = models.IntegerField(default=0)
     team2_nahsor = models.IntegerField(default=0)
+    video = models.URLField(null=True, blank=True)
     over = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -217,6 +219,7 @@ class GamePlayer(BaseModel):
 
 
 class TournamentTeamInfo(BaseModel):
+    uuid = models.CharField(max_length=64, unique=True)
     team = models.ForeignKey(Team, related_name='team_ttinfos', on_delete=models.SET_NULL, null=True, blank=True)
     tournament = models.ForeignKey(Tournament, related_name='team_tournaments', null=True, blank=True)
     rank = models.IntegerField(default=0)
@@ -236,6 +239,7 @@ class TournamentTeamInfo(BaseModel):
 
 
 class PlayerInfo(BaseModel):
+    uuid = models.CharField(max_length=64, unique=True)
     player = models.ForeignKey(Player, related_name='player_ttinfos', null=True, blank=True)
     tournament = models.ForeignKey(Tournament, related_name='player_tournaments', null=True,
                                    blank=True)

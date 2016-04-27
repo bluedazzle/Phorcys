@@ -79,6 +79,10 @@
                                     </option>
                                 </select>
                             </div>
+                            <div class="field">
+                                <label>视频地址: </label>
+                                <input type="text" v-model="newGame.video" placeholder="视频地址">
+                            </div>
                             <div class="inline field">
                                 <div class="ui slider checkbox">
                                     <input type="checkbox" id="over" tabindex="0" v-model="newGame.over" class="hidden">
@@ -264,6 +268,8 @@
                                                                                class="ui red tag label">已封盘</i>
                 </div>
                 <div class="content">
+                    <div class="">直播地址: ${ game.video }} </div>
+                    <div class="ui divider"></div>
                     <div class="ui grid">
                         <a href="/admin/team/${ game.team1.id }}" class="three wide column">
                             <h4 class="ui image header ">
@@ -318,7 +324,7 @@
                         </div>
                     </div>
                     <div class="ui grid">
-                        <div class="four wide column">
+                        <div class="five wide column">
                             ${ game.team1.abbreviation }} BAN:
                             <div class="ui horizontal list">
                                 <div class="item" v-for="hero in game.team1_bans">
@@ -330,8 +336,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="two wide column"></div>
-                        <div class="four wide column">
+                        <div class="one wide column"></div>
+                        <div class="five wide column">
                             ${ game.team2.abbreviation }} BAN:
                             <div class="ui horizontal list">
                                 <div class="item" v-for="hero in game.team2_bans">
