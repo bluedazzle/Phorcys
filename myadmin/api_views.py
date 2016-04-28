@@ -21,6 +21,7 @@ from lol.models import News, Tournament, Team, Player, Topic, TournamentTeamInfo
     SummonerSpells, Equipment, Position, TournamentTheme, PlayerInfo
 from myadmin.forms import AdminLoginForm
 from myadmin.models import EAdmin
+from myadmin.utils import calculate_game_data
 from myuser.models import EUser
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckAdminPermissionMixin
 from core.Mixin.StatusWrapMixin import *
@@ -463,6 +464,7 @@ class AdminGameDetailView(CheckSecurityMixin,
             game_player.economic = economic
             game_player.save()
             equips = request.POST.get('equipments')
+            calculate_game_data(game)
             if len(equips) > 0 and "" not in equips:
                 game_player.equipments.clear()
                 for equip in equips:
