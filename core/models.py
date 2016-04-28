@@ -19,7 +19,7 @@ class Country(BaseModel):
     flag = models.CharField(max_length=100, default='')
 
     def __unicode__(self):
-        return self.name
+        return '{0}-{1}'.format(self.name, self.id)
 
 
 class BaseNews(BaseModel):
@@ -64,6 +64,7 @@ class BasePlayer(BaseModel):
     nick = models.CharField(max_length=50)
     avatar = models.CharField(default='http://www.fibar.cn', max_length=100)
     nationality = models.ForeignKey(Country, related_name='country_players', on_delete=models.SET_NULL, null=True, blank=True)
+    intro = models.TextField(default='')
 
     class Meta:
         abstract = True

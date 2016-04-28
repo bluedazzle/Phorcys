@@ -37,14 +37,14 @@
                         </div>
                         <div class="field">
                             <label for="">所属战队</label>
-                            <select name="belong" class="ui search dropdown" id="">
+                            <select name="belong" v-model="newPlayer.belong" class="ui search dropdown" id="">
                                 <option value="">选择战队</option>
                                 <option v-for="team in teams" value="${ team.id }}">${ team.abbreviation }}</option>
                             </select>
                         </div>
                         <div class="field">
                             <label for="">位置</label>
-                            <select name="position" class="ui dropdown" id="">
+                            <select name="position" class="ui dropdown" id="" v-model="newPlayer.position">
                                 <option value="">选择位置</option>
                                 <option value="1">中单</option>
                                 <option value="2">ADC</option>
@@ -54,8 +54,15 @@
                             </select>
                         </div>
                         <div class="field">
+                            <label for="">国籍</label>
+                            <select name="" id="" v-model="newPlayer.country" class="ui dropdown">
+                                <option value="">选择国籍</option>
+                                <option v-for="country in countrys" value="${ country.id }}">${ country.name }}</option>
+                            </select>
+                        </div>
+                        <div class="field">
                             <label for="">简介</label>
-                            <textarea name="" id="" rows="4"></textarea>
+                            <textarea name="" id="" rows="4" v-model="newPlayer.intro"></textarea>
                         </div>
 
                     </form>
@@ -65,7 +72,7 @@
                 <div class="ui black deny button">
                     算了
                 </div>
-                <div class="ui positive right labeled icon button" @click="createNewTournamentTheme">
+                <div class="ui positive right labeled icon button" @click="createNewPlayer">
                     好了
                     <i class="checkmark icon"></i>
                 </div>
@@ -109,10 +116,10 @@
                 {#                </td>#}
                 <td>
                     <button class="ui small blue button">详情</button>
-                    <button class="ui small red labeled icon button" onclick="deletePlayer(1)"><i
+                    <button class="ui small red labeled icon button" onclick="deletePlayer(${ player.id }})"><i
                             class="icon delete"></i>删除
                     </button>
-                    <div class="ui basic modal" id="delModal${ player.id }}">
+                    <div class="ui basic modal" id="delPModal${ player.id }}">
                         <i class="close icon"></i>
                         <div class="header">
                             删除选手 ${ player.nick }}
@@ -127,13 +134,13 @@
                         </div>
                         <div class="actions">
                             <div class="two fluid ui inverted buttons">
-                                <div class="ui red basic inverted button">
+                                <div class="ui red basic cancel inverted button">
                                     <i class="remove icon"></i>
-                                    废话
-                                </div>
-                                <div class="ui green basic inverted button">
-                                    <i class="checkmark icon"></i>
                                     不不,点错了
+                                </div>
+                                <div class="ui green basic approve inverted button">
+                                    <i class="checkmark icon"></i>
+                                    废话
                                 </div>
                             </div>
                         </div>

@@ -11,6 +11,7 @@ from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, Jso
 
 # Create your views here.
 from core.dss.Serializer import serializer
+from core.models import Country
 from lol.models import News, NewsComment, Topic, Player, Team, Tournament, Weibo, Match, TournamentTeamInfo, Game, Hero, \
     SummonerSpells, Equipment, GamePlayer, TournamentTheme
 from lol.forms import *
@@ -249,7 +250,7 @@ class PlayerListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMi
     exclude_attr = ['modify_time', 'create_time']
     foreign = True
     paginate_by = 60
-    ordering = '-nick'
+    ordering = '-nick, -create_time'
 
 
 class TeamListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
@@ -601,3 +602,11 @@ class EquipmentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonRespons
             self.paginate_by = 0
         return super(EquipmentListView, self).get(request, *args, **kwargs)
 
+
+class CountryListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    """
+    国家列表
+    """
+
+    include_attr = ['name', 'flag']
+    model = Country

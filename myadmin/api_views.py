@@ -16,6 +16,7 @@ from django.views.generic import UpdateView, DetailView, TemplateView, ListView,
     DeleteView
 from django.views.generic.base import TemplateResponseMixin
 
+from core.models import Country
 from core.utils import upload_picture, create_game_id, create_tournament_id
 from lol.models import News, Tournament, Team, Player, Topic, TournamentTeamInfo, Match, Game, Hero, GamePlayer, \
     SummonerSpells, Equipment, Position, TournamentTheme, PlayerInfo
@@ -501,4 +502,51 @@ class AdminUserForbidView(CheckSecurityMixin,
         self.object = self.get_object()
         self.object.forbid = not self.object.forbid
         self.object.save()
+        return self.render_to_response(dict())
+
+
+class AdminPlayerView(CheckSecurityMixin,
+                      StatusWrapMixin, JsonResponseMixin, DetailView):
+    http_method_names = ['post']
+    model = Player
+
+    def post(self, request, *args, **kwargs):
+        img = request.FILES.get('img')
+        if img:
+            re_path, save_path = upload_picture(img)
+            nick = request.POST.get('nick')
+            name = request.POST.get('name')
+            position = request.POST.get('position')
+            intro = request.POST.get('intro')
+            nationality = request.POST.get('country')
+            if nationality == 0:
+                nationality = Country.objects.get(name='未知')
+            else:
+                nationality = Country.objects.get(name=nationality)
+            belong = request.POST.get('belong')
+            belong = Team.objects.get(id=belong)
+            position = Position.objects.get(id=position)
+            Player(name=name,
+                   nick=nick,
+                   position=position,
+                   nationality=nationality,
+                   intro=intro,
+                   avatar=re_path,
+                   belong=belong).save()
+            return self.render_to_response(dict())
+        self.message = 'error data'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
+
+
+class AdminPlayerDetailView(CheckSecurityMixin,
+                            StatusWrapMixin, JsonResponseMixin, DeleteView):
+    model = Player
+    pk_url_kwarg = 'pid'
+    http_method_names = ['get', 'delete']
+    foreign = True
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
         return self.render_to_response(dict())
