@@ -332,7 +332,7 @@ class TournamentDetailView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResp
     def get_context_data(self, **kwargs):
         context = super(TournamentDetailView, self).get_context_data(**kwargs)
         if self.is_tournament:
-            match_list = Match.objects.filter(tournament=self.object)
+            match_list = Match.objects.filter(tournament=self.object).order_by('-match_time')
             team_list = self.object.tournament_teams.all()
             context['tournament'] = self.object
             del context['tournament_list']
