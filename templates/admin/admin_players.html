@@ -1,144 +1,160 @@
 {% extends 'admin/admin_base.html' %}
 {% block content %}
-    <div class="boloContainer">
+    <div class="boloContainer" id="vPlayers">
         <div class="ui breadcrumb">
             <a class="section">选手</a>
             <i class="right angle icon divider"></i>
         </div>
         <div class="ui divider"></div>
+        <div class="ui small primary labeled icon button" @click="getTeams" onclick="addPlayer()"><i
+                            class="user icon"></i> 添加选手
+                    </div>
+        <div class="ui modal scrolling" id="addModal">
+            <div class="header">
+                新选手
+            </div>
+            <div class="image content">
+                <div class="ui medium image">
+                    <div class="field">
+                        <label for="">选手图片</label>
+                        <form action="" id="form1">
+                            <span class="ui fluid button btn-file">
+                                    <img id="uploadPicture" src="" alt="">
+                                    <span id="buttonLabel">选择图片</span>
+                                        <input type="file" id="fileupload_input" name="img">
+                                    </span></form>
+                    </div>
+                </div>
+                <div class="description" style="width: 500px;">
+                    <form action="" method="post" class="ui form">
+                        <div class="field">
+                            <label>选手昵称</label>
+                            <input type="text" name="nick" v-model="newPlayer.nick" placeholder="选手昵称">
+                        </div>
+                        <div class="field">
+                            <label>选手姓名</label>
+                            <input type="text" name="name" v-model="newPlayer.name" placeholder="选手姓名">
+                        </div>
+                        <div class="field">
+                            <label for="">所属战队</label>
+                            <select name="belong" class="ui search dropdown" id="">
+                                <option value="">选择战队</option>
+                                <option v-for="team in teams" value="${ team.id }}">${ team.abbreviation }}</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="">位置</label>
+                            <select name="position" class="ui dropdown" id="">
+                                <option value="">选择位置</option>
+                                <option value="1">中单</option>
+                                <option value="2">ADC</option>
+                                <option value="3">上单</option>
+                                <option value="4">辅助</option>
+                                <option value="5">打野</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="">简介</label>
+                            <textarea name="" id="" rows="4"></textarea>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui black deny button">
+                    算了
+                </div>
+                <div class="ui positive right labeled icon button" @click="createNewTournamentTheme">
+                    好了
+                    <i class="checkmark icon"></i>
+                </div>
+            </div>
+        </div>
         <table class="ui celled selectable table">
             <thead>
             <tr>
                 <th>选手</th>
                 <th>所属战队</th>
                 <th>位置</th>
-                <th>国籍</th>
+                {#                <th>国籍</th>#}
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <div v-show="noData" class="ui active inverted dimmer">
+                <div class="ui text loader">Loading</div>
+            </div>
+            <tr v-for="player in players">
                 <td>
                     <h4 class="ui image header">
-                        <img src="/s/image/site/elyse.png" class="ui mini rounded image">
-                        <div class="content">Lena
-                            <div class="sub header">人力资源</div>
+                        <img src="${ player.avatar }}" class="ui mini rounded image">
+                        <div class="content">${ player.nick }}
+                            <div class="sub header">${ player.name }}</div>
                         </div>
                     </h4>
                 </td>
-                <td>LGD</td>
-                <td>中单</td>
-                <td>
-                    <h4 class="ui image header">
-                        <img src="/s/image/area/1.png" class="ui mini rounded image">
-                        <div class="content">中国</div>
-                    </h4>
-                </td>
+                <td><a class="ui image header" href="/admin/player/${ player.belong.id }}">
+                    <img src="${ player.belong.logo }}" class="ui mini rounded image">
+                    <div class="content">${ player.belong.name }}
+                        <div class="sub header">${ player.belong.abbreviation }}</div>
+                    </div>
+                </a></td>
+                <td>${ player.position.title }}</td>
+                {#                <td>#}
+                {#                    <h4 class="ui image header">#}
+                {#                        <img src="${ player.nationality.flag }}" class="ui mini rounded image">#}
+                {#                        <div class="content">${ player.nationality.name }}</div>#}
+                {#                    </h4>#}
+                {#                </td>#}
                 <td>
                     <button class="ui small blue button">详情</button>
-                    <button class="ui small red labeled icon button" onclick="deletePlayer(1)"><i class="icon delete"></i>删除</button>
-                    <div class="ui basic modal" id="delModal1">
-                    <i class="close icon"></i>
-                    <div class="header">
-                        删除选手 XX
-                    </div>
-                    <div class="image content">
-                        <div class="image">
-                            <i class="remove user icon"></i>
+                    <button class="ui small red labeled icon button" onclick="deletePlayer(1)"><i
+                            class="icon delete"></i>删除
+                    </button>
+                    <div class="ui basic modal" id="delModal${ player.id }}">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            删除选手 ${ player.nick }}
                         </div>
-                        <div class="description">
-                            <p>情确认,您要删除选手 XX 吗?</p>
-                        </div>
-                    </div>
-                    <div class="actions">
-                        <div class="two fluid ui inverted buttons">
-                            <div class="ui red basic inverted button">
-                                <i class="remove icon"></i>
-                                废话
+                        <div class="image content">
+                            <div class="image">
+                                <i class="remove user icon"></i>
                             </div>
-                            <div class="ui green basic inverted button">
-                                <i class="checkmark icon"></i>
-                                不不,点错了
+                            <div class="description">
+                                <p>情确认,您要删除选手 ${ player.nick }} 吗?</p>
                             </div>
                         </div>
-                    </div>
+                        <div class="actions">
+                            <div class="two fluid ui inverted buttons">
+                                <div class="ui red basic inverted button">
+                                    <i class="remove icon"></i>
+                                    废话
+                                </div>
+                                <div class="ui green basic inverted button">
+                                    <i class="checkmark icon"></i>
+                                    不不,点错了
+                                </div>
+                            </div>
+                        </div>
                 </td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
-                <th colspan="5">
-                    <div class="ui left floated small primary labeled icon button"onclick="addPlayer()"><i
-                            class="user icon"></i> 添加选手
-                    </div>
-                    <div class="ui modal" id="addModal" >
-                        <div class="header">
-                            新选手
-                        </div>
-                        <div class="image content">
-                            <div class="ui medium image">
-                                <div class="field">
-                                    <img src="/s/image/site/elyse.png">
-                                    <input type="file" class="ui uploadBtn" value="上传头像">
-                                </div>
-                            </div>
-                            <div class="description" style="width: 500px;">
-                                <form action="" method="post" class="ui form">
-                                    <div class="field">
-                                        <label>选手姓名</label>
-                                        <input type="text" name="name" placeholder="选手姓名">
-                                    </div>
-                                    <div class="field">
-                                        <label>选手ID</label>
-                                        <input type="text" name="nick" placeholder="选手ID">
-                                    </div>
-                                    <div class="field">
-                                        <label for="">位置</label>
-                                        <select name="position" id="" class="ui dropdown">
-                                            <option value="1">打野</option>
-                                            <option value="2">上单</option>
-                                        </select>
-                                    </div>
-                                    <div class="field">
-                                        <label>战队</label>
-                                        <select class="ui search dropdown">
-                                            <option value="">选择战队</option>
-                                            <option value="AF">LGD</option>
-                                            <option value="AX">LGD</option>
-                                        </select>
-                                    </div>
-                                    <div class="field">
-                                        <label>国籍</label>
-                                        <select class="ui search dropdown">
-                                            <option value="">选择国籍</option>
-                                            <option value="AF">Afghanistan</option>
-                                            <option value="AX">Åland Islands</option>
-                                        </select>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="actions">
-                            <div class="ui black deny button">
-                                算了
-                            </div>
-                            <div class="ui positive right labeled icon button">
-                                好了
-                                <i class="checkmark icon"></i>
-                            </div>
-                        </div>
-                    </div>
+                <th colspan="4">
                     <div class="ui right floated pagination menu">
-                        <a class="icon item">
+                        <a class="icon item" :class="{'disabled': pageObj.previous == undefined}"
+                           @click="getData($event, pageObj.previous)">
                             <i class="left chevron icon"></i>
                         </a>
-                        <a class="item">1</a>
-                        <a class="item">2</a>
-                        <a class="item">3</a>
-                        <a class="item">4</a>
-                        <a class="icon item">
-                            <i class="right chevron icon"></i>
-                        </a>
+                        <a class="item" v-for="page in pageObj.page_range"
+                           :class="{'active': page.page == pageObj.current}" @click="getData($event, page.page)">${
+                            page.page }}
+                            <a class="icon item" :class="{'disabled': pageObj.next == undefined}"
+                               @click="getData($event, pageObj.next)">
+                                <i class="right chevron icon"></i>
+                            </a>
                     </div>
                 </th>
             </tr>
@@ -147,18 +163,5 @@
     </div>
 {% endblock %}
 {% block script %}
-    <script>
-        function deletePlayer(id) {
-            mid = '#delModal' + id.toString();
-            $(mid)
-                    .modal('setting', 'closable', false)
-                    .modal('show');
-        }
-        function addPlayer() {
-            $('#addModal')
-                    .modal('setting', 'closable', false)
-                    .modal('setting', 'transition', 'horizontal flip')
-                    .modal('show');
-        }
-    </script>
+    <script src="/s/js/src/player.js"></script>
 {% endblock %}

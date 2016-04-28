@@ -13,10 +13,12 @@ from core.models import BaseModel
 
 class EUser(BaseModel, AbstractBaseUser):
     from lol.models import LOLInfoExtend
+
     phone = models.CharField(max_length=13, unique=True)
     nick = models.CharField(max_length=100, unique=True)
-    avatar = models.URLField(null=True, blank=True)
+    avatar = models.CharField(max_length=100, null=True, blank=True)
     token = models.CharField(max_length=64)
+    forbid = models.BooleanField(default=False)
 
     lol = models.OneToOneField('lol.LOLInfoExtend', related_name='lol_info_user', null=True, blank=True)
 

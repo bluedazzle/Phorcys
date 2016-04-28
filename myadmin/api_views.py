@@ -309,7 +309,6 @@ class AdminMatchModifyView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-
 class AdminGameView(CheckSecurityMixin,
                     StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DetailView):
     model = Game
@@ -473,4 +472,31 @@ class AdminGameDetailView(CheckSecurityMixin,
             return self.render_to_response(dict())
         self.message = 'ERROR'
         self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
+
+
+class AdminUserListView(CheckSecurityMixin,
+                        StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    http_method_names = ['get']
+    paginate_by = 50
+    ordering = '-create_time'
+    exclude_attr = ['token', 'password']
+    model = EUser
+
+    def get_queryset(self):
+        queryset = super(AdminUserListView, self).get_queryset()
+        queryset = queryset.annotate(comment_number=Count('user_news_comments'))
+        return queryset
+
+
+class AdminUserForbidView(CheckSecurityMixin,
+                          StatusWrapMixin, JsonResponseMixin, DetailView):
+    http_method_names = ['post']
+    model = EUser
+    pk_url_kwarg = 'uid'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.forbid = not self.object.forbid
+        self.object.save()
         return self.render_to_response(dict())

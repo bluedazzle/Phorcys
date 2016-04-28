@@ -23,8 +23,18 @@ class Country(BaseModel):
 
 
 class BaseNews(BaseModel):
+    news_choice = [
+        (1, '小图'),
+        (2, '大图'),
+        (3, '文字')
+    ]
+
     title = models.CharField(max_length=100)
+    picture = models.CharField(max_length=100, null=True, blank=True)
     content = models.TextField()
+    views = models.IntegerField(default=0)
+    publish = models.BooleanField(default=False)
+    news_type = models.IntegerField(default=1, choices=news_choice)
 
     class Meta:
         abstract = True

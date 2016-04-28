@@ -246,9 +246,10 @@ class PlayerListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMi
 
     model = Player
     http_method_names = ['get']
-    exclude_attr = ['modify_time', 'create_time', 'belong']
+    exclude_attr = ['modify_time', 'create_time']
     foreign = True
-    paginate_by = 20
+    paginate_by = 60
+    ordering = '-nick'
 
 
 class TeamListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
@@ -599,3 +600,4 @@ class EquipmentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonRespons
         if all:
             self.paginate_by = 0
         return super(EquipmentListView, self).get(request, *args, **kwargs)
+

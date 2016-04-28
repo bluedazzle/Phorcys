@@ -15,4 +15,6 @@ urlpatterns = patterns('',
                        url(r'^game/(?P<gid>(\d)+)', AdminGameDeleteView.as_view()),
                        url(r'^gameplayer/(?P<gpid>(\d)+)', AdminGamePlayerDeleteView.as_view()),
                        url(r'^game', AdminGameDetailView.as_view()),
+                       url(r'^user/(?P<uid>(\d)+)/forbid', AdminUserForbidView.as_view()),
+                       url(r'^users', AdminUserListView.as_view()),
                        )

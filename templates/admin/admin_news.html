@@ -1,6 +1,6 @@
 {% extends 'admin/admin_base.html' %}
 {% block content %}
-    <div class="boloContainer">
+    <div class="boloContainer" id="vNews">
         <div class="ui breadcrumb">
             <a class="section">资讯</a>
             <i class="right angle icon divider"></i>
@@ -17,31 +17,34 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <div v-show="noData" class="ui active inverted dimmer">
+                <div class="ui text loader">Loading</div>
+            </div>
+            <tr v-for="(index, news) in newsList">
                 <td>
                     <h4 class="ui image header">
-                        <img src="/s/image/site/elyse.png" class="ui mini rounded image">
-                        <div class="content">标题
+                        <img src="${ news.picture }}" class="ui mini rounded image">
+                        <div class="content">${ news.title }}
                             <div class="sub header">
-                                <span><i class="eye icon"></i>200</span>
+                                <span><i class="eye icon"></i>${ news.views }}</span>
                                 <span>&nbsp;</span>
-                                <span><i class="comments icon"></i>200</span>
+                                <span><i class="comments icon"></i>${ news.comment_number }}</span>
                             </div>
                         </div>
                     </h4>
                 </td>
-                <td>2015-04-22 22:18:00</td>
-                <td>已发布</td>
+                <td>${ news.create_time }}</td>
+                <td>${ news.publish == true ? '已发布' : '未发布' }}</td>
                 <td>
-                    原创
+                    ${ news.news_type == 1 ? '小图新闻' : '大图新闻' }}
                 </td>
                 <td>
                     <button class="ui small blue button">详情</button>
-                    <button class="ui small gray labeled icon button" onclick="deletePlayer(1)"><i
+                    <button class="ui small gray labeled icon button" onclick="publishNews(newsList[index].id)"><i
                             class="icon download"></i>取消发布</button>
-                    <button class="ui small green labeled icon button" onclick="deletePlayer(1)"><i
+                    <button class="ui small green labeled icon button" onclick="publishNews(newsList[index].id)"><i
                             class="icon upload"></i>发布</button>
-                    <button class="ui small red labeled icon button" onclick="deletePlayer(1)"><i
+                    <button class="ui small red labeled icon button" onclick="deleteNews(newsList[index].id)"><i
                             class="icon delete"></i>删除
                     </button>
                     <div class="ui basic modal" id="delModal1">
@@ -168,4 +171,5 @@
                     .modal('show');
         }
     </script>
+    <script src="/s/js/src/news.js"></script>
 {% endblock %}
