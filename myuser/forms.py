@@ -108,6 +108,58 @@ class UserRegisterForm(forms.ModelForm):
         fields = ['phone', 'nick']
 
 
+class UserThirdRegisterForm(forms.ModelForm):
+    phone_error_messages = {
+        'required': '请输入手机号',
+        'unique': '帐号已存在',
+        'phone_format': '请输入11位手机号',
+    }
+
+    nick_error_messages = {
+        'required': '请输入昵称',
+        'unique': '昵称已存在',
+    }
+
+    password_error_messages = {
+        'required': '请输入密码',
+        'min_length': '请至少输入6位以上密码',
+    }
+
+    phone = forms.CharField(max_length=11, error_messages=phone_error_messages)
+    nick = forms.CharField(max_length=20, error_messages=nick_error_messages)
+    password = forms.CharField(max_length=100, error_messages=password_error_messages)
+    code = forms.CharField(max_length=6)
+    openid = forms.CharField(max_length=128)
+    type = forms.IntegerField()
+    avatar = forms.CharField(max_length=100)
+
+    def clean_type(self):
+        type_list = [1, 2, 3]
+        type = self.cleaned_data.get('type')
+        if type not in type_list:
+            return forms.ValidationError(message='授权类型不存在', code='exists')
+        return type
+
+    def clean_password(self):
+        password = unicode(self.cleaned_data.get('password'))
+        if len(password) < 6:
+            raise forms.ValidationError(message=self.password_error_messages['min_length'], code='min_length')
+        return password
+
+    def clean_phone(self):
+        phone = unicode(self.cleaned_data.get('phone', None))
+        if len(phone) != 11:
+            raise forms.ValidationError(message=self.phone_error_messages['phone_format'], code='phone_format')
+        return phone
+
+    def save(self, commit=False):
+        return super(UserThirdRegisterForm, self).save(commit)
+
+    class Meta:
+        model = EUser
+        fields = ['phone', 'nick']
+
+
 class UserResetForm(forms.ModelForm):
     password_error_messages = {
         'required': '请输入密码',

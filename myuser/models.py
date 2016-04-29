@@ -19,6 +19,12 @@ class EUser(BaseModel, AbstractBaseUser):
     avatar = models.CharField(max_length=100, null=True, blank=True)
     token = models.CharField(max_length=64)
     forbid = models.BooleanField(default=False)
+    wechat_openid = models.CharField(max_length=64, null=True, blank=True)
+    wechat_bind = models.BooleanField(default=False)
+    weibo_openid = models.CharField(max_length=64, null=True, blank=True)
+    weibo_bind = models.BooleanField(default=False)
+    qq_openid = models.CharField(max_length=64, null=True, blank=True)
+    qq_bind = models.BooleanField(default=False)
 
     lol = models.OneToOneField('lol.LOLInfoExtend', related_name='lol_info_user', null=True, blank=True)
 

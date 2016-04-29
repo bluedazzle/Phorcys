@@ -17,6 +17,7 @@ from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, Jso
 
 # Create your views here.
 from core.sms import send_msg
+from core.utils import upload_picture, save_image
 from lol.models import LOLInfoExtend
 from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLoginForm, UserChangePasswordForm
 from myuser.models import EUser, Verify, Invite
@@ -102,6 +103,66 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
                 code.belong = self.object
                 code.save()
                 super(UserRegisterView, self).form_valid(form)
+                self.create_extend()
+                self.token = self.create_token()
+                self.object.token = self.token
+                self.object.set_password(form.cleaned_data.get('password'))
+                self.object.save()
+                return self.render_to_response(self.object)
+            else:
+                self.message = '邀请码已使用'
+                self.status_code = ERROR_DATA
+            return self.render_to_response(dict())
+        else:
+            self.message = '邀请码不存在'
+            self.status_code = ERROR_DATA
+            return self.render_to_response(dict())
+
+    def form_invalid(self, form):
+        super(UserRegisterView, self).form_invalid(form)
+        self.status_code = ERROR_DATA
+        self.message = json.loads(form.errors.as_json()).values()[0][0].get('message')
+        return self.render_to_response(dict())
+
+    def create_token(self):
+        return string.join(
+            random.sample('ZYXWVUTSRQPONMLKJIHGFEDCBA1234567890zyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcba',
+                          self.count)).replace(" ", "")
+
+
+class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, CreateView):
+    http_method_names = ['post']
+    success_url = 'localhost'
+
+    def create_extend(self):
+        new_lol_extend = LOLInfoExtend()
+        new_lol_extend.save()
+        self.object.lol = new_lol_extend
+        return self.object
+
+    def form_valid(self, form):
+        code = Invite.objects.filter(code=form.cleaned_data.get('code'))
+        if code.exists():
+            code = code[0]
+            if not code.use:
+                code.use = True
+                code.belong = self.object
+                code.save()
+                super(UserThirdRegisterView, self).form_valid(form)
+                t_type = form.cleaned_data.get('type')
+                if t_type == 1:
+                    self.object.wechat_openid = form.cleaned_data.get('openid')
+                    self.object.wechat_bind = True
+                elif t_type == 2:
+                    self.object.weibo_openid = form.cleaned_data.get('openid')
+                    self.object.weibo_bind = True
+                elif t_type == 3:
+                    self.object.qq_openid = form.cleaned_data.get('openid')
+                    self.object.qq_bind = True
+                status, path = save_image(form.cleaned_data.get('avatar'), type='upload/lol',
+                                          name='avatar{0}'.format(unicode(time.time()).replace('.', '')))
+                if status:
+                    self.object.avatar = path
                 self.create_extend()
                 self.token = self.create_token()
                 self.object.token = self.token
