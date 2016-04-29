@@ -99,7 +99,7 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
         if code.exists():
             code = code[0]
             if not code.use:
-                code.use = True
+                # code.use = True
                 code.belong = self.object
                 code.save()
                 super(UserRegisterView, self).form_valid(form)
@@ -145,7 +145,7 @@ class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
         if code.exists():
             code = code[0]
             if not code.use:
-                code.use = True
+                # code.use = True
                 code.belong = self.object
                 code.save()
                 super(UserThirdRegisterView, self).form_valid(form)
