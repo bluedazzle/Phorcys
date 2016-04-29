@@ -394,4 +394,11 @@ function deleteGamePlayer(id) {
             }
         })
         .modal('show');
-}
+};
+
+window.onbeforeunload = function(e)
+   {
+       if(vm.detail.game_id != ''){
+           return  e.returnValue='智障,你真的要离开吗？';
+       }
+   };

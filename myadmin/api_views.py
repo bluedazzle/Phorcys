@@ -505,6 +505,19 @@ class AdminUserForbidView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
+class AdminUserDetailView(CheckSecurityMixin,
+                          StatusWrapMixin, JsonResponseMixin, DeleteView):
+    http_method_names = ['get', 'delete']
+    model = EUser
+    pk_url_kwarg = 'uid'
+    foreign = True
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return self.render_to_response(dict())
+
+
 class AdminPlayerView(CheckSecurityMixin,
                       StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['post']
@@ -549,4 +562,44 @@ class AdminPlayerDetailView(CheckSecurityMixin,
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
+        return self.render_to_response(dict())
+
+
+class AdminTeamDetailView(CheckSecurityMixin,
+                          StatusWrapMixin, JsonResponseMixin, DeleteView):
+    model = Team
+    pk_url_kwarg = 'tid'
+    http_method_names = ['get', 'delete']
+    foreign = True
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return self.render_to_response(dict())
+
+
+class AdminTeamView(CheckSecurityMixin,
+                    StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DetailView):
+    model = Team
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        name = request.POST.get('name')
+        logo = request.FILES.get('img')
+        info = request.POST.get('info')
+        abbreviation = request.POST.get('abbreviation')
+        country = request.POST.get('country')
+        print country
+        country = Country.objects.get(id=country)
+        if logo:
+            data_path, save_path = upload_picture(logo)
+            Team(name=name,
+                 logo=data_path,
+                 info=info,
+                 abbreviation=abbreviation,
+                 country=country
+                 ).save()
+            return self.render_to_response(dict())
+        self.message = 'error data'
+        self.status_code = ERROR_DATA
         return self.render_to_response(dict())
