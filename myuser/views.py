@@ -16,9 +16,10 @@ from core.Mixin.StatusWrapMixin import *
 from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, JsonResponseMixin
 
 # Create your views here.
+from core.sms import send_msg
 from lol.models import LOLInfoExtend
 from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLoginForm, UserChangePasswordForm
-from myuser.models import EUser, Verify
+from myuser.models import EUser, Verify, Invite
 
 
 class VerifyCodeView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, CreateView):
@@ -56,15 +57,20 @@ class VerifyCodeView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Cre
 
     def form_valid(self, form):
         super(VerifyCodeView, self).form_valid(form)
-        self.object.code = self.create_verify_code()
-        self.object.save()
+        verify = self.create_verify_code()
+        if send_msg(form.cleaned_data.get('phone'), verify):
+            self.object.code = verify
+            self.object.save()
+            return self.render_to_response(dict())
+        self.status_code = ERROR_UNKNOWN
+        self.message = '短信发送失败,请重试'
         return self.render_to_response(dict())
 
     def form_invalid(self, form):
         super(VerifyCodeView, self).form_invalid(form)
         self.status_code = ERROR_DATA
         print form.errors.as_json()
-        self.message = json.loads(form.errors.as_json()).get('phone')[0].get('message')
+        self.message = json.loads(form.errors.as_json()).values()[0][0].get('message')
         return self.render_to_response(dict())
 
     def create_verify_code(self):
@@ -88,13 +94,28 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
         return self.object
 
     def form_valid(self, form):
-        super(UserRegisterView, self).form_valid(form)
-        self.create_extend()
-        self.token = self.create_token()
-        self.object.token = self.token
-        self.object.set_password(form.cleaned_data.get('password'))
-        self.object.save()
-        return self.render_to_response(self.object)
+        code = Invite.objects.filter(code=form.cleaned_data.get('code'))
+        if code.exists():
+            code = code[0]
+            if not code.use:
+                code.use = True
+                code.belong = self.object
+                code.save()
+                super(UserRegisterView, self).form_valid(form)
+                self.create_extend()
+                self.token = self.create_token()
+                self.object.token = self.token
+                self.object.set_password(form.cleaned_data.get('password'))
+                self.object.save()
+                return self.render_to_response(self.object)
+            else:
+                self.message = '邀请码已使用'
+                self.status_code = ERROR_DATA
+            return self.render_to_response(dict())
+        else:
+            self.message = '邀请码不存在'
+            self.status_code = ERROR_DATA
+            return self.render_to_response(dict())
 
     def form_invalid(self, form):
         super(UserRegisterView, self).form_invalid(form)

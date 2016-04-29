@@ -5,7 +5,7 @@ from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import make_password
 
-from myuser.models import Verify, EUser
+from myuser.models import Verify, EUser, Invite
 
 import datetime
 from django.utils.timezone import get_current_timezone
@@ -18,7 +18,16 @@ class VerifyCodeForm(forms.ModelForm):
         'phone_format': '请输入11位手机号',
     }
 
+    code_messages = {
+        'required': '请输入邀请码',
+        'max_length': '请输入6位邀请码',
+        'min_length': '请输入6位邀请码',
+        'wrong': '邀请码不存在',
+        'exist': '邀请码已使用'
+    }
+
     phone = forms.CharField(max_length=11, error_messages=error_messages)
+    code = forms.CharField(max_length=6, min_length=6, error_messages=code_messages)
 
     def clean_phone(self):
         phone = unicode(self.cleaned_data.get('phone', None))
@@ -37,6 +46,17 @@ class VerifyCodeForm(forms.ModelForm):
                 return phone
         else:
             raise forms.ValidationError(message=self.error_messages['required'], code='required')
+
+    def clean_code(self):
+        code = unicode(self.cleaned_data.get('code', None))
+        if code:
+            invite = Invite.objects.filter(code=code)
+            if not invite.exists():
+                raise forms.ValidationError(message=self.code_messages['wrong'], code='wrong')
+            else:
+                if invite[0].use:
+                    raise forms.ValidationError(message=self.code_messages['exist'], code='exist')
+        return code
 
     def save(self, commit=False):
         return super(VerifyCodeForm, self).save(commit)
@@ -66,6 +86,7 @@ class UserRegisterForm(forms.ModelForm):
     phone = forms.CharField(max_length=11, error_messages=phone_error_messages)
     nick = forms.CharField(max_length=20, error_messages=nick_error_messages)
     password = forms.CharField(max_length=100, error_messages=password_error_messages)
+    code = forms.CharField(max_length=6)
 
     def clean_password(self):
         password = unicode(self.cleaned_data.get('password'))
@@ -124,6 +145,6 @@ class UserLoginForm(forms.ModelForm):
 
 
 class UserChangePasswordForm(PasswordChangeForm):
-    def __init__(self,  *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         kwargs.pop('instance')
         super(UserChangePasswordForm, self).__init__(*args, **kwargs)

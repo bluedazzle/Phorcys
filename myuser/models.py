@@ -39,3 +39,12 @@ class Verify(BaseModel):
 
     def __unicode__(self):
         return self.phone
+
+
+class Invite(BaseModel):
+    code = models.CharField(max_length=6)
+    use = models.BooleanField(default=False)
+    belong = models.ForeignKey(EUser, related_name='user_invite', null=True, blank=True)
+
+    def __unicode__(self):
+        return self.code
