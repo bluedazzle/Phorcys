@@ -16,7 +16,7 @@ from core.Mixin.StatusWrapMixin import *
 from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, JsonResponseMixin
 
 # Create your views here.
-from core.sms import send_msg
+from core.sms import send_sms
 from core.utils import upload_picture, save_image
 from lol.models import LOLInfoExtend
 from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLoginForm, UserChangePasswordForm
@@ -59,7 +59,7 @@ class VerifyCodeView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Cre
     def form_valid(self, form):
         super(VerifyCodeView, self).form_valid(form)
         verify = self.create_verify_code()
-        if send_msg(form.cleaned_data.get('phone'), verify):
+        if send_sms(verify, form.cleaned_data.get('phone')):
             self.object.code = verify
             self.object.save()
             return self.render_to_response(dict())
@@ -70,7 +70,6 @@ class VerifyCodeView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Cre
     def form_invalid(self, form):
         super(VerifyCodeView, self).form_invalid(form)
         self.status_code = ERROR_DATA
-        print form.errors.as_json()
         self.message = json.loads(form.errors.as_json()).values()[0][0].get('message')
         return self.render_to_response(dict())
 
@@ -133,6 +132,7 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
 class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, CreateView):
     http_method_names = ['post']
     success_url = 'localhost'
+    count = 64
 
     def create_extend(self):
         new_lol_extend = LOLInfoExtend()
@@ -179,7 +179,7 @@ class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
             return self.render_to_response(dict())
 
     def form_invalid(self, form):
-        super(UserRegisterView, self).form_invalid(form)
+        super(UserThirdRegisterView, self).form_invalid(form)
         self.status_code = ERROR_DATA
         self.message = json.loads(form.errors.as_json()).values()[0][0].get('message')
         return self.render_to_response(dict())
