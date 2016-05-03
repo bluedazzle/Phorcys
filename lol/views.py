@@ -366,9 +366,14 @@ class MatchListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMix
 
     model = Match
     http_method_names = ['get']
+    datetime_type = 'timestamp'
     foreign = True
-    ordering = '-match_time'
     paginate_by = 20
+
+    def get_queryset(self):
+        queryset = super(MatchListView, self).get_queryset()
+        queryset = queryset.order_by('-match_time')
+        return queryset
 
 
 class MatchDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):

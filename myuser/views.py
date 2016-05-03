@@ -410,7 +410,6 @@ class UserAvatarView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonR
         if not self.wrap_check_token_result():
             return self.render_to_response(dict())
         avatar = request.FILES.get('avatar')
-        print request.body
         if avatar:
             s_path, full_path = upload_picture(avatar)
             self.user.avatar = s_path
