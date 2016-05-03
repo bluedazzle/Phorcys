@@ -347,10 +347,9 @@ class UserChangePasswordView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixi
         return kwargs
 
 
-class UserThirdAccountBindView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, UpdateView):
+class UserThirdAccountBindView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['post']
     model = EUser
-    success_url = 'localhost'
 
     def post(self, request, *args, **kwargs):
         if not self.wrap_check_sign_result():
@@ -360,14 +359,41 @@ class UserThirdAccountBindView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMi
         t_type = request.POST.get('type')
         open_id = request.POST.get('openid')
         if t_type and open_id:
-            if t_type == 1:
+            if t_type == '1':
                 self.user.wechat_openid = open_id
                 self.user.wechat_bind = True
-            elif t_type == 2:
+            elif t_type == '2':
                 self.user.weibo_openid = open_id
                 self.user.weibo_bind = True
-            elif t_type == 3:
+            elif t_type == '3':
                 self.user.qq_openid = open_id
                 self.user.qq_bind = True
+            self.user.save()
+            return self.render_to_response(dict())
+        self.message = '数据缺失'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
+
+
+class UserAvatarView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+    http_method_names = ['post']
+    include_attr = ['id', 'create_time', 'nick', 'phone', 'avatar']
+    datetime_type = 'timestamp'
+    model = EUser
+
+    def post(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            return self.render_to_response(dict())
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        avatar = request.FILES.get('avatar')
+        if avatar:
+            s_path, full_path = upload_picture(avatar)
+            self.user.avatar = s_path
+            self.user.save()
+            return self.render_to_response(self.user)
+        self.message = '数据缺失'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
 
 

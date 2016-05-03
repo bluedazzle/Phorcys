@@ -9,4 +9,6 @@ urlpatterns = patterns('',
                        url(r'^password/change', UserChangePasswordView.as_view()),
                        url(r'^login', UserLoginView.as_view()),
                        url(r'^logout', UserLogoutView.as_view()),
+                       url(r'^bind', UserThirdAccountBindView.as_view()),
+                       url(r'^avatar', UserAvatarView.as_view()),
                        )
