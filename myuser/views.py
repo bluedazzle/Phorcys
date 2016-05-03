@@ -8,6 +8,7 @@ import string
 
 import datetime
 
+from django.db.models import Q
 from django.utils.timezone import get_current_timezone
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
 
@@ -372,6 +373,24 @@ class UserThirdAccountBindView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMi
             self.user.save()
             return self.render_to_response(dict())
         self.message = '数据缺失'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
+
+
+class UserThirdLoginView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+    http_method_names = ['get']
+    model = EUser
+
+    def get(self, request, *args, **kwargs):
+        openid = request.GET.get('openid')
+        if openid:
+            user = EUser.objects.filter(Q(weibo_openid=openid) | Q(wechat_openid=openid) | Q(qq_openid=openid))
+            if user.exists():
+                return self.render_to_response(user[0])
+            self.message = '三方帐号未绑定'
+            self.status_code = INFO_NO_EXIST
+            return self.render_to_response(dict())
+        self.message = '参数缺失'
         self.status_code = ERROR_DATA
         return self.render_to_response(dict())
 
