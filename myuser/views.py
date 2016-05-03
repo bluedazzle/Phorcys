@@ -166,7 +166,8 @@ class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
                     self.object.qq_openid = form.cleaned_data.get('openid')
                     self.object.qq_bind = True
                 status, path = save_image(form.cleaned_data.get('avatar'), type='upload/lol',
-                                          name='avatar{0}'.format(unicode(time.time()).replace('.', '')))
+                                          name='avatar{0}.{1}'.format(unicode(time.time()).replace('.', ''),
+                                                                      form.cleaned_data.get('avatar').split('.')[-1]))
                 if status:
                     self.object.avatar = path
                 self.create_extend()
