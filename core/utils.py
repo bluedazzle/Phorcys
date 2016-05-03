@@ -38,16 +38,18 @@ def check_sign(timestamp, sign):
 
 
 def save_image(url, type='lol/hero', name="default.jpg"):
-    dir_path = '/image/{0}/{1}'.format(type, name)
-    save_path = '{0}{1}'.format(UPLOAD_PATH, dir_path)
-    response = requests.get(url, stream=True)
-    image = response.content
     try:
+        dir_path = '/image/{0}/{1}'.format(type, name)
+        save_path = '{0}{1}'.format(UPLOAD_PATH, dir_path)
+        response = requests.get(url, stream=True)
+        image = response.content
         with open(save_path, "wb") as jpg:
             jpg.write(image)
             return True, '/s{0}'.format(dir_path)
     except IOError:
         print("IO Error\n")
+        return False, None
+    except Exception, e:
         return False, None
 
 

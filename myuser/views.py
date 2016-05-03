@@ -19,9 +19,10 @@ from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, Jso
 from core.sms import send_sms
 from core.utils import upload_picture, save_image
 from lol.models import LOLInfoExtend
-from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLoginForm, UserChangePasswordForm
+from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLoginForm, UserChangePasswordForm, \
+    UserThirdRegisterForm
 from myuser.models import EUser, Verify, Invite
-
+import time
 
 class VerifyCodeView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, CreateView):
     form_class = VerifyCodeForm
@@ -130,8 +131,12 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
 
 
 class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, CreateView):
+    model = EUser
+    form_class = UserThirdRegisterForm
     http_method_names = ['post']
     success_url = 'localhost'
+    datetime_type = 'timestamp'
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone']
     count = 64
 
     def create_extend(self):
@@ -340,3 +345,29 @@ class UserChangePasswordView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixi
         kwargs = super(UserChangePasswordView, self).get_form_kwargs()
         kwargs['user'] = self.user
         return kwargs
+
+
+class UserThirdAccountBindView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, UpdateView):
+    http_method_names = ['post']
+    model = EUser
+    success_url = 'localhost'
+
+    def post(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            return self.render_to_response(dict())
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        t_type = request.POST.get('type')
+        open_id = request.POST.get('openid')
+        if t_type and open_id:
+            if t_type == 1:
+                self.user.wechat_openid = open_id
+                self.user.wechat_bind = True
+            elif t_type == 2:
+                self.user.weibo_openid = open_id
+                self.user.weibo_bind = True
+            elif t_type == 3:
+                self.user.qq_openid = open_id
+                self.user.qq_bind = True
+
+
