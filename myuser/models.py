@@ -16,7 +16,7 @@ class EUser(BaseModel, AbstractBaseUser):
 
     phone = models.CharField(max_length=13, unique=True)
     nick = models.CharField(max_length=100, unique=True)
-    avatar = models.CharField(max_length=100, null=True, blank=True)
+    avatar = models.CharField(max_length=200, null=True, blank=True)
     token = models.CharField(max_length=64)
     forbid = models.BooleanField(default=False)
     wechat_openid = models.CharField(max_length=64, null=True, blank=True)
