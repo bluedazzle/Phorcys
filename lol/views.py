@@ -368,6 +368,7 @@ class MatchListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMix
     http_method_names = ['get']
     foreign = True
     ordering = '-match_time'
+    paginate_by = 20
 
 
 class MatchDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
