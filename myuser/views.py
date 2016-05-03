@@ -24,6 +24,7 @@ from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLo
 from myuser.models import EUser, Verify, Invite
 import time
 
+
 class VerifyCodeView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, CreateView):
     form_class = VerifyCodeForm
     http_method_names = ['post', 'get']
@@ -84,7 +85,7 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
     http_method_names = ['post']
     success_url = 'localhost'
     datetime_type = 'timestamp'
-    include_attr = ['token', 'id', 'create_time', 'nick', 'phone']
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
     count = 64
     token = ''
 
@@ -136,7 +137,7 @@ class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
     http_method_names = ['post']
     success_url = 'localhost'
     datetime_type = 'timestamp'
-    include_attr = ['token', 'id', 'create_time', 'nick', 'phone']
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
     count = 64
 
     def create_extend(self):
@@ -395,5 +396,3 @@ class UserAvatarView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonR
         self.message = '数据缺失'
         self.status_code = ERROR_DATA
         return self.render_to_response(dict())
-
-
