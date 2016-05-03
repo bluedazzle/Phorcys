@@ -20,9 +20,7 @@ new Vue({
             this.$http.get(url, function (data) {
                 if (data.status == 1) {
                     this.$set('data', data.body);
-                } else if (data.status == 3) {
-                    window.location.href = '/admin/login';
-                }
+                };
             })
         }
     },

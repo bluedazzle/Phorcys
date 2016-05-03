@@ -359,6 +359,17 @@ class TournamentDetailView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResp
         setattr(tournament, 'team_list', team_list)
 
 
+class MatchListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    """
+    比赛列表
+    """
+
+    model = Match
+    http_method_names = ['get']
+    foreign = True
+    ordering = '-match_time'
+
+
 class MatchDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     """
     联赛比赛详情

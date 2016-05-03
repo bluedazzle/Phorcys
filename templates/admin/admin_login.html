@@ -12,7 +12,7 @@
     <h2 class="ui header">后台管理</h2>
     <div id="vLogin" class="ui two column middle aligned very relaxed stackable grid">
         <div class="column">
-            <div class="ui form">
+            <div class="ui form" @keyup.enter="login">
                 <div class="field">
                     <label>用户名</label>
                         <div class="ui left icon input" :class="{'error': usernameError}">
@@ -29,7 +29,7 @@
                     </div>
                     <div v-show="passwordError" class="ui pointing red basic label">${ res.password }}</div>
                 </div>
-                <button @click="login" class="ui blue submit button" :class="{'disabled': isLogin}">登陆</button>
+                <button @click="login" class="ui blue submit button" :class="{'disabled': isLogin}">${ isLogin ? '登录中..' : '登陆' }}</button>
             </div>
         </div>
         <div class="ui vertical divider"></div>

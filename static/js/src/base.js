@@ -8,7 +8,7 @@ new Vue({
     data: {},
     methods: {
         logout: function (event) {
-            url = generateUrl('admin/api/logout');
+            url = generateUrlWithToken('admin/api/logout');
             this.$http.get(url, function (data) {
                 if (data.status == 1) {
                     delCookie('token');
@@ -22,8 +22,6 @@ new Vue({
         this.$http.get(url, function (data) {
             if (data.status == 1) {
                 this.$set('admin', data.body);
-            }else if(data.status == 3) {
-                window.location.href = '/admin/login';
             }
         })
     },
