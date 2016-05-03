@@ -379,7 +379,10 @@ class UserThirdAccountBindView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMi
 
 class UserThirdLoginView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['get']
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
+    datetime_type = 'timestamp'
     model = EUser
+
 
     def get(self, request, *args, **kwargs):
         openid = request.GET.get('openid')
