@@ -13,7 +13,7 @@ from myuser.models import EUser
 from core.Mixin.CheckMixin import CheckAdminPagePermissionMixin
 
 
-class AdminView(UpdateView):
+class AdminView(CheckAdminPagePermissionMixin, UpdateView):
     model = EAdmin
     form_class = AdminLoginForm
     http_method_names = ['get']
@@ -61,52 +61,52 @@ class AdminIndexView(CheckAdminPagePermissionMixin, TemplateView):
         return super(AdminIndexView, self).get(request, *args, **kwargs)
 
 
-class AdminNewsListView(ListView):
+class AdminNewsListView(CheckAdminPagePermissionMixin, ListView):
     model = News
     template_name = 'admin/admin_news.html'
     paginate_by = 20
 
 
-class AdminTournamentListView(TemplateView):
+class AdminTournamentListView(CheckAdminPagePermissionMixin, TemplateView):
     template_name = 'admin/admin_tournaments.html'
 
 
-class AdminTournamentDetailView(TemplateView):
+class AdminTournamentDetailView(CheckAdminPagePermissionMixin, TemplateView):
     template_name = 'admin/admin_tournament.html'
 
 
-class AdminTournamentMatchView(TemplateView):
+class AdminTournamentMatchView(CheckAdminPagePermissionMixin, TemplateView):
     template_name = 'admin/admin_match.html'
 
 
-class AdminTeamListView(ListView):
+class AdminTeamListView(CheckAdminPagePermissionMixin, ListView):
     model = Team
     template_name = 'admin/admin_teams.html'
     paginate_by = 20
 
 
-class AdminPlayerListView(ListView):
+class AdminPlayerListView(CheckAdminPagePermissionMixin, ListView):
     model = Player
     template_name = 'admin/admin_players.html'
     paginate_by = 20
 
 
-class AdminTopicListView(ListView):
+class AdminTopicListView(CheckAdminPagePermissionMixin, ListView):
     model = Topic
     template_name = 'admin/admin_topics.html'
     paginate_by = 20
 
 
-class AdminUserListView(ListView):
+class AdminUserListView(CheckAdminPagePermissionMixin, ListView):
     model = EUser
     template_name = 'admin/admin_users.html'
     paginate_by = 20
 
 
-class AdminSettingView(TemplateView):
+class AdminSettingView(CheckAdminPagePermissionMixin, TemplateView):
     template_name = 'admin/admin_setting.html'
     http_method_names = ['get']
 
 
-class AdminLogoutView(RedirectView):
+class AdminLogoutView(CheckAdminPagePermissionMixin, RedirectView):
     url = '/admin/login'
