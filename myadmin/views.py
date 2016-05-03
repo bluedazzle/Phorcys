@@ -13,7 +13,7 @@ from myuser.models import EUser
 from core.Mixin.CheckMixin import CheckAdminPagePermissionMixin
 
 
-class AdminView(CheckAdminPagePermissionMixin, UpdateView):
+class AdminView(UpdateView):
     model = EAdmin
     form_class = AdminLoginForm
     http_method_names = ['get']
