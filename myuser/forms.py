@@ -131,7 +131,7 @@ class UserThirdRegisterForm(forms.ModelForm):
     code = forms.CharField(max_length=6)
     openid = forms.CharField(max_length=128)
     type = forms.IntegerField()
-    avatar = forms.CharField(max_length=100)
+    avatar = forms.CharField(max_length=200)
 
     def clean_type(self):
         type_list = [1, 2, 3]
