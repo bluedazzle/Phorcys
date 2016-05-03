@@ -14,7 +14,7 @@ new Vue({
                 return 0;
             }
             this.$set('users', null);
-            url = generateUrl('admin/api/users') + '&page=' + page.toString();
+            url = generateUrlWithToken('admin/api/users') + '&page=' + page.toString();
             this.$http.get(url, function (data) {
                 if (data.status == 1) {
                     this.$set('users', data.body.euser_list);

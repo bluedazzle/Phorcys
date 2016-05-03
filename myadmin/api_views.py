@@ -82,7 +82,7 @@ class AdminLoginView(CheckSecurityMixin, AdminStatusWrapMixin, JsonRequestMixin,
         return obj
 
 
-class AdminLogoutView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, TemplateResponseMixin, View):
+class AdminLogoutView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonResponseMixin, TemplateResponseMixin, View):
     http_method_names = ['get']
     template_name = 'admin/admin_login.html'
 
@@ -119,7 +119,7 @@ class AdminUserView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMix
         return self.render_to_response(self.admin)
 
 
-class AdminTournamentListView(CheckSecurityMixin,
+class AdminTournamentListView(CheckSecurityMixin, CheckAdminPermissionMixin,
                               StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     model = Tournament
     http_method_names = ['get']
@@ -161,7 +161,7 @@ class AdminTournamentListView(CheckSecurityMixin,
         setattr(tournament, 'match_numbers', mn)
 
 
-class AdminTournamentThemeView(CheckSecurityMixin,
+class AdminTournamentThemeView(CheckSecurityMixin, CheckAdminPermissionMixin,
                                StatusWrapMixin, MultipleJsonResponseMixin, JsonRequestMixin, ListView):
     model = TournamentTheme
     http_method_names = ['post', 'get']
@@ -191,7 +191,7 @@ class AdminTournamentThemeView(CheckSecurityMixin,
             return self.render_to_response(dict())
 
 
-class AdminTournamentView(CheckSecurityMixin,
+class AdminTournamentView(CheckSecurityMixin, CheckAdminPermissionMixin,
                           StatusWrapMixin, JsonResponseMixin, JsonRequestMixin, DetailView):
     model = Tournament
     http_method_names = ['post']
@@ -227,7 +227,7 @@ class AdminTournamentView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminMatchView(CheckSecurityMixin,
+class AdminMatchView(CheckSecurityMixin, CheckAdminPermissionMixin,
                      StatusWrapMixin, JsonResponseMixin, JsonRequestMixin, DetailView):
     model = Match
     http_method_names = ['post']
@@ -257,7 +257,7 @@ class AdminMatchView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminGameDeleteView(CheckSecurityMixin,
+class AdminGameDeleteView(CheckSecurityMixin, CheckAdminPermissionMixin,
                           StatusWrapMixin, JsonResponseMixin, DeleteView):
     model = Game
     http_method_names = ['delete']
@@ -269,7 +269,7 @@ class AdminGameDeleteView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminGamePlayerDeleteView(CheckSecurityMixin,
+class AdminGamePlayerDeleteView(CheckSecurityMixin, CheckAdminPermissionMixin,
                                 StatusWrapMixin, JsonResponseMixin, DeleteView):
     model = GamePlayer
     http_method_names = ['delete']
@@ -281,7 +281,7 @@ class AdminGamePlayerDeleteView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminMatchModifyView(CheckSecurityMixin,
+class AdminMatchModifyView(CheckSecurityMixin, CheckAdminPermissionMixin,
                            StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DeleteView):
     model = Match
     http_method_names = ['delete', 'post']
@@ -311,7 +311,7 @@ class AdminMatchModifyView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminGameView(CheckSecurityMixin,
+class AdminGameView(CheckSecurityMixin, CheckAdminPermissionMixin,
                     StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DetailView):
     model = Game
     http_method_names = ['post']
@@ -413,7 +413,7 @@ class AdminGameView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminGameDetailView(CheckSecurityMixin,
+class AdminGameDetailView(CheckSecurityMixin, CheckAdminPermissionMixin,
                           StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DetailView):
     model = GamePlayer
     http_method_names = ['post']
@@ -478,7 +478,7 @@ class AdminGameDetailView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminUserListView(CheckSecurityMixin,
+class AdminUserListView(CheckSecurityMixin, CheckAdminPermissionMixin,
                         StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     http_method_names = ['get']
     paginate_by = 50
@@ -492,7 +492,7 @@ class AdminUserListView(CheckSecurityMixin,
         return queryset
 
 
-class AdminUserForbidView(CheckSecurityMixin,
+class AdminUserForbidView(CheckSecurityMixin, CheckAdminPermissionMixin,
                           StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['post']
     model = EUser
@@ -505,7 +505,7 @@ class AdminUserForbidView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminUserDetailView(CheckSecurityMixin,
+class AdminUserDetailView(CheckSecurityMixin, CheckAdminPermissionMixin,
                           StatusWrapMixin, JsonResponseMixin, DeleteView):
     http_method_names = ['get', 'delete']
     model = EUser
@@ -518,7 +518,7 @@ class AdminUserDetailView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminPlayerView(CheckSecurityMixin,
+class AdminPlayerView(CheckSecurityMixin, CheckAdminPermissionMixin,
                       StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['post']
     model = Player
@@ -552,7 +552,7 @@ class AdminPlayerView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminPlayerDetailView(CheckSecurityMixin,
+class AdminPlayerDetailView(CheckSecurityMixin, CheckAdminPermissionMixin,
                             StatusWrapMixin, JsonResponseMixin, DeleteView):
     model = Player
     pk_url_kwarg = 'pid'
@@ -565,7 +565,7 @@ class AdminPlayerDetailView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminTeamDetailView(CheckSecurityMixin,
+class AdminTeamDetailView(CheckSecurityMixin, CheckAdminPermissionMixin,
                           StatusWrapMixin, JsonResponseMixin, DeleteView):
     model = Team
     pk_url_kwarg = 'tid'
@@ -578,7 +578,7 @@ class AdminTeamDetailView(CheckSecurityMixin,
         return self.render_to_response(dict())
 
 
-class AdminTeamView(CheckSecurityMixin,
+class AdminTeamView(CheckSecurityMixin, CheckAdminPermissionMixin,
                     StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DetailView):
     model = Team
     http_method_names = ['post']
