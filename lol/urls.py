@@ -26,5 +26,5 @@ urlpatterns = patterns('',
                        url(r'^comment', CommentCreateView.as_view()),
                        url(r'^thumb', ThumbView.as_view()),
                        url(r'^search', SearchView.as_view()),
-                       url(r'^game/(?P<gid>(\d)+)', GameDetailView.as_view()),
+                       url(r'^gampipe/(?P<gid>(\d)+)', GameDetailView.as_view()),
                        )

@@ -22,4 +22,5 @@ urlpatterns = patterns('',
                        url(r'^team', AdminTeamView.as_view()),
                        url(r'^player/(?P<pid>(\d)+)', AdminPlayerDetailView.as_view()),
                        url(r'^player', AdminPlayerView.as_view()),
+                       url(r'^news/(?P<nid>(\d)+)', AdminNewsView.as_view()),
                        )

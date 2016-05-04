@@ -603,3 +603,21 @@ class AdminTeamView(CheckSecurityMixin, CheckAdminPermissionMixin,
         self.message = 'error data'
         self.status_code = ERROR_DATA
         return self.render_to_response(dict())
+
+
+class AdminNewsView(CheckSecurityMixin, CheckAdminPermissionMixin,
+                    StatusWrapMixin, JsonResponseMixin, DeleteView):
+    model = News
+    http_method_names = ['get', 'delete']
+    pk_url_kwarg = 'nid'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.publish = not self.object.publish
+        self.object.save()
+        return self.render_to_response(dict())
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return self.render_to_response(dict())

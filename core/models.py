@@ -30,7 +30,9 @@ class BaseNews(BaseModel):
     ]
 
     title = models.CharField(max_length=100)
-    picture = models.CharField(max_length=100, null=True, blank=True)
+    picture1 = models.CharField(max_length=200, null=True, blank=True)
+    picture2 = models.CharField(max_length=200, null=True, blank=True)
+    picture3 = models.CharField(max_length=200, null=True, blank=True)
     content = models.TextField()
     views = models.IntegerField(default=0)
     publish = models.BooleanField(default=False)

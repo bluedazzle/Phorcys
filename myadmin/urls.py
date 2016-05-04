@@ -4,6 +4,7 @@ from myadmin.views import *
 urlpatterns = patterns('',
                        url(r'^login$', AdminView.as_view()),
                        url(r'^index', AdminIndexView.as_view()),
+                       url(r'^news/(?P<nid>(\d)+)', AdminModifyNewsView.as_view()),
                        url(r'^news', AdminNewsListView.as_view()),
                        url(r'^new_news', AdminNewNewsView.as_view()),
                        url(r'^players', AdminPlayerListView.as_view()),

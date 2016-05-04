@@ -1,10 +1,10 @@
 # coding: utf-8
 from __future__ import unicode_literals
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 
 # Create your views here.
-from django.views.generic import UpdateView, DetailView, TemplateView, ListView, RedirectView
+from django.views.generic import UpdateView, DetailView, TemplateView, ListView, RedirectView, CreateView
 
 from lol.models import News, Tournament, Team, Player, Topic
 from myadmin.forms import AdminLoginForm, NewsForm
@@ -112,11 +112,60 @@ class AdminLogoutView(CheckAdminPagePermissionMixin, RedirectView):
     url = '/admin/login'
 
 
-class AdminNewNewsView(CheckAdminPagePermissionMixin, TemplateView):
+class AdminNewNewsView(CheckAdminPagePermissionMixin, CreateView):
     template_name = 'admin/admin_new_news.html'
-    http_method_names = ['get']
+    http_method_names = ['get', 'post']
+    model = News
 
     def get_context_data(self, **kwargs):
         kwargs = super(AdminNewNewsView, self).get_context_data(**kwargs)
         kwargs['form'] = NewsForm()
         return kwargs
+
+    def post(self, request, *args, **kwargs):
+        title = request.POST.get('title')
+        pic1 = request.POST.get('pic1')
+        pic2 = request.POST.get('pic2')
+        pic3 = request.POST.get('pic3')
+        content = request.POST.get('news_detail')
+        news_type = int(request.POST.get('type'))
+        News(title=title,
+             picture1=pic1,
+             picture2=pic2,
+             picture3=pic3,
+             content=content,
+             news_type=news_type).save()
+        return HttpResponseRedirect('/admin/news')
+
+
+class AdminModifyNewsView(CheckAdminPagePermissionMixin, UpdateView):
+    template_name = 'admin/admin_modify_news.html'
+    http_method_names = ['post', 'get']
+    model = News
+    pk_url_kwarg = 'nid'
+
+    def get_context_data(self, **kwargs):
+        context = super(AdminModifyNewsView, self).get_context_data(**kwargs)
+        context['form'] = NewsForm(initial={'news_detail': self.object.content})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        title = request.POST.get('title')
+        pic1 = request.POST.get('pic1')
+        pic2 = request.POST.get('pic2')
+        pic3 = request.POST.get('pic3')
+        content = request.POST.get('news_detail')
+        news_type = int(request.POST.get('type'))
+        nid = request.POST.get('nid')
+        news = News.objects.filter(id=nid)
+        if news.exists():
+            news = news[0]
+            news.title = title
+            news.news_type = news_type
+            news.picture1 = pic1
+            news.picture2 = pic2
+            news.picture3 = pic3
+            news.content = content
+            news.save()
+            return HttpResponseRedirect('/admin/news')
+        return HttpResponse('False')

@@ -26,11 +26,16 @@ class NewsListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
     model = News
     datetime_type = 'timestamp'
     paginate_by = 10
-    include_attr = ['create_time', 'title', 'comment_number', 'follow_number']
     http_method_names = ['get']
 
     def get_queryset(self):
-        queryset = super(NewsListView, self).get_queryset()
+        datetime_format = self.request.GET.get('datetime')
+        all = self.request.GET.get('all')
+        if datetime_format:
+            self.datetime_type = datetime_format
+        queryset = super(NewsListView, self).get_queryset().order_by('-create_time')
+        if not all:
+            queryset = queryset.filter(publish=True)
         queryset = queryset.annotate(comment_number=Count('news_comments'))
         queryset = queryset.annotate(follow_number=Count('news_followers'))
         return queryset
@@ -378,7 +383,7 @@ class MatchListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMix
 
     def add_date(self, match):
         match_date = match.match_time.strftime('%Y%m%d')
-        match_weekday = match.match_time.weekday()
+        match_weekday = match.match_time.weekday() + 1
         setattr(match, 'match_date', match_date)
         setattr(match, 'match_weekday', match_weekday)
 
