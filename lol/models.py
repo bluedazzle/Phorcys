@@ -232,6 +232,7 @@ class TournamentTeamInfo(BaseModel):
     victory_times = models.IntegerField(default=0)
     tied_times = models.IntegerField(default=0)
     fail_times = models.IntegerField(default=0)
+    win_rate = models.FloatField(default=0.0)
 
     def __unicode__(self):
         return unicode(self.id)
@@ -249,6 +250,10 @@ class PlayerInfo(BaseModel):
     average_assist = models.FloatField(default=0.0)
     average_time = models.FloatField(default=0.0)
     average_money_pm = models.FloatField(default=0.0)
+    average_hit_p10m = models.FloatField(default=0.0)
+    average_melee_rate = models.FloatField(default=0.0)
+    win_rate = models.FloatField(default=0.0)
+    win_fail_rate = models.FloatField(default=0.0)
     victory_times = models.IntegerField(default=0)
     tied_times = models.IntegerField(default=0)
     fail_times = models.IntegerField(default=0)
