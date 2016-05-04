@@ -135,6 +135,9 @@ class AdminNewNewsView(CheckAdminPagePermissionMixin, CreateView):
              picture3=pic3,
              content=content,
              news_type=news_type).save()
+        news = News.objects.get(title=title)
+        news.url = '/view/news/{0}'.format(news.id)
+        news.save()
         return HttpResponseRedirect('/admin/news')
 
 

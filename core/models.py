@@ -37,6 +37,7 @@ class BaseNews(BaseModel):
     views = models.IntegerField(default=0)
     publish = models.BooleanField(default=False)
     news_type = models.IntegerField(default=1, choices=news_choice)
+    url = models.CharField(max_length=100, default='')
 
     class Meta:
         abstract = True
