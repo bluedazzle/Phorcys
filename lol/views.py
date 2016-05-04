@@ -26,6 +26,7 @@ class NewsListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
     model = News
     datetime_type = 'timestamp'
     paginate_by = 10
+    exclude_attr = ['content', 'publish', 'modify_time']
     http_method_names = ['get']
 
     def get_queryset(self):
