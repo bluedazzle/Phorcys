@@ -258,6 +258,13 @@ class PlayerListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMi
     paginate_by = 60
     ordering = '-nick, -create_time'
 
+    def get_queryset(self):
+        queryset = super(PlayerListView, self).get_queryset()
+        query_str = self.request.GET.get('query')
+        if query_str:
+            queryset = queryset.filter(Q(nick__icontains=query_str) | Q(name__icontains=query_str))
+        return queryset
+
 
 class TeamListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     """
@@ -274,6 +281,9 @@ class TeamListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
         queryset = super(TeamListView, self).get_queryset()
         if self.request.GET.get('add_player'):
             map(self.add_player, queryset)
+        query_str = self.request.GET.get('query')
+        if query_str:
+            queryset = queryset.filter(Q(name__icontains=query_str) | Q(abbreviation__icontains=query_str))
         return queryset
 
     def get(self, request, *args, **kwargs):

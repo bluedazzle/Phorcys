@@ -34,7 +34,8 @@ var vm = new Vue({
             belong: 0,
             intro: '',
             country: 0
-        }
+        },
+        query: ''
     },
     methods: {
         getData: function (event, page) {
@@ -42,7 +43,12 @@ var vm = new Vue({
                 return 0;
             }
             this.$set('players', null);
-            url = generateUrl('api/v1/lol/players') + '&page=' + page.toString();
+            var url = '';
+            if (this.query == '') {
+                url = generateUrl('api/v1/lol/players') + '&page=' + page.toString();
+            } else {
+                url = generateUrl('api/v1/lol/players') + '&page=' + page.toString() + '&query=' + this.query;
+            }
             this.$http.get(url, function (data) {
                 if (data.status == 1) {
                     this.$set('players', data.body.player_list);

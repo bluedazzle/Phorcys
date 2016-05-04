@@ -14,7 +14,8 @@ new Vue({
             abbreviation: '',
             info: '',
             country: ''
-        }
+        },
+        query: ''
     },
     methods: {
         getData: function (event, page) {
@@ -22,7 +23,12 @@ new Vue({
                 return 0;
             }
             this.$set('teams', null);
-            url = generateUrl('api/v1/lol/teams') + '&add_player=1&page=' + page.toString();
+            var url = '';
+            if (this.query == '') {
+                url = generateUrl('api/v1/lol/teams') + '&add_player=1&page=' + page.toString();
+            } else {
+                url = generateUrl('api/v1/lol/teams') + '&add_player=1&page=' + page.toString() + '&query=' + this.query;
+            }
             this.$http.get(url, function (data) {
                 if (data.status == 1) {
                     this.$set('teams', data.body.team_list);

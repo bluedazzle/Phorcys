@@ -6,7 +6,7 @@ import string
 
 import datetime
 
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 
@@ -19,7 +19,7 @@ from django.views.generic.base import TemplateResponseMixin
 from core.models import Country
 from core.utils import upload_picture, create_game_id, create_tournament_id
 from lol.models import News, Tournament, Team, Player, Topic, TournamentTeamInfo, Match, Game, Hero, GamePlayer, \
-    SummonerSpells, Equipment, Position, TournamentTheme, PlayerInfo
+    SummonerSpells, Equipment, Position, TournamentTheme, PlayerInfo, TotalTeamInfo, TotalPlayerInfo
 from myadmin.forms import AdminLoginForm
 from myadmin.models import EAdmin
 from myadmin.utils import calculate_game_data
@@ -217,6 +217,10 @@ class AdminTournamentView(CheckSecurityMixin, CheckAdminPermissionMixin,
                 TournamentTeamInfo(team=team,
                                    uuid='{0}t{1}'.format(uuid, team.id),
                                    tournament=tournament).save()
+                TotalTeamInfo(team=team,
+                              uuid='{0}t{1}'.format(tt.id, team.id),
+                              tournament=tt
+                              ).save()
                 team.tournaments.add(tournament)
             players = team.team_players.all()
             for player in players:
@@ -224,6 +228,9 @@ class AdminTournamentView(CheckSecurityMixin, CheckAdminPermissionMixin,
                            player=player,
                            tournament=tournament
                            ).save()
+                TotalPlayerInfo(uuid='{0}p{1}'.format(uuid, player.id),
+                                player=player,
+                                tournament=tt).save()
         return self.render_to_response(dict())
 
 
@@ -489,6 +496,9 @@ class AdminUserListView(CheckSecurityMixin, CheckAdminPermissionMixin,
     def get_queryset(self):
         queryset = super(AdminUserListView, self).get_queryset()
         queryset = queryset.annotate(comment_number=Count('user_news_comments'))
+        query_str = self.request.GET.get('query')
+        if query_str:
+            queryset = queryset.filter(Q(nick__icontains=query_str) | Q(phone__icontains=query_str))
         return queryset
 
 

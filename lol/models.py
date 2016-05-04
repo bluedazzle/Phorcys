@@ -233,9 +233,31 @@ class TournamentTeamInfo(BaseModel):
     tied_times = models.IntegerField(default=0)
     fail_times = models.IntegerField(default=0)
     win_rate = models.FloatField(default=0.0)
+    score = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return unicode(self.id)
+        return unicode(self.uuid)
+        # return '{0}-{1}'.format(self.team.abbreviation, self.tournament.name)
+
+
+class TotalTeamInfo(BaseModel):
+    uuid = models.CharField(max_length=64, unique=True)
+    team = models.ForeignKey(Team, related_name='team_totaltinfos', on_delete=models.SET_NULL, null=True, blank=True)
+    tournament = models.ForeignKey(TournamentTheme, related_name='team_tournament_themes', null=True, blank=True)
+    rank = models.IntegerField(default=0)
+    kda = models.FloatField(default=0.0)
+    average_kill = models.FloatField(default=0.0)
+    average_dead = models.FloatField(default=0.0)
+    average_assist = models.FloatField(default=0.0)
+    average_time = models.FloatField(default=0.0)
+    average_money_pm = models.FloatField(default=0.0)
+    victory_times = models.IntegerField(default=0)
+    tied_times = models.IntegerField(default=0)
+    fail_times = models.IntegerField(default=0)
+    win_rate = models.FloatField(default=0.0)
+
+    def __unicode__(self):
+        return unicode(self.uuid)
         # return '{0}-{1}'.format(self.team.abbreviation, self.tournament.name)
 
 
@@ -243,6 +265,29 @@ class PlayerInfo(BaseModel):
     uuid = models.CharField(max_length=64, unique=True)
     player = models.ForeignKey(Player, related_name='player_ttinfos', null=True, blank=True)
     tournament = models.ForeignKey(Tournament, related_name='player_tournaments', null=True,
+                                   blank=True)
+    kda = models.FloatField(default=0.0)
+    average_kill = models.FloatField(default=0.0)
+    average_dead = models.FloatField(default=0.0)
+    average_assist = models.FloatField(default=0.0)
+    average_time = models.FloatField(default=0.0)
+    average_money_pm = models.FloatField(default=0.0)
+    average_hit_p10m = models.FloatField(default=0.0)
+    average_melee_rate = models.FloatField(default=0.0)
+    win_rate = models.FloatField(default=0.0)
+    win_fail_rate = models.FloatField(default=0.0)
+    victory_times = models.IntegerField(default=0)
+    tied_times = models.IntegerField(default=0)
+    fail_times = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return '{0}-{1}'.format(self.player.nick, self.tournament.name)
+
+
+class TotalPlayerInfo(BaseModel):
+    uuid = models.CharField(max_length=64, unique=True)
+    player = models.ForeignKey(Player, related_name='player_totalinfos', null=True, blank=True)
+    tournament = models.ForeignKey(TournamentTheme, related_name='player_tournament_themes', null=True,
                                    blank=True)
     kda = models.FloatField(default=0.0)
     average_kill = models.FloatField(default=0.0)

@@ -6,7 +6,7 @@ Vue.config.delimiters = ['${', '}}'];
 new Vue({
     el: '#vUsers',
     data: {
-        data: {},
+        query: ''
     },
     methods: {
         getData: function (event, page) {
@@ -14,7 +14,12 @@ new Vue({
                 return 0;
             }
             this.$set('users', null);
-            url = generateUrlWithToken('admin/api/users') + '&page=' + page.toString();
+            var url = '';
+            if (this.query == '') {
+                url = generateUrlWithToken('admin/api/users') + '&page=' + page.toString();
+            } else {
+                url = generateUrlWithToken('admin/api/users') + '&page=' + page.toString() + '&query=' + this.query;
+            }
             this.$http.get(url, function (data) {
                 if (data.status == 1) {
                     this.$set('users', data.body.euser_list);
@@ -26,11 +31,11 @@ new Vue({
         },
         forbidUser: function (id) {
             url = generateUrlWithToken('admin/api/user/' + id + '/forbid', getCookie('token'));
-            this.$http.post(url,{}, function (data) {
-                if (data.status == 1){
+            this.$http.post(url, {}, function (data) {
+                if (data.status == 1) {
                     $.scojs_message('操作成功', $.scojs_message.TYPE_OK);
                     this.getData(null, 1);
-                }else {
+                } else {
                     $.scojs_message('操作失败', $.scojs_message.TYPE_ERROR);
                 }
             })
