@@ -24,7 +24,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'DjangoUeditor',
     'core',
     'lol',
     'myadmin',
@@ -67,6 +68,18 @@ DATABASES = {
         'PASSWORD': '123456',  # Not used with sqlite3.
         'HOST': 'localhost',  # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '5432',
+    }
+}
+
+UEDITOR_SETTINGS = {
+    "config": {
+        'initialFrameWidth': 1200,
+        'initialFrameHeight': 1000,
+        'minFrameWidth': 800,
+    },
+    "upload": {
+        'imagePathFormat': 'lol/%(basename)s_%(datetime)s.%(extname)s',
+        'imageUrlPrefix': '/',
     }
 }
 # Internationalization

@@ -7,7 +7,7 @@ from django.shortcuts import render, render_to_response
 from django.views.generic import UpdateView, DetailView, TemplateView, ListView, RedirectView
 
 from lol.models import News, Tournament, Team, Player, Topic
-from myadmin.forms import AdminLoginForm
+from myadmin.forms import AdminLoginForm, NewsForm
 from myadmin.models import EAdmin
 from myuser.models import EUser
 from core.Mixin.CheckMixin import CheckAdminPagePermissionMixin
@@ -110,3 +110,13 @@ class AdminSettingView(CheckAdminPagePermissionMixin, TemplateView):
 
 class AdminLogoutView(CheckAdminPagePermissionMixin, RedirectView):
     url = '/admin/login'
+
+
+class AdminNewNewsView(CheckAdminPagePermissionMixin, TemplateView):
+    template_name = 'admin/admin_new_news.html'
+    http_method_names = ['get']
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(AdminNewNewsView, self).get_context_data(**kwargs)
+        kwargs['form'] = NewsForm()
+        return kwargs

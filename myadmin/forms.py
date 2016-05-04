@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 from django import forms
+from DjangoUeditor.forms import UEditorField
 
 
 class BaseForm(forms.Form):
@@ -26,3 +27,9 @@ class AdminLoginForm(BaseForm):
     }
     username = forms.CharField(max_length=11, min_length=11, error_messages=username_error_messages)
     password = forms.CharField(max_length=50, error_messages=password_error_messages)
+
+
+class NewsForm(forms.Form):
+    news_detail = UEditorField("", initial="", height=600,
+                               imagePath='static/image/upload/lol/news/%(basename)s_%(datetime)s.%(extname)s',
+                               filePath='static/image/upload/lol/news/%(basename)s_%(datetime)s.%(extname)s')

@@ -86,7 +86,7 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
     http_method_names = ['post']
     success_url = 'localhost'
     datetime_type = 'timestamp'
-    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar', 'wechat_bind', 'weibo_bind', 'qq_bind']
     count = 64
     token = ''
 
@@ -138,7 +138,7 @@ class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
     http_method_names = ['post']
     success_url = 'localhost'
     datetime_type = 'timestamp'
-    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar', 'wechat_bind', 'weibo_bind', 'qq_bind']
     count = 64
 
     def create_extend(self):
@@ -203,7 +203,7 @@ class UserResetView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Upda
     http_method_names = ['post']
     success_url = 'localhost'
     datetime_type = 'timestamp'
-    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar', 'wechat_bind', 'weibo_bind', 'qq_bind']
     pk_url_kwarg = 'phone'
     count = 64
     token = ''
@@ -251,7 +251,7 @@ class UserLoginView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Upda
     http_method_names = ['post']
     pk_url_kwarg = 'phone'
     datetime_type = 'timestamp'
-    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar', 'wechat_bind', 'weibo_bind', 'qq_bind']
     success_url = 'localhost'
     token = ''
 
@@ -379,7 +379,7 @@ class UserThirdAccountBindView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMi
 
 class UserThirdLoginView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['get']
-    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar']
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar', 'wechat_bind', 'weibo_bind', 'qq_bind']
     datetime_type = 'timestamp'
     model = EUser
 
@@ -400,7 +400,7 @@ class UserThirdLoginView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, J
 
 class UserAvatarView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['post']
-    include_attr = ['id', 'create_time', 'nick', 'phone', 'avatar']
+    include_attr = ['id', 'create_time', 'nick', 'phone', 'avatar', 'wechat_bind', 'weibo_bind', 'qq_bind']
     datetime_type = 'timestamp'
     model = EUser
 

@@ -373,7 +373,14 @@ class MatchListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMix
     def get_queryset(self):
         queryset = super(MatchListView, self).get_queryset()
         queryset = queryset.order_by('-match_time')
+        map(self.add_date, queryset)
         return queryset
+
+    def add_date(self, match):
+        match_date = match.match_time.strftime('%Y%m%d')
+        match_weekday = match.match_time.weekday()
+        setattr(match, 'match_date', match_date)
+        setattr(match, 'match_weekday', match_weekday)
 
 
 class MatchDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):

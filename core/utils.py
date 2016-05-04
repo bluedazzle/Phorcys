@@ -54,7 +54,7 @@ def save_image(url, type='lol/hero', name="default.jpg"):
 
 
 def upload_picture(pic_file, folder='lol'):
-    pic_name = "{0}{1}".format(unicode(int(time.time())), pic_file.name)
+    pic_name = "{0}{1}".format(unicode(time.time()).split('.'), pic_file.name)
     pic_path = '/image/upload/{0}/{1}'.format(folder, pic_name)
     save_path = UPLOAD_PATH + pic_path
     img = Image.open(pic_file)

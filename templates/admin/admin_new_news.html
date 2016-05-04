@@ -1,0 +1,56 @@
+{% extends 'admin/admin_base.html' %}
+{% block css %}
+    {{ form.media }}
+{% endblock %}
+{% block content %}
+    <div class="boloContainer" id="vNews">
+        <div class="ui breadcrumb">
+            <a class="section" href="/admin/news">资讯</a>
+            <i class="right angle icon divider"></i>
+            <a class="section">新资讯</a>
+            <i class="right angle icon divider"></i>
+        </div>
+        <div class="ui divider"></div>
+        <div>
+            <form action="" class="ui form">
+                <div class="field">
+                    <label>文章标题:</label>
+                    <input type="text" name="title" placeholder="文章标题">
+                </div>
+                <div class="field">
+                    <label>文章类型:</label>
+                    <select name="type" id="">
+                        <option value="1">小图</option>
+                        <option value="2">大图</option>
+                        <option value="3">文字</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>图片链接1:</label>
+                    <input type="text" name="title" placeholder="图片链接1">
+                </div>
+                <div class="field">
+                    <label>图片链接2:</label>
+                    <input type="text" name="title" placeholder="图片链接2">
+                </div>
+                <div class="field">
+                    <label>图片链接3:</label>
+                    <input type="text" name="title" placeholder="图片链接3">
+                </div>
+                <div class="form-group">
+                    {{ form }}
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        window.onload = function () {
+            $('#id_news_detail').css('width', '100%');
+            $('#edui1').css('width', '100%');
+            $('#edui1_iframeholder').css('width', '');
+        };
+    </script>
+{% endblock %}
