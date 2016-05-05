@@ -382,13 +382,18 @@ class MatchListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMix
 
     model = Match
     http_method_names = ['get']
-    datetime_type = 'timestamp'
+    datetime_type = 'string'
     foreign = True
     paginate_by = 20
 
     def get_queryset(self):
+        feature = self.request.GET.get('feature')
+        date = datetime.date.today() + datetime.timedelta(days=1)
         queryset = super(MatchListView, self).get_queryset()
-        queryset = queryset.order_by('-match_time')
+        if feature:
+            queryset = queryset.filter(match_time__gte=date).order_by('match_time')
+        else:
+            queryset = queryset.filter(match_time__lt=date).order_by('-match_time')
         map(self.add_date, queryset)
         return queryset
 

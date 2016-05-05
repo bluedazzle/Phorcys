@@ -68,6 +68,7 @@ class BasePlayer(BaseModel):
     avatar = models.CharField(default='http://www.fibar.cn', max_length=100)
     nationality = models.ForeignKey(Country, related_name='country_players', on_delete=models.SET_NULL, null=True, blank=True)
     intro = models.TextField(default='')
+    wid = models.CharField(max_length=64, default='')
 
     class Meta:
         abstract = True
@@ -97,6 +98,7 @@ class BaseTeam(BaseModel):
     logo = models.CharField(default='http://www.fibar.cn', max_length=100)
     info = models.TextField()
     country = models.ForeignKey(Country, related_name='country_teams', on_delete=models.SET_NULL, null=True, blank=True)
+    wid = models.CharField(max_length=64, default='')
 
     class Meta:
         abstract = True

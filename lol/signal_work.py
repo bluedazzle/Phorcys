@@ -2,4 +2,113 @@
 
 from __future__ import unicode_literals
 
-# def generate_player_tournament_info
+from lol.models import Tournament, Match, TournamentTheme
+
+
+def generate_player_tournament_info(tournament_id):
+    tournament = Tournament.objects.get(id=tournament_id)
+    player_info_list = tournament.player_tournaments.all()
+    match_list = Match.objects.filter(tournament=tournament).order_by('-create_time')
+    for player_info in player_info_list:
+        team = player_info.player.belong
+
+        win_times = 0.0
+        fail_times = 0.0
+        total_kill = 0.0
+        total_dead = 0.0
+        total_assist = 0.0
+        total_time = 0.0
+        total_money = 0.0
+        total_farming = 0.0
+        total_melee = 0.0
+        times = 0
+
+        for match in match_list:
+            game_list = match.match_games.all()
+            for game in game_list:
+                gps = game.game_gameps.filter(player=player_info.player)
+                if gps.exists():
+                    gps = gps[0]
+                    if game.win == team:
+                        win_times += 1
+                    else:
+                        fail_times += 1
+                    times += 1
+                    total_kill += gps.kill
+                    total_dead += gps.dead
+                    total_assist += gps.assist
+                    total_time += game.duration
+                    total_money += gps.economic
+                    total_farming += gps.farming
+                    total_melee += gps.war_rate
+
+        player_info.average_kill = total_kill / times
+        player_info.average_dead = total_dead / times
+        player_info.average_assist = total_assist / times
+        player_info.average_time = total_time / times
+        player_info.average_money_pm = total_money / times
+        player_info.average_hit_p10m = total_farming / total_time * 10
+        player_info.average_melee_rate = total_melee / total_melee
+        player_info.win_rate = win_times / times
+        player_info.win_fail_rate = win_times / fail_times
+        player_info.victory_times = win_times
+        player_info.fail_times = fail_times
+        player_info.save()
+
+
+def generate_player_tournament_theme_info(tournament_id):
+    tournament_theme = TournamentTheme.objects.get(id=tournament_id)
+    tournament_list = tournament_theme.theme_tournaments.all()
+    total_player_info_list = tournament_theme.player_tournament_themes.all()
+
+    for total_player_info in total_player_info_list:
+        player = total_player_info.player
+
+        times = 0
+        average_assist = 0.0
+        average_dead = 0.0
+        average_kill = 0.0
+        average_hit_p10m = 0.0
+        average_melee_rate = 0.0
+        average_money_pm = 0.0
+        average_time = 0.0
+        win_rate = 0.0
+        kda = 0.0
+        victory_times = 0.0
+        tied_times = 0.0
+        fail_times = 0.0
+        win_fail_rate = 0.0
+
+        for tournament in tournament_list:
+            player_info = tournament.player_tournaments.filter(player=player)
+            if player_info.average_kill != 0.0 and player.win_rate != 0.0:
+                times += 1
+                average_assist += player_info.average_assist
+                average_dead += player_info.average_dead
+                average_kill += player_info.average_kill
+                average_hit_p10m += player_info.average_hit_p10m
+                average_melee_rate += player_info.average_melee_rate
+                average_money_pm += player_info.average_money_pm
+                average_time += player_info.average_time
+                kda += player_info.kda
+                win_rate += player_info.win_rate
+                win_fail_rate += player_info.win_fail_rate
+                victory_times += player_info.victory_times
+                tied_times += player_info.tied_times
+                fail_times += player_info.fail_times
+
+        total_player_info.average_dead = average_dead / times
+        total_player_info.average_money_pm = average_money_pm / times
+        total_player_info.average_assist = average_assist / times
+        total_player_info.average_hit_p10m = average_hit_p10m / times
+        total_player_info.average_melee_rate = average_melee_rate / times
+        total_player_info.average_kill = average_kill / times
+        total_player_info.average_time = average_time / times
+        total_player_info.kda = kda / times
+        total_player_info.win_fail_rate = win_fail_rate / times
+        total_player_info.win_rate = win_rate / times
+        total_player_info.victory_times = victory_times / times
+        total_player_info.fail_times = fail_times / times
+        total_player_info.tied_times = times / times
+        total_player_info.save()
+

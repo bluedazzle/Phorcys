@@ -61,15 +61,24 @@ class Weibo(BaseWeibo):
     type_choice = [(1, '选手微博'),
                    (2, '战队微博')]
     type = models.IntegerField(default=1, choices=type_choice)
+    wid = models.CharField(max_length=64, unique=True)
     player_author = models.ForeignKey(Player, related_name='player_weibos', on_delete=models.SET_NULL, null=True,
                                       blank=True)
     team_author = models.ForeignKey(Team, related_name='team_weibos', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __unicode__(self):
-        if self.type == 1:
-            return '{0}-{1}'.format(self.title, self.player_author.nick)
-        else:
-            return '{0}-{1}'.format(self.title, self.team_author.name)
+        return unicode(self.id)
+        # if self.type == 1:
+        #     return '{0}-{1}'.format(self.title, self.player_author.nick)
+        # else:
+        #     return '{0}-{1}'.format(self.title, self.team_author.name)
+
+
+class SpiderConfig(BaseModel):
+    since_id = models.CharField(max_length=64, default=None)
+
+    def __unicode__(self):
+        return self.since_id
 
 
 class NewsComment(BaseComment):
