@@ -41,7 +41,8 @@ def generate_player_tournament_info(tournament_id):
                     total_money += gps.economic
                     total_farming += gps.farming
                     total_melee += gps.war_rate
-
+        if times == 0:
+            return tournament
         player_info.average_kill = total_kill / times
         player_info.average_dead = total_dead / times
         player_info.average_assist = total_assist / times
@@ -54,6 +55,7 @@ def generate_player_tournament_info(tournament_id):
         player_info.victory_times = win_times
         player_info.fail_times = fail_times
         player_info.save()
+    return tournament
 
 
 def generate_player_tournament_theme_info(tournament_id):
@@ -81,6 +83,8 @@ def generate_player_tournament_theme_info(tournament_id):
 
         for tournament in tournament_list:
             player_info = tournament.player_tournaments.filter(player=player)
+            if not player_info.exists():
+                continue
             if player_info.average_kill != 0.0 and player.win_rate != 0.0:
                 times += 1
                 average_assist += player_info.average_assist
@@ -96,7 +100,8 @@ def generate_player_tournament_theme_info(tournament_id):
                 victory_times += player_info.victory_times
                 tied_times += player_info.tied_times
                 fail_times += player_info.fail_times
-
+        if times == 0:
+            return False
         total_player_info.average_dead = average_dead / times
         total_player_info.average_money_pm = average_money_pm / times
         total_player_info.average_assist = average_assist / times
@@ -111,4 +116,10 @@ def generate_player_tournament_theme_info(tournament_id):
         total_player_info.fail_times = fail_times / times
         total_player_info.tied_times = times / times
         total_player_info.save()
+
+
+def get_player_info(tournament_id):
+    tournament = generate_player_tournament_info(tournament_id)
+    generate_player_tournament_theme_info(tournament.belong_id)
+    print '联赛 {0} 数据计算成功'.format(tournament.belong.name)
 
