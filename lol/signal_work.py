@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-from lol.models import Tournament, Match, TournamentTheme
+from lol.models import Tournament, Match, TournamentTheme, PlayerInfo
 
 
 def generate_player_tournament_info(tournament_id):
@@ -42,16 +42,23 @@ def generate_player_tournament_info(tournament_id):
                     total_farming += gps.farming
                     total_melee += gps.war_rate
         if times == 0:
-            return tournament
+            continue
         player_info.average_kill = total_kill / times
         player_info.average_dead = total_dead / times
         player_info.average_assist = total_assist / times
         player_info.average_time = total_time / times
         player_info.average_money_pm = total_money / times
-        player_info.average_hit_p10m = total_farming / total_time * 10
-        player_info.average_melee_rate = total_melee / total_melee
+        player_info.average_hit_p10m = round(total_farming / total_time * 10, 2)
+        player_info.average_melee_rate = round((total_melee / times), 2)
         player_info.win_rate = win_times / times
-        player_info.win_fail_rate = win_times / fail_times
+        if fail_times == 0.0:
+            player_info.win_fail_rate = win_times / 1
+        else:
+            player_info.win_fail_rate = win_times / fail_times
+        if total_dead == 0.0:
+            player_info.kda = (total_kill + total_assist) / 1.0
+        else:
+            player_info.kda = round((total_kill + total_assist) / total_dead, 2)
         player_info.victory_times = win_times
         player_info.fail_times = fail_times
         player_info.save()
@@ -82,10 +89,11 @@ def generate_player_tournament_theme_info(tournament_id):
         win_fail_rate = 0.0
 
         for tournament in tournament_list:
-            player_info = tournament.player_tournaments.filter(player=player)
+            player_info = PlayerInfo.objects.filter(tournament=tournament, player=player)
             if not player_info.exists():
                 continue
-            if player_info.average_kill != 0.0 and player.win_rate != 0.0:
+            player_info = player_info[0]
+            if player_info.average_kill != 0.0 and player_info.average_melee_rate != 0.0:
                 times += 1
                 average_assist += player_info.average_assist
                 average_dead += player_info.average_dead
@@ -101,7 +109,7 @@ def generate_player_tournament_theme_info(tournament_id):
                 tied_times += player_info.tied_times
                 fail_times += player_info.fail_times
         if times == 0:
-            return False
+            continue
         total_player_info.average_dead = average_dead / times
         total_player_info.average_money_pm = average_money_pm / times
         total_player_info.average_assist = average_assist / times

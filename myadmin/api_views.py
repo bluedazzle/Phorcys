@@ -17,13 +17,13 @@ from django.views.generic import UpdateView, DetailView, TemplateView, ListView,
 from django.views.generic.base import TemplateResponseMixin
 
 from core.models import Country
-from core.utils import upload_picture, create_game_id, create_tournament_id
+from core.utils import upload_picture, create_game_id, create_tournament_id, create_token
 from lol.models import News, Tournament, Team, Player, Topic, TournamentTeamInfo, Match, Game, Hero, GamePlayer, \
     SummonerSpells, Equipment, Position, TournamentTheme, PlayerInfo, TotalTeamInfo, TotalPlayerInfo
 from myadmin.forms import AdminLoginForm
 from myadmin.models import EAdmin
 from myadmin.utils import calculate_game_data
-from myuser.models import EUser
+from myuser.models import EUser, Invite
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckAdminPermissionMixin
 from core.Mixin.StatusWrapMixin import *
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
@@ -82,7 +82,8 @@ class AdminLoginView(CheckSecurityMixin, AdminStatusWrapMixin, JsonRequestMixin,
         return obj
 
 
-class AdminLogoutView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonResponseMixin, TemplateResponseMixin, View):
+class AdminLogoutView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonResponseMixin,
+                      TemplateResponseMixin, View):
     http_method_names = ['get']
     template_name = 'admin/admin_login.html'
 
@@ -470,6 +471,14 @@ class AdminGameDetailView(CheckSecurityMixin, CheckAdminPermissionMixin,
             game_player.damage_rate = damage_rate
             game_player.farming = farming
             game_player.economic = economic
+            kill = float(kill)
+            dead = float(dead)
+            assist = float(assist)
+            if int(dead) == 0:
+                dead = 1.0
+                game_player.kda = (kill + assist) / dead
+            else:
+                game_player.kda = (kill + assist) / dead
             game_player.save()
             equips = request.POST.get('equipments')
             calculate_game_data(game)
@@ -630,4 +639,44 @@ class AdminNewsView(CheckSecurityMixin, CheckAdminPermissionMixin,
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
+        return self.render_to_response(dict())
+
+
+class AdminInviteListView(CheckSecurityMixin, CheckAdminPermissionMixin,
+                          StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    model = Invite
+    http_method_names = ['get']
+    paginate_by = 50
+
+    def get_queryset(self):
+        query = self.request.GET.get('query')
+        queryset = super(AdminInviteListView, self).get_queryset()
+        if query:
+            queryset = queryset.filter(Q(code=query) | Q(belong__phone=query))
+        return queryset
+
+
+class AdminInviteView(CheckSecurityMixin, CheckAdminPermissionMixin,
+                      StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DetailView):
+    model = Invite
+    http_method_names = ['get', 'post']
+
+    def get(self, request, *args, **kwargs):
+        used = Invite.objects.filter(use=True).count()
+        unuse = Invite.objects.filter(use=False).count()
+        total = Invite.objects.all().count()
+        context = {'used': used,
+                   'unuse': unuse,
+                   'total': total}
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        numbers = int(request.POST.get('number'))
+        if numbers:
+            for i in range(1, (numbers + 1)):
+                code = create_token(count=6)
+                Invite(code=code).save()
+            return self.render_to_response(dict())
+        self.message = '参数缺失'
+        self.status_code = ERROR_DATA
         return self.render_to_response(dict())

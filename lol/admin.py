@@ -5,6 +5,7 @@ from lol.models import *
 
 admin.site.register(Topic)
 admin.site.register(Tournament)
+admin.site.register(TournamentTheme)
 admin.site.register(Team)
 admin.site.register(Player)
 admin.site.register(NewsComment)

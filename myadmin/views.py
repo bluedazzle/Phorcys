@@ -172,3 +172,8 @@ class AdminModifyNewsView(CheckAdminPagePermissionMixin, UpdateView):
             news.save()
             return HttpResponseRedirect('/admin/news')
         return HttpResponse('False')
+
+
+class AdminInviteListView(CheckAdminPagePermissionMixin, TemplateView):
+    template_name = 'admin/admin_invite.html'
+    http_method_names = ['get']

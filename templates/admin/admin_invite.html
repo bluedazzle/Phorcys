@@ -1,0 +1,86 @@
+{% extends 'admin/admin_base.html' %}
+{% block content %}
+    <div class="boloContainer" id="vInvites">
+        <div class="ui breadcrumb">
+            <a class="section">选手</a>
+            <i class="right angle icon divider"></i>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui small primary labeled icon button" onclick="addPlayer()"><i
+                            class="user icon"></i> 添加邀请码
+                    </div>
+        <div class="ui modal scrolling" id="addModal">
+            <div class="header">
+                新邀请码
+            </div>
+            <div class="image content">
+                <div class="description">
+                    <form action="" method="post" class="ui form">
+                        <div class="field">
+                            <label>生成数量</label>
+                            <input type="number" name="number" v-model="number" placeholder="生成数量">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui black deny button">
+                    算了
+                </div>
+                <div class="ui positive right labeled icon button" @click="createNewInvites">
+                    好了
+                    <i class="checkmark icon"></i>
+                </div>
+            </div>
+        </div>
+        <div>共: ${ total }} 个邀请码, 已使用 ${ used }}, 未使用: ${ unuse }}</div>
+        <table class="ui celled selectable table">
+            <thead>
+            <tr>
+                <th>邀请码</th>
+                <th>使用</th>
+                <th>绑定</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div v-show="noData" class="ui active inverted dimmer">
+                <div class="ui text loader">Loading</div>
+            </div>
+            <tr v-for="invite in invites">
+                <td>
+                    ${ invite.code }}
+                </td>
+                <td>${ invite.use == true ? '已使用' : '未使用' }}</td>
+                <td>${ invite.belong.phone }}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="4">
+                    <div class="ui action left icon input">
+                        <i class="search icon"></i>
+                        <input type="text" v-model="query" placeholder="搜索选手...">
+                        <button class="ui green button" @click="getData(null, 1)">搜索</button>
+                    </div>
+                    <div class="ui right floated pagination menu">
+                        <a class="icon item" :class="{'disabled': pageObj.previous == undefined}"
+                           @click="getData($event, pageObj.previous)">
+                            <i class="left chevron icon"></i>
+                        </a>
+                        <a class="item" v-for="page in pageObj.page_range"
+                           :class="{'active': page.page == pageObj.current}" @click="getData($event, page.page)">${
+                            page.page }}
+                            <a class="icon item" :class="{'disabled': pageObj.next == undefined}"
+                               @click="getData($event, pageObj.next)">
+                                <i class="right chevron icon"></i>
+                            </a>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="/s/js/src/invite.js"></script>
+{% endblock %}

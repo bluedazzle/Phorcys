@@ -17,4 +17,5 @@ urlpatterns = patterns('',
                        url(r'^setting', AdminSettingView.as_view()),
                        url(r'^logout', AdminLogoutView.as_view()),
                        url(r'^users', AdminUserListView.as_view()),
+                       url(r'^invite', AdminInviteListView.as_view()),
                        )

@@ -414,12 +414,6 @@ class MatchDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, De
     foreign = True
     pk_url_kwarg = 'id'
 
-    def get_object(self, queryset=None):
-        obj = super(MatchDetailView, self).get_object(queryset)
-        match_weekday = obj.match_time.weekday() + 1
-        setattr(obj, 'weekday', match_weekday)
-        return obj
-
     def get_context_data(self, **kwargs):
         game_list = Game.objects.filter(match=self.object).order_by('-create_time')
         context = super(MatchDetailView, self).get_context_data(**kwargs)
