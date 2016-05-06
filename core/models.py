@@ -99,6 +99,7 @@ class BaseTeam(BaseModel):
     info = models.TextField()
     country = models.ForeignKey(Country, related_name='country_teams', on_delete=models.SET_NULL, null=True, blank=True)
     wid = models.CharField(max_length=64, default='')
+    world_rank = models.IntegerField(default=0)
 
     class Meta:
         abstract = True

@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import time
 
 from django.db.models import Q, Count
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
 
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckTokenMixin
 from core.Mixin.StatusWrapMixin import *
@@ -15,7 +15,7 @@ from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, Jso
 from core.dss.Serializer import serializer
 from core.models import Country
 from lol.models import News, NewsComment, Topic, Player, Team, Tournament, Weibo, Match, TournamentTeamInfo, Game, Hero, \
-    SummonerSpells, Equipment, GamePlayer, TournamentTheme, PlayerInfo, TotalPlayerInfo
+    SummonerSpells, Equipment, GamePlayer, TournamentTheme, PlayerInfo, TotalPlayerInfo, TotalTeamInfo
 from lol.forms import *
 from myuser.models import EUser
 
@@ -738,29 +738,86 @@ class PlayerTournamentsView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
         self.status_code = ERROR_DATA
 
 
+class TeamTournamentsView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+    """
+    战队参赛列表
+    """
+
+    model = TournamentTheme
+
+    def get(self, request, *args, **kwargs):
+        tid = self.kwargs.get('tid')
+        if tid:
+            team = Team.objects.filter(id=tid)
+            if team.exists():
+                team = team[0]
+                tournament_list = team.tournaments.all()
+                tournaments = []
+                for tournament in tournament_list:
+                    tt = tournament.belong
+                    tournament_dict = {'title': tt.name, 'id': tt.id}
+                    if tournament_dict not in tournaments:
+                        tournaments.append(tournament_dict)
+                return self.render_to_response({'tournaments': tournaments})
+            else:
+                self.message = '战队不存在'
+                self.status_code = INFO_NO_EXIST
+                return self.render_to_response(dict())
+        self.message = '参数错误'
+        self.status_code = ERROR_DATA
 
 
-
-class TeamTournamentDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+class TeamTournamentDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, View):
     """
     战队联赛信息
     """
+    http_method_names = ['get']
 
-    model = TournamentTeamInfo
+    def get(self, request, *args, **kwargs):
+        tid = self.kwargs.get('tid')
+        id = self.kwargs.get('id')
+        if id and tid:
+            tiid = '{0}t{1}'.format(tid, id)
+            team_info_list = TotalTeamInfo.objects.filter(uuid=tiid)
+            if team_info_list.exists():
+                team_info = team_info_list[0]
+                context = {'team_info': team_info}
+                return self.render_to_response(context)
+            self.message = '战队赛事信息不存在'
+            self.status_code = INFO_NO_EXIST
+            return self.render_to_response(dict())
+        self.message = '参数缺失'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
 
-    # def get(self, request, *args, **kwargs):
-    #     tid = self.kwargs.get('tid')
-    #     id = self.kwargs.get('id')
-    #     if uuid and tid:
-    #         tiid = '{0}t{1}'.format(uuid, tid)
-    #         team_info_list = TournamentTeamInfo.objects.filter(uuid=tiid)
-    #         if team_info_list.exists():
-    #             team_info = team_info_list[0]
-    #             context = {'team_info': team_info}
-    #             return self.render_to_response(context)
-    #         self.message = '战队赛事信息不存在'
-    #         self.status_code = INFO_NO_EXIST
-    #         return self.render_to_response(dict())
-    #     self.message = '参数缺失'
-    #     self.status_code = ERROR_DATA
-    #     return self.render_to_response(dict())
+
+class TournamentRankView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, View):
+    """
+    联赛排名列表
+    """
+
+    http_method_names = ['get']
+    foreign = True
+    include_attr = ['rank', 'score', 'victory_times', 'fail_times', 'team', 'name', 'tournament', 'abbreviation']
+
+    def get(self, request, *args, **kwargs):
+        tid = self.kwargs.get('tid')
+        if tid:
+            tournament_theme = TournamentTheme.objects.filter(id=tid)
+            if tournament_theme.exists():
+                tournament_theme = tournament_theme[0]
+                tournament_list = tournament_theme.theme_tournaments.all()
+                t_list = []
+                for tournament in tournament_list:
+                    team_info_list = TournamentTeamInfo.objects.filter(tournament=tournament).order_by('rank')
+                    info = {'group': team_info_list}
+                    t_list.append(info)
+                return self.render_to_response({'group_list': t_list})
+            self.message = '联赛不存在'
+            self.status_code = INFO_NO_EXIST
+            return self.render_to_response(dict())
+        self.message = '数据缺失'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
+
+
