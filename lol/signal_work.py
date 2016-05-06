@@ -186,6 +186,8 @@ def generate_team_tournament_info(tournament_id):
                 average_time += player_info.average_time
                 average_money_pm += player_info.average_money_pm
 
+        if times == 0:
+            continue
         team_info.average_money_pm = round(average_money_pm / times, 2)
         team_info.average_kill = round(average_kill / times, 2)
         team_info.average_dead = round(average_dead / times, 2)
