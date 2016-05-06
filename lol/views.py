@@ -722,7 +722,7 @@ class PlayerTournamentsView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
             if player.exists():
                 player = player[0]
                 team = player.belong
-                tournament_list = team.tournament_teams.all()
+                tournament_list = team.tournaments.all()
                 tournaments = []
                 for tournament in tournament_list:
                     tt = tournament.belong
