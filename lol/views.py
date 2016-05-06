@@ -799,7 +799,7 @@ class TournamentRankView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin,
     http_method_names = ['get']
     foreign = True
     include_attr = ['rank', 'score', 'victory_times', 'start_time', 'end_time',
-                    'fail_times', 'team', 'name', 'abbreviation', 'cover']
+                    'fail_times', 'team', 'name', 'abbreviation', 'cover', 'id', 'logo']
 
     def get(self, request, *args, **kwargs):
         tid = self.kwargs.get('tid')
