@@ -229,7 +229,7 @@ class AdminTournamentView(CheckSecurityMixin, CheckAdminPermissionMixin,
                            player=player,
                            tournament=tournament
                            ).save()
-                TotalPlayerInfo(uuid='{0}p{1}'.format(uuid, player.id),
+                TotalPlayerInfo(uuid='{0}p{1}'.format(tt.id, player.id),
                                 player=player,
                                 tournament=tt).save()
         return self.render_to_response(dict())
