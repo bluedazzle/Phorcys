@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-from lol.models import Tournament, Match, TournamentTheme, PlayerInfo
+from lol.models import Tournament, Match, TournamentTheme, PlayerInfo, TournamentTeamInfo
 
 
 def generate_player_tournament_info(tournament_id):
@@ -52,11 +52,11 @@ def generate_player_tournament_info(tournament_id):
         player_info.average_melee_rate = round((total_melee / times), 2)
         player_info.win_rate = round(win_times / times, 2)
         if fail_times == 0.0:
-            player_info.win_fail_rate = win_times / 1
+            player_info.win_fail_rate = win_times
         else:
             player_info.win_fail_rate = round(win_times / fail_times, 2)
         if total_dead == 0.0:
-            player_info.kda = (total_kill + total_assist) / 1.0
+            player_info.kda = (total_kill + total_assist)
         else:
             player_info.kda = round((total_kill + total_assist) / total_dead, 2)
         player_info.victory_times = win_times
@@ -126,8 +126,85 @@ def generate_player_tournament_theme_info(tournament_id):
         total_player_info.save()
 
 
+def generate_score(tid):
+    team_info = TournamentTeamInfo.objects.get(id=tid)
+    team_info.score = team_info.victory_times
+    team_info.save()
+
+
+def generate_team_tournament_info(tournament_id):
+    tournament = Tournament.objects.get(id=tournament_id)
+    team_info_list = tournament.team_tournaments.all()
+    for team_info in team_info_list:
+        team = team_info.team
+
+        kda = 0.0
+        average_kill = 0.0
+        average_dead = 0.0
+        average_assist = 0.0
+        average_time = 0.0
+        average_money_pm = 0.0
+        victory_games = 0.0
+        victory_times = 0.0
+        tied_times = 0.0
+        fail_times = 0.0
+        times = 0.0
+
+        match_list = Match.objects.filter(tournament=tournament, team1=team)
+        if match_list.exists():
+            for match in match_list:
+                if match.team1_score > match.team2_score:
+                    victory_times += 1
+                    victory_games += match.team1_score
+                elif match.team1_score == match.team2_score:
+                    tied_times += 1
+                else:
+                    fail_times += 1
+
+        match_list = Match.objects.filter(tournament=tournament, team2=team)
+        if match_list.exists():
+            for match in match_list:
+                if match.team1_score > match.team2_score:
+                    fail_times += 1
+                elif match.team1_score == match.team2_score:
+                    tied_times += 1
+                else:
+                    victory_games += match.team2_score
+                    victory_times += 1
+        players = team.team_players.all()
+        for player in players:
+            player_info = PlayerInfo.objects.filter(tournament=tournament, player=player)
+            if not player_info.exists():
+                continue
+            player_info = player_info[0]
+            if player_info.average_melee_rate != 0 and player_info.average_money_pm != 0:
+                times += 1
+                kda += player_info.kda
+                average_kill += player_info.average_kill
+                average_dead += player_info.average_dead
+                average_assist += player_info.average_assist
+                average_time += player_info.average_time
+                average_money_pm += player_info.average_money_pm
+
+        team_info.average_money_pm = round(average_money_pm / times, 2)
+        team_info.average_kill = round(average_kill / times, 2)
+        team_info.average_dead = round(average_dead / times, 2)
+        team_info.average_assist = round(average_assist / times, 2)
+        team_info.average_time = round(average_time / times, 2)
+        team_info.kda = round(kda / times, 2)
+        team_info.victory_times = victory_times
+        team_info.fail_times = fail_times
+        team_info.tied_times = tied_times
+        if (tied_times + fail_times) == 0:
+            team_info.win_rate = victory_times
+        else:
+            team_info.win_rate = round(victory_times / (fail_times + tied_times), 2)
+        team_info.save()
+        generate_score(team_info.id)
+
+
 def get_player_info(tournament_id):
     tournament = generate_player_tournament_info(tournament_id)
-    generate_player_tournament_theme_info(tournament.belong_id)
-    print ('联赛 {0} 数据计算成功'.format(tournament.belong.name)).encode('utf-8')
-
+    # generate_player_tournament_theme_info(tournament.belong_id)
+    generate_team_tournament_info(tournament_id)
+    print ('联赛 {0} 数据计算成功'.format(tournament.name)).encode('utf-8')

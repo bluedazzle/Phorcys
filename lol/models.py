@@ -239,6 +239,7 @@ class TournamentTeamInfo(BaseModel):
     average_time = models.FloatField(default=0.0)
     average_money_pm = models.FloatField(default=0.0)
     victory_times = models.IntegerField(default=0)
+    game_times = models.IntegerField(default=0)
     tied_times = models.IntegerField(default=0)
     fail_times = models.IntegerField(default=0)
     win_rate = models.FloatField(default=0.0)
