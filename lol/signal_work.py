@@ -129,5 +129,5 @@ def generate_player_tournament_theme_info(tournament_id):
 def get_player_info(tournament_id):
     tournament = generate_player_tournament_info(tournament_id)
     generate_player_tournament_theme_info(tournament.belong_id)
-    print '联赛 {0} 数据计算成功'.format(tournament.belong.name)
+    print ('联赛 {0} 数据计算成功'.format(tournament.belong.name)).encode('utf-8')
 
