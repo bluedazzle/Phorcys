@@ -708,6 +708,39 @@ class PlayerTournamentDetailView(CheckSecurityMixin, StatusWrapMixin, JsonRespon
         return context
 
 
+class PlayerTournamentsView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+    """
+    选手参赛列表
+    """
+
+    model = TournamentTheme
+
+    def get(self, request, *args, **kwargs):
+        pid = self.kwargs.get('pid')
+        if pid:
+            player = Player.objects.filter(id=pid)
+            if player.exists():
+                player = player[0]
+                team = player.belong
+                tournament_list = team.tournament_teams.all()
+                tournaments = []
+                for tournament in tournament_list:
+                    tt = tournament.belong
+                    tournament_dict = {'title': tt.name, 'id': tt.id}
+                    if tournament_dict not in tournaments:
+                        tournaments.append(tournament_dict)
+                return self.render_to_response(tournaments)
+            else:
+                self.message = '选手不存在'
+                self.status_code = INFO_NO_EXIST
+                return self.render_to_response(dict())
+        self.message = '参数错误'
+        self.status_code = ERROR_DATA
+
+
+
+
+
 class TeamTournamentDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     """
     战队联赛信息
