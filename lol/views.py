@@ -729,7 +729,7 @@ class PlayerTournamentsView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
                     tournament_dict = {'title': tt.name, 'id': tt.id}
                     if tournament_dict not in tournaments:
                         tournaments.append(tournament_dict)
-                return self.render_to_response(tournaments)
+                return self.render_to_response({'tournaments': tournaments})
             else:
                 self.message = '选手不存在'
                 self.status_code = INFO_NO_EXIST
