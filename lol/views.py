@@ -798,7 +798,8 @@ class TournamentRankView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin,
 
     http_method_names = ['get']
     foreign = True
-    include_attr = ['rank', 'score', 'victory_times', 'fail_times', 'team', 'name', 'tournament', 'abbreviation']
+    include_attr = ['rank', 'score', 'victory_times', 'start_time', 'end_time',
+                    'fail_times', 'team', 'name', 'abbreviation', 'cover']
 
     def get(self, request, *args, **kwargs):
         tid = self.kwargs.get('tid')
@@ -810,9 +811,9 @@ class TournamentRankView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin,
                 t_list = []
                 for tournament in tournament_list:
                     team_info_list = TournamentTeamInfo.objects.filter(tournament=tournament).order_by('rank')
-                    info = {'group': team_info_list}
+                    info = {'group': team_info_list, 'name': tournament.name}
                     t_list.append(info)
-                return self.render_to_response({'group_list': t_list})
+                return self.render_to_response({'group_list': t_list, 'tournament': tournament_theme})
             self.message = '联赛不存在'
             self.status_code = INFO_NO_EXIST
             return self.render_to_response(dict())
