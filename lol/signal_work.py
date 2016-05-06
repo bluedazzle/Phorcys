@@ -43,18 +43,18 @@ def generate_player_tournament_info(tournament_id):
                     total_melee += gps.war_rate
         if times == 0:
             continue
-        player_info.average_kill = total_kill / times
-        player_info.average_dead = total_dead / times
-        player_info.average_assist = total_assist / times
-        player_info.average_time = total_time / times
-        player_info.average_money_pm = total_money / times
+        player_info.average_kill = round(total_kill / times, 2)
+        player_info.average_dead = round(total_dead / times, 2)
+        player_info.average_assist = round(total_assist / times, 2)
+        player_info.average_time = round(total_time / times, 2)
+        player_info.average_money_pm = round(total_money / times, 2)
         player_info.average_hit_p10m = round(total_farming / total_time * 10, 2)
         player_info.average_melee_rate = round((total_melee / times), 2)
-        player_info.win_rate = win_times / times
+        player_info.win_rate = round(win_times / times, 2)
         if fail_times == 0.0:
             player_info.win_fail_rate = win_times / 1
         else:
-            player_info.win_fail_rate = win_times / fail_times
+            player_info.win_fail_rate = round(win_times / fail_times, 2)
         if total_dead == 0.0:
             player_info.kda = (total_kill + total_assist) / 1.0
         else:
@@ -110,19 +110,19 @@ def generate_player_tournament_theme_info(tournament_id):
                 fail_times += player_info.fail_times
         if times == 0:
             continue
-        total_player_info.average_dead = average_dead / times
-        total_player_info.average_money_pm = average_money_pm / times
-        total_player_info.average_assist = average_assist / times
-        total_player_info.average_hit_p10m = average_hit_p10m / times
-        total_player_info.average_melee_rate = average_melee_rate / times
-        total_player_info.average_kill = average_kill / times
-        total_player_info.average_time = average_time / times
-        total_player_info.kda = kda / times
-        total_player_info.win_fail_rate = win_fail_rate / times
-        total_player_info.win_rate = win_rate / times
-        total_player_info.victory_times = victory_times / times
-        total_player_info.fail_times = fail_times / times
-        total_player_info.tied_times = times / times
+        total_player_info.average_dead = round(average_dead / times, 2)
+        total_player_info.average_money_pm = round(average_money_pm / times, 2)
+        total_player_info.average_assist = round(average_assist / times, 2)
+        total_player_info.average_hit_p10m = round(average_hit_p10m / times, 2)
+        total_player_info.average_melee_rate = round(average_melee_rate / times, 2)
+        total_player_info.average_kill = round(average_kill / times, 2)
+        total_player_info.average_time = round(average_time / times, 2)
+        total_player_info.kda = round(kda / times, 2)
+        total_player_info.win_fail_rate = round(win_fail_rate / times, 2)
+        total_player_info.win_rate = round(win_rate / times, 2)
+        total_player_info.victory_times = round(victory_times / times, 2)
+        total_player_info.fail_times = round(fail_times / times, 2)
+        total_player_info.tied_times = round(times / times, 2)
         total_player_info.save()
 
 
