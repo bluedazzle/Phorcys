@@ -8,7 +8,7 @@ from lol.models import Team, Player
 def get_team_wid():
     with open('lol/team.txt', 'r') as f1:
         for line in f1.readlines():
-            abbreviation, wid = unicode(line).split(',')
+            abbreviation, wid = unicode(line).strip().split(',')
             team = Team.objects.filter(abbreviation__iexact=abbreviation)
             if team.exists():
                 team = team[0]
@@ -22,7 +22,7 @@ def get_team_wid():
 def get_player_wid():
     with open('lol/player.txt', 'r') as f1:
         for line in f1.readlines():
-            nick, wid = unicode(line).split(',')
+            nick, wid = unicode(line).strip().split(',')
             team = Player.objects.filter(nick__iexact=nick)
             if team.exists():
                 team = team[0]

@@ -24,18 +24,16 @@ def get_data(since_id=None):
         mid = unicode(itm.get('mid'))
         if Weibo.objects.filter(wid=mid).exists():
             break
-        uid = unicode(itm.get('user').get('id'))
-        print uid
-        print itm.get('user').get('screen_name')
+        uid = unicode(itm.get('user').get('id')).strip()
+        # print itm.get('user').get('screen_name')
         player = Player.objects.filter(wid=uid)
         if player.exists():
-            # print '1'
             player = player[0]
             Weibo(wid=mid,
                   content=json.dumps(itm),
                   player_author=player).save()
         else:
-            team = Team.objects.filter(wid=uid)
+            team = Team.objects.filter(abbreviation='LGD')
             if team.exists():
                 team = team[0]
                 Weibo(wid=mid,
