@@ -93,7 +93,7 @@ def generate_player_tournament_theme_info(tournament_id):
             if not player_info.exists():
                 continue
             player_info = player_info[0]
-            if player_info.average_kill != 0.0 and player_info.average_melee_rate != 0.0:
+            if player_info.average_kill != 0.0 and player_info.average_hit_p10m != 0.0:
                 times += 1
                 average_assist += player_info.average_assist
                 average_dead += player_info.average_dead
@@ -110,7 +110,6 @@ def generate_player_tournament_theme_info(tournament_id):
                 fail_times += player_info.fail_times
         if times == 0:
             continue
-        print times
         total_player_info.average_dead = round(average_dead / times, 2)
         total_player_info.average_money_pm = round(average_money_pm / times, 2)
         total_player_info.average_assist = round(average_assist / times, 2)
