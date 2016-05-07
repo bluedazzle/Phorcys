@@ -57,7 +57,6 @@ def get_weibo(cursor):
     c = Client('587332901', '9305ee31f88103fb9b24413f635473ce',
                'http://www.rapospectre.com', token)
 
-    data = c.get('friendships/friends', screen_name='电竞泰坦')
+    data = c.get('statuses/home_timeline')
     print json.dumps(data)
-
-    # get_weibo(1)
+get_weibo(1)

@@ -110,6 +110,7 @@ def generate_player_tournament_theme_info(tournament_id):
                 fail_times += player_info.fail_times
         if times == 0:
             continue
+        print times
         total_player_info.average_dead = round(average_dead / times, 2)
         total_player_info.average_money_pm = round(average_money_pm / times, 2)
         total_player_info.average_assist = round(average_assist / times, 2)
