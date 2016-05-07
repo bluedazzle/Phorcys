@@ -32,4 +32,5 @@ urlpatterns = patterns('',
                        url(r'^thumb', ThumbView.as_view()),
                        url(r'^search', SearchView.as_view()),
                        url(r'^game/(?P<gid>(\d)+)', GameDetailView.as_view()),
+                       url(r'^tmp', TmpListView.as_view()),
                        )

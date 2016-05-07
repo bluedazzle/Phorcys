@@ -15,7 +15,7 @@ from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, Jso
 from core.dss.Serializer import serializer
 from core.models import Country
 from lol.models import News, NewsComment, Topic, Player, Team, Tournament, Weibo, Match, TournamentTeamInfo, Game, Hero, \
-    SummonerSpells, Equipment, GamePlayer, TournamentTheme, PlayerInfo, TotalPlayerInfo, TotalTeamInfo
+    SummonerSpells, Equipment, GamePlayer, TournamentTheme, PlayerInfo, TotalPlayerInfo, TotalTeamInfo, Tmp
 from lol.forms import *
 from myuser.models import EUser
 
@@ -820,5 +820,16 @@ class TournamentRankView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin,
         self.message = '数据缺失'
         self.status_code = ERROR_DATA
         return self.render_to_response(dict())
+
+
+class TmpListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    """
+    临时图片
+    """
+
+    http_method_names = ['get']
+    model = Tmp
+    foreign = True
+    include_attr = ['url', 'id', 'name', 'team', 'player', 'pic_type', 'nick']
 
 

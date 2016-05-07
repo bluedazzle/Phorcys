@@ -331,3 +331,13 @@ class LOLInfoExtend(BaseModel):
 
     def __unicode__(self):
         return unicode(self.id)
+
+
+class Tmp(BaseModel):
+    pic_type = models.IntegerField(default=1)
+    url = models.CharField(max_length=100, default='')
+    team = models.ForeignKey(Team, related_name='tmp_teams', null=True, blank=True)
+    player = models.ForeignKey(Player, related_name='tmp_players', null=True, blank=True)
+
+    def __unicode__(self):
+        return unicode(self.id)
