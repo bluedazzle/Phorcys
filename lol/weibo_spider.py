@@ -10,6 +10,8 @@ from lol.models import SpiderConfig, Weibo, Player, Team
 
 
 def get_data(since_id=None):
+    if since_id is None:
+        since_id = SpiderConfig.objects.all()[0].since_id
     c = Client('335303971', 'd6423ea88ea9dd9121eadf8e791f8cb2',
                'http://rapospectre.com',
                username='1806962021@qq.com',
