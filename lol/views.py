@@ -722,11 +722,15 @@ class PlayerTournamentsView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
             if player.exists():
                 player = player[0]
                 team = player.belong
+                if team is  None:
+                    self.message = '选手无战队'
+                    self.status_code = INFO_NO_EXIST
+                    return self.render_to_response(dict())
                 tournament_list = team.tournaments.all()
                 tournaments = []
                 for tournament in tournament_list:
                     tt = tournament.belong
-                    tournament_dict = {'title': tt.name, 'id': tt.id}
+                    tournament_dict = {'name': tt.name, 'id': tt.id}
                     if tournament_dict not in tournaments:
                         tournaments.append(tournament_dict)
                 return self.render_to_response({'tournaments': tournaments})
@@ -822,6 +826,26 @@ class TournamentRankView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin,
         return self.render_to_response(dict())
 
 
+class WeiboListView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    model = Weibo
+    paginate_by = 20
+    http_method_names = ['get']
+    include_attr = ['team_author', 'player_author', 'content', 'nick', 'logo', 'avatar', 'abbreviation']
+
+    def get(self, request, *args, **kwargs):
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        return super(WeiboListView, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super(WeiboListView, self).get_queryset()
+        player_list = self.user.lol.focus_players.all()
+        team_list = self.user.lol.focus_teams.all()
+        queryset1 = queryset.filter(player_author__in=player_list)
+        queryset2 = queryset.filter(team_author__in=team_list)
+        return queryset1 | queryset2
+
+
 class TmpListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     """
     临时图片
@@ -831,5 +855,3 @@ class TmpListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin
     model = Tmp
     foreign = True
     include_attr = ['url', 'id', 'name', 'team', 'player', 'pic_type', 'nick']
-
-

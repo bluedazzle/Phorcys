@@ -33,4 +33,5 @@ urlpatterns = patterns('',
                        url(r'^search', SearchView.as_view()),
                        url(r'^game/(?P<gid>(\d)+)', GameDetailView.as_view()),
                        url(r'^tmp', TmpListView.as_view()),
+                       url(r'^weibo', WeiboListView.as_view()),
                        )
