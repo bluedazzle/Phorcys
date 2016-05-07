@@ -16,7 +16,7 @@ def get_team_wid():
                 team.save()
             else:
                 print '{0}未找到'.format(abbreviation)
-    print '队伍id匹配完毕'
+    print '队伍id匹配完毕'.encode('utf-8')
 
 
 def get_player_wid():
@@ -30,4 +30,4 @@ def get_player_wid():
                 team.save()
             else:
                 print '{0}未找到'.format(nick)
-    print '选手id匹配完毕'
+    print '选手id匹配完毕'.encode('utf-8')
