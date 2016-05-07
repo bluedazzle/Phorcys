@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
-from lol.weibo_wid import get_team_wid, get_player_wid
+from lol.weibo_spider import get_data
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        get_team_wid()
-        get_player_wid()
+        get_data()

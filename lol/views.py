@@ -701,6 +701,8 @@ class PlayerTournamentDetailView(CheckSecurityMixin, StatusWrapMixin, JsonRespon
                     if gps.exists():
                         gps = gps[0]
                         setattr(gps, 'game_id', game.game_id)
+                        setattr(gps, 'team1_name', match.team1.abbreviation)
+                        setattr(gps, 'team2_name', match.team2.abbreviation)
                         setattr(gps, 'game_time', int(time.mktime(game.game_time.timetuple())))
                         player_detail_list.append(gps)
         player_detail_list.sort(key=lambda player_info: player_info.game_time, reverse=True)
