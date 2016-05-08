@@ -251,7 +251,8 @@ class UserLoginView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Upda
     http_method_names = ['post']
     pk_url_kwarg = 'phone'
     datetime_type = 'timestamp'
-    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar', 'wechat_bind', 'weibo_bind', 'qq_bind']
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar', 'wechat_bind', 'weibo_bind',
+                    'qq_bind', 'focus_teams', 'focus_players']
     success_url = 'localhost'
     token = ''
 
@@ -280,6 +281,9 @@ class UserLoginView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Upda
         # self.object.set_password(form.cleaned_data.get('password'))
         self.object.token = self.token
         self.object.save()
+        lol = self.object.lol
+        setattr(self.object, 'focus_teams', lol.focus_teams.all())
+        setattr(self.object, 'focus_players', lol.focus_players.all())
         return self.render_to_response(self.object)
 
     def get_object(self, queryset=None):
