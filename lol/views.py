@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import time
 
 from django.db.models import Q, Count
+from django.http import Http404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
 
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckTokenMixin
@@ -724,7 +725,7 @@ class PlayerTournamentsView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
             if player.exists():
                 player = player[0]
                 team = player.belong
-                if team is  None:
+                if team is None:
                     self.message = '选手无战队'
                     self.status_code = INFO_NO_EXIST
                     return self.render_to_response(dict())
@@ -832,12 +833,20 @@ class WeiboListView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Multip
     model = Weibo
     paginate_by = 20
     http_method_names = ['get']
-    include_attr = ['team_author', 'player_author', 'content', 'nick', 'logo', 'avatar', 'abbreviation']
+    allow_empty = True
+    foreign = True
+    exclude_attr = ['wid', 'thumb', 'title', 'info', 'country', 'world_rank', 'create_time', 'modify_time',
+                    'nationality', 'intro', 'position', 'belong']
 
     def get(self, request, *args, **kwargs):
         if not self.wrap_check_token_result():
             return self.render_to_response(dict())
         return super(WeiboListView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(WeiboListView, self).get_context_data(**kwargs)
+        context = self.convert_data(context)
+        return context
 
     def get_queryset(self):
         queryset = super(WeiboListView, self).get_queryset()
@@ -846,6 +855,13 @@ class WeiboListView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Multip
         queryset1 = queryset.filter(player_author__in=player_list)
         queryset2 = queryset.filter(team_author__in=team_list)
         return queryset1 | queryset2
+
+    def convert_data(self, context):
+        weibo_list = context.get('object_list')
+        for weibo in weibo_list:
+            weibo.content = eval(weibo.content)
+        context['object_list'] = weibo_list
+        return context
 
 
 class TmpListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):

@@ -38,8 +38,7 @@ class JsonResponseMixin(object):
                           include_attr=self.include_attr,
                           exclude_attr=self.exclude_attr)
 
-    @staticmethod
-    def json_serializer(context):
+    def json_serializer(self, context):
         return json.dumps(context, indent=4)
 
     def render_to_response(self, context, **response_kwargs):

@@ -24,6 +24,8 @@ except ImportError:
 
 
 def _include_check(include_attr, attr_dict):
+    if not isinstance(attr_dict, dict):
+        return attr_dict
     for itm in attr_dict.itervalues():
         if isinstance(itm, dict):
             _include_check(include_attr, itm)
@@ -40,6 +42,8 @@ def _include_check(include_attr, attr_dict):
 
 
 def _exclude_check(exclude_attr, attr_dict):
+    if not isinstance(attr_dict, dict):
+        return attr_dict
     for itm in attr_dict.itervalues():
         if isinstance(itm, dict):
             _exclude_check(exclude_attr, itm)

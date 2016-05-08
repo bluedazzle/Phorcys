@@ -32,14 +32,14 @@ def get_data(since_id=None):
         if player.exists():
             player = player[0]
             Weibo(wid=mid,
-                  content=json.dumps(itm),
+                  content=itm,
                   player_author=player).save()
         else:
             team = Team.objects.filter(abbreviation='LGD')
             if team.exists():
                 team = team[0]
                 Weibo(wid=mid,
-                      content=json.dumps(itm),
+                      content=itm,
                       team_author=team,
                       type=2).save()
     if next_id == since_id:
