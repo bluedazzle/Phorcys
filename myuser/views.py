@@ -394,8 +394,10 @@ class UserThirdLoginView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, J
         if openid:
             user = EUser.objects.filter(Q(weibo_openid=openid) | Q(wechat_openid=openid) | Q(qq_openid=openid))
             if user.exists():
+                token = self.create_token()
                 user = user[0]
-                user.token = self.create_token()
+                user.token = token
+                user.save()
                 setattr(user, 'focus_teams', user.lol.focus_teams.all())
                 setattr(user, 'focus_players', user.lol.focus_players.all())
                 return self.render_to_response(user)

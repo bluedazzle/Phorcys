@@ -205,7 +205,24 @@ def generate_team_tournament_info(tournament_id):
         generate_score(team_info.id)
 
 
-# def generate_total_team_info()
+def generate_total_team_info(tournament_id):
+    tournament_theme = TournamentTheme.objects.get(id=tournament_id)
+    tournament_list = tournament_theme.theme_tournaments.all()
+    total_team_info_list = tournament_theme.team_tournament_themes.all()
+
+    for total_team_info in total_team_info_list:
+        team = total_team_info.team
+
+        kda = 0.0
+        average_kill = 0.0
+        average_dead = 0.0
+        average_assist = 0.0
+        average_time = 0.0
+        average_money_pm = 0.0
+        victory_times = 0.0
+        tied_times = 0.0
+        fail_times = 0.0
+        win_rate = 0.0
 
 
 def get_player_info(tournament_id):
