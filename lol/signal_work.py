@@ -274,14 +274,14 @@ def get_player_info(tournament_id):
 def get_rank(tournament_id):
     tournament_theme = TournamentTheme.objects.get(id=tournament_id)
     tournament_list = tournament_theme.theme_tournaments.all()
-    total_team_info_list = tournament_theme.team_tournament_themes.all().order_by('score')
+    total_team_info_list = tournament_theme.team_tournament_themes.all().order_by('-score')
 
     for i, total_team_info in enumerate(total_team_info_list):
         total_team_info.rank = i + 1
         total_team_info.save()
 
     for tournament in tournament_list:
-        team_info_list = tournament.team_tournaments.all().order_by('score')
+        team_info_list = tournament.team_tournaments.all().order_by('-score')
         for i, team_info in enumerate(team_info_list):
             team_info.rank = i + 1
             team_info.save()
