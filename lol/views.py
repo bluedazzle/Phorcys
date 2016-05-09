@@ -762,7 +762,7 @@ class TeamTournamentsView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin
                 tournaments = []
                 for tournament in tournament_list:
                     tt = tournament.belong
-                    tournament_dict = {'title': tt.name, 'id': tt.id}
+                    tournament_dict = {'name': tt.name, 'id': tt.id}
                     if tournament_dict not in tournaments:
                         tournaments.append(tournament_dict)
                 return self.render_to_response({'tournaments': tournaments})
