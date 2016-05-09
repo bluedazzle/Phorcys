@@ -35,7 +35,7 @@ def get_data(since_id=None):
                   content=itm,
                   player_author=player).save()
         else:
-            team = Team.objects.filter(abbreviation='LGD')
+            team = Team.objects.filter(wid=uid)
             if team.exists():
                 team = team[0]
                 Weibo(wid=mid,
