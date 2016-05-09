@@ -200,7 +200,7 @@ def generate_team_tournament_info(tournament_id):
         if (tied_times + fail_times) == 0:
             team_info.win_rate = victory_times
         else:
-            team_info.win_rate = round(victory_times / (fail_times + tied_times), 2)
+            team_info.win_rate = round(victory_times / (fail_times + tied_times + victory_times), 2)
         team_info.save()
         generate_score(team_info.id)
 
@@ -223,6 +223,43 @@ def generate_total_team_info(tournament_id):
         tied_times = 0.0
         fail_times = 0.0
         win_rate = 0.0
+        score = 0
+        times = 0
+
+        for tournament in tournament_list:
+            team_info = TournamentTeamInfo.objects.filter(tournament=tournament, team=team)
+            if team_info.exists():
+                team_info = team_info[0]
+                times += 1
+                kda += team_info.kda
+                average_money_pm += team_info.average_money_pm
+                average_time += team_info.average_time
+                average_kill += team_info.average_kill
+                average_assist += team_info.average_assist
+                average_dead += team_info.average_dead
+                victory_times += team_info.victory_times
+                tied_times += team_info.tied_times
+                fail_times += team_info.fail_times
+                win_rate += team_info.win_rate
+                score += team_info.score
+
+        if times == 0:
+            continue
+        total_team_info.average_money_pm = round(average_money_pm / times, 2)
+        total_team_info.average_time = round(average_time / times, 2)
+        total_team_info.average_dead = round(average_dead / times, 2)
+        total_team_info.average_assist = round(average_assist / times, 2)
+        total_team_info.average_kill = round(average_kill / times, 2)
+        total_team_info.victory_times = victory_times
+        total_team_info.fail_times = fail_times
+        total_team_info.tied_times = tied_times
+        total_team_info.win_rate = tied_times
+        total_team_info.kda = round(kda / times, 2)
+        if (tied_times + fail_times) == 0:
+            total_team_info.win_rate = victory_times
+        else:
+            total_team_info.win_rate = round(victory_times / (fail_times + tied_times + victory_times), 2)
+        total_team_info.save()
 
 
 def get_player_info(tournament_id):

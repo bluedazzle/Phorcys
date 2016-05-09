@@ -265,6 +265,7 @@ class TotalTeamInfo(BaseModel):
     tied_times = models.IntegerField(default=0)
     fail_times = models.IntegerField(default=0)
     win_rate = models.FloatField(default=0.0)
+    score = models.IntegerField(default=0)
 
     def __unicode__(self):
         return unicode(self.uuid)
