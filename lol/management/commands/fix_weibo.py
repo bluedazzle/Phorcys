@@ -14,7 +14,7 @@ class Command(BaseCommand):
             uid = content.get('user').get('idstr')
             team = Team.objects.filter(wid=uid)
             if team.exists():
-                weibo.team_author = team
+                weibo.team_author = team[0]
                 weibo.save()
             else:
                 weibo.delete()
