@@ -205,6 +205,9 @@ def generate_team_tournament_info(tournament_id):
         generate_score(team_info.id)
 
 
+# def generate_total_team_info()
+
+
 def get_player_info(tournament_id):
     tournament = generate_player_tournament_info(tournament_id)
     # generate_player_tournament_theme_info(tournament.belong_id)

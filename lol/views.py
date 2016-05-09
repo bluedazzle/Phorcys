@@ -418,7 +418,7 @@ class MatchDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, De
     pk_url_kwarg = 'id'
 
     def get_context_data(self, **kwargs):
-        game_list = Game.objects.filter(match=self.object).order_by('-create_time')
+        game_list = Game.objects.filter(match=self.object).order_by('create_time')
         context = super(MatchDetailView, self).get_context_data(**kwargs)
         map(self.get_ban_list, game_list)
         # map(self.get_game_detail, game_list)
