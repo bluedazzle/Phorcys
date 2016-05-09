@@ -785,9 +785,11 @@ class TeamTournamentDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponse
         id = self.kwargs.get('id')
         if id and tid:
             tiid = '{0}t{1}'.format(tid, id)
+            team = Team.objects.get(id=id)
             team_info_list = TotalTeamInfo.objects.filter(uuid=tiid)
             if team_info_list.exists():
                 team_info = team_info_list[0]
+                setattr(team_info, 'world_rank', team.world_rank)
                 context = {'team_info': team_info}
                 return self.render_to_response(context)
             self.message = '战队赛事信息不存在'
