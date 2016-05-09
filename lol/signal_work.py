@@ -93,7 +93,7 @@ def generate_player_tournament_theme_info(tournament_id):
             if not player_info.exists():
                 continue
             player_info = player_info[0]
-            if player_info.average_kill != 0.0 and player_info.average_hit_p10m != 0.0:
+            if (player_info.average_kill + player_info.average_assist + player_info.average_dead) != 0.0:
                 times += 1
                 average_assist += player_info.average_assist
                 average_dead += player_info.average_dead
@@ -177,7 +177,7 @@ def generate_team_tournament_info(tournament_id):
             if not player_info.exists():
                 continue
             player_info = player_info[0]
-            if player_info.average_melee_rate != 0 and player_info.average_money_pm != 0:
+            if (player_info.average_kill + player_info.average_dead + player_info.average_assist) != 0:
                 times += 1
                 kda += player_info.kda
                 average_kill += player_info.average_kill
@@ -230,18 +230,19 @@ def generate_total_team_info(tournament_id):
             team_info = TournamentTeamInfo.objects.filter(tournament=tournament, team=team)
             if team_info.exists():
                 team_info = team_info[0]
-                times += 1
-                kda += team_info.kda
-                average_money_pm += team_info.average_money_pm
-                average_time += team_info.average_time
-                average_kill += team_info.average_kill
-                average_assist += team_info.average_assist
-                average_dead += team_info.average_dead
-                victory_times += team_info.victory_times
-                tied_times += team_info.tied_times
-                fail_times += team_info.fail_times
-                win_rate += team_info.win_rate
-                score += team_info.score
+                if (team_info.average_dead + team_info.average_assist + team_info.average_kill) != 0.0:
+                    times += 1
+                    kda += team_info.kda
+                    average_money_pm += team_info.average_money_pm
+                    average_time += team_info.average_time
+                    average_kill += team_info.average_kill
+                    average_assist += team_info.average_assist
+                    average_dead += team_info.average_dead
+                    victory_times += team_info.victory_times
+                    tied_times += team_info.tied_times
+                    fail_times += team_info.fail_times
+                    win_rate += team_info.win_rate
+                    score += team_info.score
 
         if times == 0:
             continue
