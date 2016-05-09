@@ -256,6 +256,7 @@ def generate_total_team_info(tournament_id):
         total_team_info.tied_times = tied_times
         total_team_info.win_rate = tied_times
         total_team_info.kda = round(kda / times, 2)
+        total_team_info.score = score
         if (tied_times + fail_times) == 0:
             total_team_info.win_rate = victory_times
         else:
@@ -268,3 +269,22 @@ def get_player_info(tournament_id):
     # generate_player_tournament_theme_info(tournament.belong_id)
     generate_team_tournament_info(tournament_id)
     print ('联赛 {0} 数据计算成功'.format(tournament.name)).encode('utf-8')
+
+
+def get_rank(tournament_id):
+    tournament_theme = TournamentTheme.objects.get(id=tournament_id)
+    tournament_list = tournament_theme.theme_tournaments.all()
+    total_team_info_list = tournament_theme.team_tournament_themes.all().order_by('score')
+
+    for i, total_team_info in enumerate(total_team_info_list):
+        total_team_info.rank = i + 1
+        total_team_info.save()
+
+    for tournament in tournament_list:
+        team_info_list = tournament.team_tournaments.all().order_by('score')
+        for i, team_info in enumerate(team_info_list):
+            team_info.rank = i + 1
+            team_info.save()
+
+    print '排名计算完毕'.encode('utf-8')
+
