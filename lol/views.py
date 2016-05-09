@@ -701,7 +701,7 @@ class PlayerTournamentDetailView(CheckSecurityMixin, StatusWrapMixin, JsonRespon
                     gps = game.game_gameps.filter(player=player)
                     if gps.exists():
                         gps = gps[0]
-                        setattr(gps, 'game_id', game.game_id)
+                        setattr(gps, 'game_id', match.id)
                         setattr(gps, 'team1_name', match.team1.abbreviation)
                         setattr(gps, 'team2_name', match.team2.abbreviation)
                         setattr(gps, 'game_time', int(time.mktime(game.game_time.timetuple())))
