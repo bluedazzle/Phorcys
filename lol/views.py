@@ -857,7 +857,9 @@ class WeiboListView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Multip
         team_list = self.user.lol.focus_teams.all()
         queryset1 = queryset.filter(player_author__in=player_list)
         queryset2 = queryset.filter(team_author__in=team_list)
-        return queryset1 | queryset2
+        queryset = queryset1 | queryset2
+        queryset = queryset.order_by('-create_time')
+        return queryset
 
     def convert_data(self, context):
         weibo_list = context.get('object_list')
