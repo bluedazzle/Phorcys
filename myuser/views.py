@@ -383,23 +383,33 @@ class UserThirdAccountBindView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMi
 
 class UserThirdLoginView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['get']
-    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar', 'wechat_bind', 'weibo_bind', 'qq_bind']
+    include_attr = ['token', 'id', 'create_time', 'nick', 'phone', 'avatar', 'wechat_bind', 'weibo_bind',
+                    'qq_bind', 'focus_teams', 'focus_players']
     datetime_type = 'timestamp'
     model = EUser
-
+    count = 64
 
     def get(self, request, *args, **kwargs):
         openid = request.GET.get('openid')
         if openid:
             user = EUser.objects.filter(Q(weibo_openid=openid) | Q(wechat_openid=openid) | Q(qq_openid=openid))
             if user.exists():
-                return self.render_to_response(user[0])
+                user = user[0]
+                user.token = self.create_token()
+                setattr(user, 'focus_teams', user.lol.focus_teams.all())
+                setattr(user, 'focus_players', user.lol.focus_players.all())
+                return self.render_to_response(user)
             self.message = '三方帐号未绑定'
             self.status_code = INFO_NO_EXIST
             return self.render_to_response(dict())
         self.message = '参数缺失'
         self.status_code = ERROR_DATA
         return self.render_to_response(dict())
+
+    def create_token(self):
+        return string.join(
+            random.sample('ZYXWVUTSRQPONMLKJIHGFEDCBA1234567890zyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcba',
+                          self.count)).replace(" ", "")
 
 
 class UserAvatarView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
