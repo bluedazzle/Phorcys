@@ -819,7 +819,8 @@ class TournamentRankView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin,
                 tournament_list = tournament_theme.theme_tournaments.all()
                 t_list = []
                 for tournament in tournament_list:
-                    team_info_list = TournamentTeamInfo.objects.filter(tournament=tournament).order_by('rank')
+                    team_info_list = TournamentTeamInfo.objects.filter(tournament=tournament).exclude(score=0).order_by(
+                        'rank')
                     info = {'group': team_info_list, 'name': tournament.name}
                     t_list.append(info)
                 return self.render_to_response({'group_list': t_list, 'tournament': tournament_theme})
