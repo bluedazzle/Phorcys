@@ -109,15 +109,33 @@ class AdminIndexView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMi
         return self.render_to_response(self.get_queryset())
 
 
-class AdminUserView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+class AdminUserView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DetailView):
     pk_url_kwarg = 'token'
-    http_method_names = ['get']
-    include_attr = ['nick', 'last_login']
+    http_method_names = ['get', 'post']
+    include_attr = ['nick', 'last_login', 'phone']
 
     def get(self, request, *args, **kwargs):
         if not self.wrap_check_token_result():
             return self.render_to_response(dict())
         return self.render_to_response(self.admin)
+
+    def post(self, request, *args, **kwargs):
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        if old_password and new_password:
+            if self.admin.check_password(old_password):
+                self.admin.set_password(new_password)
+                self.admin.save()
+                return self.render_to_response(dict())
+            else:
+                self.message = '原密码不正确'
+                self.status_code = ERROR_PASSWORD
+                return self.render_to_response(dict())
+        self.message = '参数缺失'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
 
 
 class AdminTournamentListView(CheckSecurityMixin, CheckAdminPermissionMixin,
@@ -543,21 +561,37 @@ class AdminPlayerView(CheckSecurityMixin, CheckAdminPermissionMixin,
     model = Player
 
     def post(self, request, *args, **kwargs):
+        pid = request.POST.get('id')
         img = request.FILES.get('img')
         if img:
             re_path, save_path = upload_picture(img)
-            nick = request.POST.get('nick')
-            name = request.POST.get('name')
-            position = request.POST.get('position')
-            intro = request.POST.get('intro')
-            nationality = request.POST.get('country')
-            if nationality == 0:
-                nationality = Country.objects.get(name='未知')
-            else:
-                nationality = Country.objects.get(name=nationality)
-            belong = request.POST.get('belong')
-            belong = Team.objects.get(id=belong)
-            position = Position.objects.get(id=position)
+        else:
+            re_path = ''
+        nick = request.POST.get('nick')
+        name = request.POST.get('name')
+        position = request.POST.get('position')
+        intro = request.POST.get('intro')
+        nationality = request.POST.get('country')
+        if nationality == 0 or nationality == 'null':
+            nationality = Country.objects.get(name='未知')
+        else:
+            nationality = Country.objects.get(id=nationality)
+        belong = request.POST.get('belong')
+        belong = Team.objects.get(id=belong)
+        position = Position.objects.get(id=position)
+        player = Player.objects.filter(id=pid)
+        if player.exists():
+            player = player[0]
+            player.name = name
+            player.nick = nick
+            player.position = position
+            player.nationality = nationality
+            player.intro = intro
+            player.belong = belong
+            if re_path != '':
+                player.avatar = re_path
+            player.save()
+        else:
             Player(name=name,
                    nick=nick,
                    position=position,
@@ -565,9 +599,6 @@ class AdminPlayerView(CheckSecurityMixin, CheckAdminPermissionMixin,
                    intro=intro,
                    avatar=re_path,
                    belong=belong).save()
-            return self.render_to_response(dict())
-        self.message = 'error data'
-        self.status_code = ERROR_DATA
         return self.render_to_response(dict())
 
 

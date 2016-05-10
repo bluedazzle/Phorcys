@@ -11,7 +11,7 @@
                     </div>
         <div class="ui modal scrolling" id="addModal">
             <div class="header">
-                新选手
+                ${ newPlayer.id == '-1' ? '新选手' : newPlayer.nick }}
             </div>
             <div class="image content">
                 <div class="ui medium image">
@@ -19,7 +19,7 @@
                         <label for="">选手图片</label>
                         <form action="" id="form1">
                             <span class="ui fluid button btn-file">
-                                    <img id="uploadPicture" src="" alt="">
+                                    <img id="uploadPicture" src="${ newPlayer.avatar }}" alt="">
                                     <span id="buttonLabel">选择图片</span>
                                         <input type="file" id="fileupload_input" name="img">
                                     </span></form>
@@ -37,14 +37,14 @@
                         </div>
                         <div class="field">
                             <label for="">所属战队</label>
-                            <select name="belong" v-model="newPlayer.belong" class="ui search dropdown" id="">
+                            <select name="belong" v-model="newPlayer.belong" id="belong" class="ui search dropdown" id="">
                                 <option value="">选择战队</option>
                                 <option v-for="team in teams" value="${ team.id }}">${ team.abbreviation }}</option>
                             </select>
                         </div>
                         <div class="field">
                             <label for="">位置</label>
-                            <select name="position" class="ui dropdown" id="" v-model="newPlayer.position">
+                            <select name="position" class="ui dropdown" id="position" v-model="newPlayer.position">
                                 <option value="">选择位置</option>
                                 <option value="1">中单</option>
                                 <option value="2">ADC</option>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="field">
                             <label for="">国籍</label>
-                            <select name="" id="" v-model="newPlayer.country" class="ui dropdown">
+                            <select name="" id="country" v-model="newPlayer.country" class="ui dropdown">
                                 <option value="">选择国籍</option>
                                 <option v-for="country in countrys" value="${ country.id }}">${ country.name }}</option>
                             </select>
@@ -92,7 +92,7 @@
             <div v-show="noData" class="ui active inverted dimmer">
                 <div class="ui text loader">Loading</div>
             </div>
-            <tr v-for="player in players">
+            <tr v-for="(index,player) in players">
                 <td>
                     <h4 class="ui image header">
                         <img src="${ player.avatar }}" class="ui mini rounded image">
@@ -115,7 +115,7 @@
                 {#                    </h4>#}
                 {#                </td>#}
                 <td>
-                    <button class="ui small blue button">详情</button>
+                    <button class="ui small blue button" @click="modifyPlayer" id="modify${ index }}">修改</button>
                     <button class="ui small red labeled icon button" onclick="deletePlayer(${ player.id }})"><i
                             class="icon delete"></i>删除
                     </button>

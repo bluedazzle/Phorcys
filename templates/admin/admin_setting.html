@@ -1,6 +1,6 @@
 {% extends 'admin/admin_base.html' %}
 {% block content %}
-    <div class="boloContainer">
+    <div class="boloContainer" id="vSetting">
         <div class="ui breadcrumb">
             <a class="section">设置</a>
             <i class="right angle icon divider"></i>
@@ -13,16 +13,16 @@
                         <img src="/s/image/site/elyse.png">
                     </div>
                     <div class="content">
-                        <a class="header">rapospectre</a>
+                        <a class="header">${ admin.nick }}</a>
                         <div class="meta">
-                            <span class="date">15608059720</span>
+                            <span class="date">${ admin.phone }}</span>
                         </div>
                         <div class="description">
                             拥有权限: 所有
                         </div>
                     </div>
                     <div class="extra content">
-                        <a><i class="time icon"></i>2015-11-22 22:22:22</a>
+                        <a><i class="time icon"></i>${ admin.last_login }}</a>
                     </div>
                 </div>
             </div>
@@ -36,13 +36,13 @@
                         <form action="" class="ui form" method="post">
                             <div class="field">
                                 <label for="">原密码</label>
-                                <input type="text" placeholder="原密码" name="old_password">
+                                <input type="text" placeholder="原密码" v-model="modify.old_password" name="old_password">
                             </div>
                             <div class="field">
                                 <label for="">新密码</label>
-                                <input type="text" placeholder="新密码" name="new_password">
+                                <input type="text" placeholder="新密码" name="new_password" v-model="modify.new_password">
                             </div>
-                            <div class="ui green button">提交</div>
+                            <div class="ui green button" @click="changePassword">提交</div>
                         </form>
                     </div>
                     <div class="title"><i class="dropdown icon"></i> 暂时没想好</div>
@@ -56,19 +56,8 @@
     </div>
 {% endblock %}
 {% block script %}
+    <script src="/s/js/src/setting.js"></script>
     <script>
-        function deletePlayer(id) {
-            mid = '#delModal' + id.toString();
-            $(mid)
-                    .modal('setting', 'closable', false)
-                    .modal('show');
-        }
-        function addPlayer() {
-            $('#addModal')
-                    .modal('setting', 'closable', false)
-                    .modal('setting', 'transition', 'horizontal flip')
-                    .modal('show');
-        }
         $('.ui.accordion')
                 .accordion()
         ;

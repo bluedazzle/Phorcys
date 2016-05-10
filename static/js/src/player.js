@@ -8,12 +8,6 @@ function deletePlayer(id) {
         .modal('setting', 'closable', false)
         .modal('show');
 }
-function addPlayer() {
-    $('#addModal')
-        .modal('setting', 'closable', false)
-        .modal('setting', 'transition', 'horizontal flip')
-        .modal('show');
-}
 
 $('.dropdown').dropdown({
     on: 'hover'
@@ -28,9 +22,11 @@ var vm = new Vue({
         teams: null,
         countrys: null,
         newPlayer: {
+            id: '-1',
             nick: '',
             name: '',
             position: 0,
+            avatar: '',
             belong: 0,
             intro: '',
             country: 0
@@ -90,6 +86,49 @@ var vm = new Vue({
                 }
             })
         },
+        modifyPlayer: function (event) {
+            this.getCountry(null);
+            this.getTeams(null);
+
+            var id = event.target.id.toString().replace('modify', '').split(',');
+            var player = this.players[id];
+            this.newPlayer.id = player.id;
+            this.newPlayer.nick = player.nick;
+            this.newPlayer.name = player.name;
+            this.newPlayer.position = player.position_id;
+            this.newPlayer.belong = player.belong_id;
+            this.newPlayer.intro = player.intro;
+            this.newPlayer.country = player.nationality_id;
+            this.newPlayer.avatar = player.avatar;
+
+            Vue.nextTick(function () {
+                $('#position').dropdown('set selected', player.position_id);
+                if (player.belong_id) {
+                    $('#belong').dropdown('set selected', player.belong_id);
+                } else {
+                    $('#belong').dropdown('set selected', 0);
+                }
+                if (player.nationality_id) {
+                    $('#country').dropdown('set selected', player.nationality_id);
+                } else {
+                    $('#country').dropdown('set selected', 0);
+                }
+                $('#addModal')
+                    .modal('setting', 'closable', false)
+                    .modal('setting', 'transition', 'horizontal flip')
+                    .modal('show');
+            });
+        },
+        clearPlayer: function () {
+            this.newPlayer.id = '-1';
+            this.newPlayer.nick = '';
+            this.newPlayer.name = '';
+            this.newPlayer.position = 0;
+            this.newPlayer.avatar = '';
+            this.newPlayer.belong = 0;
+            this.newPlayer.intro = '';
+            this.newPlayer.country = 0;
+        },
         createNewPlayer: function () {
             var url = generateUrlWithToken('admin/api/player', getCookie('token'));
             var formData = new FormData($("#form1")[0]);
@@ -99,6 +138,7 @@ var vm = new Vue({
             formData.append('belong', this.newPlayer.belong);
             formData.append('intro', this.newPlayer.intro);
             formData.append('country', this.newPlayer.country);
+            formData.append('id', this.newPlayer.id);
 
             $.ajax({
                 url: url,
@@ -108,10 +148,11 @@ var vm = new Vue({
                 contentType: false,
                 success: function (data) {
                     if (data.status == 1) {
-                        $.scojs_message('选手新建成功', $.scojs_message.TYPE_OK);
+                        $.scojs_message('数据提交成功', $.scojs_message.TYPE_OK);
                         this.getData(null, 1);
+                        this.clearPlayer();
                     } else {
-                        $.scojs_message('选手新建失败', $.scojs_message.TYPE_ERROR);
+                        $.scojs_message('数据提交失败', $.scojs_message.TYPE_ERROR);
                     }
 
                 },
@@ -172,3 +213,12 @@ function deletePlayer(id) {
         })
         .modal('show');
 };
+
+
+function addPlayer() {
+    vm.clearPlayer();
+    $('#addModal')
+        .modal('setting', 'closable', false)
+        .modal('setting', 'transition', 'horizontal flip')
+        .modal('show');
+}

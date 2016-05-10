@@ -259,13 +259,13 @@ class PlayerListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMi
     exclude_attr = ['modify_time', 'create_time']
     foreign = True
     paginate_by = 60
-    ordering = '-nick, -create_time'
 
     def get_queryset(self):
         queryset = super(PlayerListView, self).get_queryset()
         query_str = self.request.GET.get('query')
         if query_str:
             queryset = queryset.filter(Q(nick__icontains=query_str) | Q(name__icontains=query_str))
+        queryset = queryset.order_by('nick')
         return queryset
 
 
@@ -656,7 +656,7 @@ class CountryListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseM
     国家列表
     """
 
-    include_attr = ['name', 'flag']
+    include_attr = ['name', 'flag', 'id']
     model = Country
 
 
