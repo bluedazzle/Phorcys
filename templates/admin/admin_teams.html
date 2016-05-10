@@ -11,7 +11,7 @@
         </div>
         <div class="ui modal scrolling" id="addModal">
             <div class="header">
-                新战队
+                ${ newTeam.id == '-1' ? '新战队' : newTeam.name }}
             </div>
             <div class="image content">
                 <div class="ui medium image">
@@ -19,7 +19,7 @@
                         <label for="">战队logo</label>
                         <form action="" id="form1">
                             <span class="ui fluid button btn-file">
-                                    <img id="uploadPicture" src="" alt="">
+                                    <img id="uploadPicture" src="${ newTeam.logo }}" alt="">
                                     <span id="buttonLabel">选择图片</span>
                                         <input type="file" id="fileupload_input" name="img">
                                     </span></form>
@@ -36,9 +36,9 @@
                             <input type="text" name="name" v-model="newTeam.abbreviation" placeholder="战队简写">
                         </div>
                         <div class="field">
-                            <label for="">国籍 ${ newTeam.country }}</label>
+                            <label for="">国籍</label>
                             <select name="belong" v-model="newTeam.country" class="ui dropdown"
-                                    id="">
+                                    id="country">
                                 <option value="">选择国家</option>
                                 <option v-for="country in countrys" value="${ country.id }}">${ country.name }}
                                 </option>
@@ -76,7 +76,7 @@
             <div v-show="noData" class="ui active inverted dimmer">
                 <div class="ui text loader">Loading</div>
             </div>
-            <tr v-for="team in teams">
+            <tr v-for="(index, team) in teams">
                 <td>
                     <h4 class="ui image header">
                         <img src="${ team.logo }}" class="ui mini rounded image">
@@ -97,7 +97,7 @@
                     </h4>
                 </td>
                 <td>
-                    <button class="ui small blue button">详情</button>
+                    <button class="ui small blue button" @click="modifyTeam" id="modify${ index }}">修改</button>
                     <button class="ui small red labeled icon button" onclick="deletePlayer(${ team.id }})"><i
                             class="icon delete"></i>删除
                     </button>
@@ -159,19 +159,5 @@
     </div>
 {% endblock %}
 {% block script %}
-    <script>
-        function deletePlayer(id) {
-            mid = '#delModal' + id.toString();
-            $(mid)
-                    .modal('setting', 'closable', false)
-                    .modal('show');
-        }
-        function addPlayer() {
-            $('#addModal')
-                    .modal('setting', 'closable', false)
-                    .modal('setting', 'transition', 'horizontal flip')
-                    .modal('show');
-        }
-    </script>
     <script src="/s/js/src/teams.js"></script>
 {% endblock %}

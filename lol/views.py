@@ -287,6 +287,7 @@ class TeamListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
         query_str = self.request.GET.get('query')
         if query_str:
             queryset = queryset.filter(Q(name__icontains=query_str) | Q(abbreviation__icontains=query_str))
+        queryset = queryset.order_by('create_time')
         return queryset
 
     def get(self, request, *args, **kwargs):

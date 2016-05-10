@@ -639,19 +639,30 @@ class AdminTeamView(CheckSecurityMixin, CheckAdminPermissionMixin,
         info = request.POST.get('info')
         abbreviation = request.POST.get('abbreviation')
         country = request.POST.get('country')
-        print country
         country = Country.objects.get(id=country)
+        tid = request.POST.get('id')
         if logo:
             data_path, save_path = upload_picture(logo)
+        else:
+            data_path = ''
+        team = Team.objects.filter(id=tid)
+        if team.exists():
+            print '111'
+            team = team[0]
+            team.name = name
+            team.info = info
+            team.abbreviation = abbreviation
+            team.country = country
+            if data_path != '':
+                team.logo = data_path
+            team.save()
+        else:
             Team(name=name,
                  logo=data_path,
                  info=info,
                  abbreviation=abbreviation,
                  country=country
                  ).save()
-            return self.render_to_response(dict())
-        self.message = 'error data'
-        self.status_code = ERROR_DATA
         return self.render_to_response(dict())
 
 

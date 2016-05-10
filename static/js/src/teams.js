@@ -6,14 +6,16 @@ $('.dropdown').dropdown({
 });
 
 Vue.config.delimiters = ['${', '}}'];
-new Vue({
+var vm = new Vue({
     el: '#vTeams',
     data: {
         newTeam: {
             name: '',
             abbreviation: '',
             info: '',
-            country: ''
+            country: '',
+            id: '-1',
+            logo: ''
         },
         query: ''
     },
@@ -48,6 +50,34 @@ new Vue({
                 })
             }
         },
+        modifyTeam: function (index) {
+            this.getCountry();
+            var id = event.target.id.toString().replace('modify', '').split(',');
+            var team = this.teams[id];
+            this.newTeam.name = team.name;
+            this.newTeam.abbreviation = team.abbreviation;
+            this.newTeam.info = team.info;
+            this.newTeam.country = team.country_id;
+            this.newTeam.id = team.id;
+            this.newTeam.logo = team.logo;
+            if (team.country_id) {
+                $('#country').dropdown('set selected', team.country_id);
+            } else {
+                $('#country').dropdown('set selected', 0);
+            }
+            $('#addModal')
+                .modal('setting', 'closable', false)
+                .modal('setting', 'transition', 'horizontal flip')
+                .modal('show');
+        },
+        clearTeam: function () {
+            this.newTeam.name = '';
+            this.newTeam.abbreviation = '';
+            this.newTeam.info = '';
+            this.newTeam.country = 0;
+            this.newTeam.id = '';
+            this.newTeam.logo = '';
+        },
         createNewTeam: function () {
             var url = generateUrlWithToken('admin/api/team', getCookie('token'));
             var formData = new FormData($("#form1")[0]);
@@ -55,6 +85,7 @@ new Vue({
             formData.append('abbreviation', this.newTeam.abbreviation);
             formData.append('info', this.newTeam.info);
             formData.append('country', this.newTeam.country);
+            formData.append('id', this.newTeam.id);
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -63,8 +94,9 @@ new Vue({
                 contentType: false,
                 success: function (data) {
                     if (data.status == 1) {
-                        $.scojs_message('战队新建成功', $.scojs_message.TYPE_OK);
+                        $.scojs_message('数据提交成功', $.scojs_message.TYPE_OK);
                         this.getData(null, 1);
+                        this.clearTeam();
                     } else {
                         $.scojs_message('战队新建失败', $.scojs_message.TYPE_ERROR);
                     }
@@ -110,3 +142,17 @@ $(document).on('change', '.btn-file :file', function () {
         reader.readAsDataURL(f);
     }
 });
+
+function deletePlayer(id) {
+    mid = '#delModal' + id.toString();
+    $(mid)
+        .modal('setting', 'closable', false)
+        .modal('show');
+}
+function addPlayer() {
+    vm.clearTeam();
+    $('#addModal')
+        .modal('setting', 'closable', false)
+        .modal('setting', 'transition', 'horizontal flip')
+        .modal('show');
+}
