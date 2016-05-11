@@ -509,7 +509,7 @@ class CommentCreateView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Js
     def get_obj(self):
         obj_list = [None, News, Topic, Weibo, Tournament]
         cid = self.request.POST.get('id', '')
-        self.type = int(self.request.POST.get('type'), 1)
+        self.type = int(self.request.POST.get('type', 1))
         if self.type not in range(1, 5):
             self.status_code = INFO_NO_EXIST
             self.message = '评论类型不存在'
