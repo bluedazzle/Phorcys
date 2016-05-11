@@ -51,17 +51,17 @@
                     </a>
                 </div>
                 <div class="column">
-                    <a class="orange ui link card" style="width: 100%; color: #F2711C;" href="/admin/topics">
+                    <a class="orange ui link card" style="width: 100%; color: #F2711C;" href="/admin/tournaments">
                         <div class="content">
                             <div class="left floated">
-                                <i class="icon comments big" style="font-size: 6em;"></i>
+                                <i class="icon game big" style="font-size: 6em;"></i>
                             </div>
                             <div class="right floated right aligned" style="padding-top: 1.5em;">
                                 <div v-show="noData" :class="noData ? classLoading : ''"></div>
                                 <div style="font-size: 3em;padding-bottom: 0.5em;" v-else="noData" v-cloak="">${
                                     data.topics }}
                                 </div>
-                                <div style="font-size: 2em;">社区发帖数</div>
+                                <div style="font-size: 2em;">已有赛事</div>
                             </div>
                         </div>
                         <div class="extra content" style="color: #F2711C;">

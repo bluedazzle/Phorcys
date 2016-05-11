@@ -102,7 +102,7 @@ class AdminIndexView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMi
         message_dict = {}
         message_dict['users'] = EUser.objects.all().count()
         message_dict['news'] = News.objects.all().count()
-        message_dict['topics'] = Topic.objects.all().count()
+        message_dict['topics'] = TournamentTheme.objects.all().count()
         return message_dict
 
     def get(self, request, *args, **kwargs):

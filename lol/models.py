@@ -67,11 +67,11 @@ class Weibo(BaseWeibo):
     team_author = models.ForeignKey(Team, related_name='team_weibos', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __unicode__(self):
-        return unicode(self.id)
-        # if self.type == 1:
-        #     return '{0}-{1}'.format(self.title, self.player_author.nick)
-        # else:
-        #     return '{0}-{1}'.format(self.title, self.team_author.name)
+        # return unicode(self.id)
+        if self.type == 1:
+            return '{0}-{1}'.format(self.title, self.player_author.nick)
+        else:
+            return '{0}-{1}'.format(self.title, self.team_author.name)
 
 
 class SpiderConfig(BaseModel):
