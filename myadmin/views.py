@@ -128,11 +128,13 @@ class AdminNewNewsView(CheckAdminPagePermissionMixin, CreateView):
         pic2 = request.POST.get('pic2')
         pic3 = request.POST.get('pic3')
         content = request.POST.get('news_detail')
+        sub_title = request.POST.get('sub_title')
         news_type = int(request.POST.get('type'))
         News(title=title,
              picture1=pic1,
              picture2=pic2,
              picture3=pic3,
+             sub_title=sub_title,
              content=content,
              news_type=news_type).save()
         news = News.objects.get(title=title)
@@ -160,6 +162,7 @@ class AdminModifyNewsView(CheckAdminPagePermissionMixin, UpdateView):
         content = request.POST.get('news_detail')
         news_type = int(request.POST.get('type'))
         nid = request.POST.get('nid')
+        sub_title = request.POST.get('sub_title')
         news = News.objects.filter(id=nid)
         if news.exists():
             news = news[0]
@@ -169,6 +172,7 @@ class AdminModifyNewsView(CheckAdminPagePermissionMixin, UpdateView):
             news.picture2 = pic2
             news.picture3 = pic3
             news.content = content
+            news.sub_title = sub_title
             news.save()
             return HttpResponseRedirect('/admin/news')
         return HttpResponse('False')

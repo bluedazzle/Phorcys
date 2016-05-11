@@ -164,6 +164,8 @@ class Match(BaseModel):
     team2 = models.ForeignKey(Team, related_name='team2_matches', null=True, blank=True, on_delete=models.SET_NULL)
     tournament = models.ForeignKey(Tournament, related_name='tournament_matches', null=True, blank=True)
     status = models.IntegerField(default=1, choices=status_choice)
+    team1_support = models.IntegerField(default=0)
+    team2_support = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.name

@@ -18,6 +18,10 @@
                     <input type="text" name="title" placeholder="文章标题" value="{{ news.title }}">
                 </div>
                 <div class="field">
+                    <label>副标题:</label>
+                    <input type="text" name="sub_title" placeholder="副标题" value="{{ news.sub_title }}">
+                </div>
+                <div class="field">
                     <label>文章类型:</label>
                     <select name="type" id="" class="ui dropdown" value="{{ news.news_type }}">
                         <option value="1">小图</option>
@@ -41,7 +45,7 @@
                     {{ form }}
                 </div>
                 <div class="field">
-                    <input type="submit" class="ui green button" value="提交"></input>
+                    <input type="submit" class="ui green button" value="提交" />
                 </div>
                 <input type="hidden" name="nid" value="{{ news.id }}">
             </form>
