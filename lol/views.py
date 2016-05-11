@@ -533,6 +533,10 @@ class CommentCreateView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Js
 
     def form_valid(self, form):
         super(CommentCreateView, self).form_valid(form)
+        if self.object.forbid:
+            self.message = '用户被禁止'
+            self.status_code = ERROR_PERMISSION_DENIED
+            return self.render_to_response(dict())
         self.object.create_by = self.user
         self.object.belong = self.obj
         self.object.save()
@@ -563,6 +567,10 @@ class ReplyCreateView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Json
         cid = request.POST.get('cid')
         tid = request.POST.get('tid')
         content = request.POST.get('content')
+        if self.object.forbid:
+            self.message = '用户被禁止'
+            self.status_code = ERROR_PERMISSION_DENIED
+            return self.render_to_response(dict())
         if cid and tid:
             comment = NewsComment.objects.filter(id=cid)
             if comment.exists():

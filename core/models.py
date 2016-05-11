@@ -56,7 +56,7 @@ class BaseTournament(BaseModel):
 
 
 class BaseComment(BaseModel):
-    content = models.TextField()
+    content = models.TextField(null=False, blank=False)
     thumb = models.IntegerField(default=0)
 
     class Meta:
