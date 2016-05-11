@@ -16,7 +16,8 @@ from core.dss.Mixin import MultipleJsonResponseMixin, FormJsonResponseMixin, Jso
 from core.dss.Serializer import serializer
 from core.models import Country
 from lol.models import News, NewsComment, Topic, Player, Team, Tournament, Weibo, Match, TournamentTeamInfo, Game, Hero, \
-    SummonerSpells, Equipment, GamePlayer, TournamentTheme, PlayerInfo, TotalPlayerInfo, TotalTeamInfo, Tmp
+    SummonerSpells, Equipment, GamePlayer, TournamentTheme, PlayerInfo, TotalPlayerInfo, TotalTeamInfo, Tmp, \
+    NewsCommentReply
 from lol.forms import *
 from myuser.models import EUser
 
@@ -508,7 +509,7 @@ class CommentCreateView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Js
     def get_obj(self):
         obj_list = [None, News, Topic, Weibo, Tournament]
         cid = self.request.POST.get('id', '')
-        self.type = int(self.request.POST.get('type'))
+        self.type = int(self.request.POST.get('type'), 1)
         if self.type not in range(1, 5):
             self.status_code = INFO_NO_EXIST
             self.message = '评论类型不存在'
@@ -545,6 +546,38 @@ class CommentCreateView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Js
         if not self.get_obj():
             return self.render_to_response(dict())
         return super(CommentCreateView, self).post(request, *args, **kwargs)
+
+
+class ReplyCreateView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+    """
+    评论回复
+    """
+
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            return self.render_to_response(dict())
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        cid = request.POST.get('cid')
+        tid = request.POST.get('tid')
+        content = request.POST.get('content')
+        if cid and tid:
+            comment = NewsComment.objects.filter(id=cid)
+            if comment.exists():
+                comment = comment[0]
+                toer = EUser.objects.filter(id=tid)
+                if toer.exists():
+                    toer = toer[0]
+                    NewsCommentReply(content=content,
+                                     create_by=self.user,
+                                     reply=toer,
+                                     belong=comment).save()
+                    return self.render_to_response(dict())
+        self.message = '参数缺失'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
 
 
 class ThumbView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, UpdateView):
