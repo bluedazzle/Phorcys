@@ -64,8 +64,7 @@ class NewsCommentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonRespo
     model = NewsComment
     http_method_names = ['get']
     datetime_type = 'timestamp'
-    foreign = True
-    exclude_attr = ['sub_title', 'picture1', 'picture2', 'picture3', 'content', 'views', 'publish']
+    exclude_attr = ['modify_time']
     paginate_by = 20
     belong = None
 
@@ -82,7 +81,12 @@ class NewsCommentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonRespo
 
     def get_reply(self, news_comment):
         reply_list = news_comment.user_replies_belong.all()
+        create_by = news_comment.create_by
+        setattr(news_comment, 'author', serializer(create_by, include_attr=['nick', 'id', 'avatar']))
         if reply_list.exists():
+            for reply in reply_list:
+                setattr(reply, 'to', serializer(reply.reply, include_attr=['nick', 'id', 'avatar']))
+                setattr(reply, 'author', serializer(reply.create_by, include_attr=['nick', 'id', 'avatar']))
             setattr(news_comment, 'reply', reply_list)
         else:
             setattr(news_comment, 'reply', [])
