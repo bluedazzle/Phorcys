@@ -76,12 +76,12 @@ class NewsCommentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonRespo
         else:
             self.message = '资讯不存在'
             self.status_code = INFO_NO_EXIST
-        self.queryset = NewsComment.objects.filter(belong=self.belong)
+        self.queryset = NewsComment.objects.filter(belong=self.belong).order_by('-create_time')
         map(self.get_reply, self.queryset)
         return self.queryset
 
     def get_reply(self, news_comment):
-        reply_list = news_comment.user_replies_belong.all()
+        reply_list = news_comment.user_replies_belong.all().order_by('-create_time')
         create_by = news_comment.create_by
         setattr(news_comment, 'author', serializer(create_by, include_attr=['nick', 'id', 'avatar']))
         if reply_list.exists():
