@@ -90,6 +90,16 @@ class NewsComment(BaseComment):
         return self.create_by.nick
 
 
+class NewsCommentReply(BaseComment):
+    create_by = models.ForeignKey('myuser.EUser', related_name='user_news_replies', on_delete=models.SET_NULL,
+                                  null=True, blank=True)
+    reply = models.ForeignKey('myuser.EUser', related_name='user_news_replied')
+    belong = models.ForeignKey(NewsComment, related_name='user_replies_belong')
+
+    def __unicode__(self):
+        return '{0}-{1}'.format(self.create_by.nick, self.reply.nick)
+
+
 class TournamentComment(BaseComment):
     create_by = models.ForeignKey('myuser.EUser', related_name='user_tournament_comments', on_delete=models.SET_NULL,
                                   null=True, blank=True)

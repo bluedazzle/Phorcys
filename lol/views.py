@@ -64,7 +64,7 @@ class NewsCommentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonRespo
     model = NewsComment
     http_method_names = ['get']
     datetime_type = 'timestamp'
-    include_attr = ['create_time', 'content', 'thumb', 'id']
+    # include_attr = ['create_time', 'content', 'thumb', 'id']
     paginate_by = 20
     belong = None
 
@@ -76,7 +76,15 @@ class NewsCommentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonRespo
             self.message = '资讯不存在'
             self.status_code = INFO_NO_EXIST
         self.queryset = NewsComment.objects.filter(belong=self.belong)
+        map(self.get_reply, self.queryset)
         return self.queryset
+
+    def get_reply(self, news_comment):
+        reply_list = news_comment.user_replies_belong.all()
+        if reply_list.exists():
+            setattr(news_comment, 'reply', reply_list)
+        else:
+            setattr(news_comment, 'reply', [])
 
 
 class BBSListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
