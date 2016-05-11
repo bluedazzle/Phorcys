@@ -64,7 +64,8 @@ class NewsCommentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonRespo
     model = NewsComment
     http_method_names = ['get']
     datetime_type = 'timestamp'
-    # include_attr = ['create_time', 'content', 'thumb', 'id']
+    foreign = True
+    exclude_attr = ['sub_title', 'picture1', 'picture2', 'picture3', 'content', 'views', 'publish']
     paginate_by = 20
     belong = None
 
