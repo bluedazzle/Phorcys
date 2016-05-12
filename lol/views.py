@@ -405,7 +405,7 @@ class MatchListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMix
     paginate_by = 20
 
     def get_queryset(self):
-        feature = self.request.GET.get('feature')
+        feature = self.request.GET.get('future')
         date = datetime.date.today() + datetime.timedelta(days=1)
         queryset = super(MatchListView, self).get_queryset()
         if feature:

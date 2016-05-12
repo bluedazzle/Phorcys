@@ -77,7 +77,7 @@ var vm = new Vue({
             this.newTeam.abbreviation = '';
             this.newTeam.info = '';
             this.newTeam.country = 0;
-            this.newTeam.id = '';
+            this.newTeam.id = '-1';
             this.newTeam.logo = '';
             this.newTeam.world_rank = 0;
         },
