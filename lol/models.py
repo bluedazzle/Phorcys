@@ -158,7 +158,8 @@ class Match(BaseModel):
         (1, 'BO1'),
         (2, 'BO2'),
         (3, 'BO3'),
-        (4, 'BO5')
+        (4, 'BO5'),
+        (5, 'BO5')
     ]
     status_choice = [
         (1, '未进行'),
