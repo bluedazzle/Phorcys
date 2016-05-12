@@ -109,7 +109,8 @@ class AdminIndexView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMi
         return self.render_to_response(self.get_queryset())
 
 
-class AdminUserView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, DetailView):
+class AdminUserView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin,
+                    DetailView):
     pk_url_kwarg = 'token'
     http_method_names = ['get', 'post']
     include_attr = ['nick', 'last_login', 'phone']
@@ -236,10 +237,12 @@ class AdminTournamentView(CheckSecurityMixin, CheckAdminPermissionMixin,
                 TournamentTeamInfo(team=team,
                                    uuid='{0}t{1}'.format(uuid, team.id),
                                    tournament=tournament).save()
-                TotalTeamInfo(team=team,
-                              uuid='{0}t{1}'.format(tt.id, team.id),
-                              tournament=tt
-                              ).save()
+                uuid = '{0}t{1}'.format(tt.id, team.id)
+                if not TotalTeamInfo.objects.filter(uuid=uuid).exists():
+                    TotalTeamInfo(team=team,
+                                  uuid=uuid,
+                                  tournament=tt
+                                  ).save()
                 team.tournaments.add(tournament)
             players = team.team_players.all()
             for player in players:
@@ -247,9 +250,11 @@ class AdminTournamentView(CheckSecurityMixin, CheckAdminPermissionMixin,
                            player=player,
                            tournament=tournament
                            ).save()
-                TotalPlayerInfo(uuid='{0}p{1}'.format(tt.id, player.id),
-                                player=player,
-                                tournament=tt).save()
+                uuid = '{0}p{1}'.format(tt.id, player.id)
+                if not TotalPlayerInfo.objects.filter(uuid=uuid):
+                    TotalPlayerInfo(uuid=uuid,
+                                    player=player,
+                                    tournament=tt).save()
         return self.render_to_response(dict())
 
 
