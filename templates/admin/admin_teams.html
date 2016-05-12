@@ -36,6 +36,10 @@
                             <input type="text" name="name" v-model="newTeam.abbreviation" placeholder="战队简写">
                         </div>
                         <div class="field">
+                            <label>世界排名</label>
+                            <input type="text" name="name" v-model="newTeam.world_rank" placeholder="世界排名">
+                        </div>
+                        <div class="field">
                             <label for="">国籍</label>
                             <select name="belong" v-model="newTeam.country" class="ui dropdown"
                                     id="country">
@@ -66,7 +70,7 @@
             <thead>
             <tr>
                 <th>战队</th>
-                <th>简介</th>
+                <th>世界排名</th>
                 <th>队员</th>
                 <th>国籍</th>
                 <th>操作</th>
@@ -85,7 +89,7 @@
                         </div>
                     </h4>
                 </td>
-                <td></td>
+                <td>${ team.world_rank }}</td>
                 <td><h4 class="ui image header" style="display: inline-block;">
                     <img v-for="player in team.players" src="${ player.avatar }}" style="margin-right: 2px;"
                          class="ui mini rounded image" alt="${ player.nick }}${ player.id }}">

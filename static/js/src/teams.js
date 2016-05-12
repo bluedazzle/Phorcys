@@ -14,6 +14,7 @@ var vm = new Vue({
             abbreviation: '',
             info: '',
             country: '',
+            world_rank: 0,
             id: '-1',
             logo: ''
         },
@@ -60,6 +61,7 @@ var vm = new Vue({
             this.newTeam.country = team.country_id;
             this.newTeam.id = team.id;
             this.newTeam.logo = team.logo;
+            this.newTeam.world_rank = team.world_rank;
             if (team.country_id) {
                 $('#country').dropdown('set selected', team.country_id);
             } else {
@@ -77,6 +79,7 @@ var vm = new Vue({
             this.newTeam.country = 0;
             this.newTeam.id = '';
             this.newTeam.logo = '';
+            this.newTeam.world_rank = 0;
         },
         createNewTeam: function () {
             var url = generateUrlWithToken('admin/api/team', getCookie('token'));
@@ -86,6 +89,7 @@ var vm = new Vue({
             formData.append('info', this.newTeam.info);
             formData.append('country', this.newTeam.country);
             formData.append('id', this.newTeam.id);
+            formData.append('world_rank', this.newTeam.world_rank);
             $.ajax({
                 url: url,
                 type: 'POST',

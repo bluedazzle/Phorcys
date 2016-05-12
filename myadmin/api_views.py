@@ -639,6 +639,7 @@ class AdminTeamView(CheckSecurityMixin, CheckAdminPermissionMixin,
         info = request.POST.get('info')
         abbreviation = request.POST.get('abbreviation')
         country = request.POST.get('country')
+        world_rank = int(request.POST.get('world_rank', 0))
         country = Country.objects.get(id=country)
         tid = request.POST.get('id')
         if logo:
@@ -647,10 +648,10 @@ class AdminTeamView(CheckSecurityMixin, CheckAdminPermissionMixin,
             data_path = ''
         team = Team.objects.filter(id=tid)
         if team.exists():
-            print '111'
             team = team[0]
             team.name = name
             team.info = info
+            team.world_rank = world_rank
             team.abbreviation = abbreviation
             team.country = country
             if data_path != '':
@@ -660,6 +661,7 @@ class AdminTeamView(CheckSecurityMixin, CheckAdminPermissionMixin,
             Team(name=name,
                  logo=data_path,
                  info=info,
+                 world_rank=world_rank,
                  abbreviation=abbreviation,
                  country=country
                  ).save()
