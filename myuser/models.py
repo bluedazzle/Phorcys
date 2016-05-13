@@ -54,3 +54,12 @@ class Invite(BaseModel):
 
     def __unicode__(self):
         return self.code
+
+
+class FeedBack(BaseModel):
+    content = models.TextField()
+    author = models.ForeignKey(EUser, related_name='user_feedbacks', null=True, blank=True, on_delete=models.SET_NULL)
+    read = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.author.phone

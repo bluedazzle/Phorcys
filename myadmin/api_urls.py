@@ -25,4 +25,5 @@ urlpatterns = patterns('',
                        url(r'^news/(?P<nid>(\d)+)', AdminNewsView.as_view()),
                        url(r'^invites', AdminInviteListView.as_view()),
                        url(r'^invite', AdminInviteView.as_view()),
+                       url(r'^feedbacks', AdminFeedbackListView.as_view()),
                        )

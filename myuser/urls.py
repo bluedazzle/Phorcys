@@ -12,4 +12,5 @@ urlpatterns = patterns('',
                        url(r'^logout', UserLogoutView.as_view()),
                        url(r'^bind', UserThirdAccountBindView.as_view()),
                        url(r'^avatar', UserAvatarView.as_view()),
+                       url(r'^feedback', UserFeedBackView.as_view()),
                        )

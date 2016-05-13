@@ -415,6 +415,11 @@ class MatchListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMix
         map(self.add_date, queryset)
         return queryset
 
+    # def get_context_data(self, **kwargs):
+    #     context = super(MatchListView, self).get_context_data(**kwargs)
+    #     context['match_list'] = context['match_list'].order_by('match_time')
+    #     return context
+
     def add_date(self, match):
         match_date = match.match_time.strftime('%Y%m%d')
         match_weekday = match.match_time.weekday() + 1

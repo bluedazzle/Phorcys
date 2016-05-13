@@ -22,7 +22,7 @@ from core.utils import upload_picture, save_image
 from lol.models import LOLInfoExtend
 from myuser.forms import VerifyCodeForm, UserRegisterForm, UserResetForm, UserLoginForm, UserChangePasswordForm, \
     UserThirdRegisterForm
-from myuser.models import EUser, Verify, Invite
+from myuser.models import EUser, Verify, Invite, FeedBack
 import time
 
 
@@ -432,5 +432,23 @@ class UserAvatarView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonR
             self.user.save()
             return self.render_to_response(self.user)
         self.message = '数据缺失'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
+
+
+class UserFeedBackView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+    http_method_names = ['post']
+    model = FeedBack
+
+    def post(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            return self.render_to_response(dict())
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        content = request.POST.get('content')
+        if content and content != '':
+            FeedBack(content=content, author=self.user).save()
+            return self.render_to_response(dict())
+        self.message = '请填写反馈内容'
         self.status_code = ERROR_DATA
         return self.render_to_response(dict())

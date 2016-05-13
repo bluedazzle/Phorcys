@@ -181,3 +181,8 @@ class AdminModifyNewsView(CheckAdminPagePermissionMixin, UpdateView):
 class AdminInviteListView(CheckAdminPagePermissionMixin, TemplateView):
     template_name = 'admin/admin_invite.html'
     http_method_names = ['get']
+
+
+class AdminFeedbackView(CheckAdminPagePermissionMixin, TemplateView):
+    template_name = 'admin/admin_feedback.html'
+    http_method_names = ['get']

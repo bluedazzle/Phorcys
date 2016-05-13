@@ -23,7 +23,7 @@ from lol.models import News, Tournament, Team, Player, Topic, TournamentTeamInfo
 from myadmin.forms import AdminLoginForm
 from myadmin.models import EAdmin
 from myadmin.utils import calculate_game_data
-from myuser.models import EUser, Invite
+from myuser.models import EUser, Invite, FeedBack
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckAdminPermissionMixin
 from core.Mixin.StatusWrapMixin import *
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
@@ -729,3 +729,36 @@ class AdminInviteView(CheckSecurityMixin, CheckAdminPermissionMixin,
         self.message = '参数缺失'
         self.status_code = ERROR_DATA
         return self.render_to_response(dict())
+
+
+class AdminFeedbackListView(CheckSecurityMixin, CheckAdminPermissionMixin,
+                            StatusWrapMixin, JsonRequestMixin, MultipleJsonResponseMixin, ListView):
+
+    model = FeedBack
+    http_method_names = ['get', 'post']
+    paginate_by = 20
+
+    def get_user(self, feedback):
+        user = feedback.author
+        setattr(feedback, 'user', serializer(user))
+
+    def get_queryset(self):
+        queryset = super(AdminFeedbackListView, self).get_queryset()
+        map(self.get_user, queryset)
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        fid = request.POST.get('fid')
+        if fid:
+            feedback = FeedBack.objects.filter(id=fid)
+            if feedback.exists():
+                feedback = feedback[0]
+                feedback.read = True
+                feedback.save()
+                return self.render_to_response(dict())
+        self.message = '参数缺失'
+        self.status_code = ERROR_DATA
+        return self.render_to_response(dict())
+
+
+
