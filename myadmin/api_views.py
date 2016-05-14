@@ -702,7 +702,15 @@ class AdminInviteListView(CheckSecurityMixin, CheckAdminPermissionMixin,
         queryset = super(AdminInviteListView, self).get_queryset()
         if query:
             queryset = queryset.filter(Q(code=query) | Q(belong__phone=query))
+        map(self.get_belong, queryset)
         return queryset
+
+    def get_belong(self, invite):
+        belong = invite.belong
+        if belong:
+            setattr(invite, 'user', serializer(belong))
+        else:
+            setattr(invite, 'user', None)
 
 
 class AdminInviteView(CheckSecurityMixin, CheckAdminPermissionMixin,
