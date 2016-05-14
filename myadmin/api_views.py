@@ -701,7 +701,8 @@ class AdminInviteListView(CheckSecurityMixin, CheckAdminPermissionMixin,
         query = self.request.GET.get('query')
         queryset = super(AdminInviteListView, self).get_queryset()
         if query:
-            queryset = queryset.filter(Q(code=query) | Q(belong__phone=query))
+            queryset = queryset.filter(
+                Q(code__icontains=query) | Q(belong__phone__icontains=query) | Q(belong__nick__icontains=query))
         map(self.get_belong, queryset)
         return queryset
 
@@ -741,7 +742,6 @@ class AdminInviteView(CheckSecurityMixin, CheckAdminPermissionMixin,
 
 class AdminFeedbackListView(CheckSecurityMixin, CheckAdminPermissionMixin,
                             StatusWrapMixin, JsonRequestMixin, MultipleJsonResponseMixin, ListView):
-
     model = FeedBack
     http_method_names = ['get', 'post']
     paginate_by = 20
@@ -767,6 +767,3 @@ class AdminFeedbackListView(CheckSecurityMixin, CheckAdminPermissionMixin,
         self.message = '参数缺失'
         self.status_code = ERROR_DATA
         return self.render_to_response(dict())
-
-
-
