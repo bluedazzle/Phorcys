@@ -97,7 +97,7 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
         return self.object
 
     def form_valid(self, form):
-        code = Invite.objects.filter(code=form.cleaned_data.get('code'))
+        code = Invite.objects.filter(code__iexact=unicode(form.cleaned_data.get('code')))
         if code.exists():
             code = code[0]
             if not code.use:
