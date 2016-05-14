@@ -179,7 +179,7 @@ class Match(BaseModel):
     team2_support = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return self.name
+        return '{0}-{1}'.format(self.name, self.match_time.strftime('%Y-%m-%d %H:%M:%S'))
 
 
 class Game(BaseModel):
