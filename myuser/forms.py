@@ -50,7 +50,7 @@ class VerifyCodeForm(forms.ModelForm):
     def clean_code(self):
         code = unicode(self.cleaned_data.get('code', None))
         if code:
-            invite = Invite.objects.filter(code=code)
+            invite = Invite.objects.filter(code__iexact=code)
             if not invite.exists():
                 raise forms.ValidationError(message=self.code_messages['wrong'], code='wrong')
             else:
