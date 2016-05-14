@@ -31,6 +31,7 @@
                 <td>${ feedback.read == true ? '已读' : '未读' }}</td>
                 <td>
                     <button v-show="!feedbacks[index].read" class="ui small green button" @click="handle(feedbacks[index].id)">处理</button>
+                    <a href="/admin/feedback/${ feedback.id }}" class="ui small blue button">详情</a>
                 </td>
             </tr>
             </tbody>

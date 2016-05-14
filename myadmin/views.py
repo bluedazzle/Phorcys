@@ -9,7 +9,7 @@ from django.views.generic import UpdateView, DetailView, TemplateView, ListView,
 from lol.models import News, Tournament, Team, Player, Topic
 from myadmin.forms import AdminLoginForm, NewsForm
 from myadmin.models import EAdmin
-from myuser.models import EUser
+from myuser.models import EUser, FeedBack
 from core.Mixin.CheckMixin import CheckAdminPagePermissionMixin
 
 
@@ -186,3 +186,10 @@ class AdminInviteListView(CheckAdminPagePermissionMixin, TemplateView):
 class AdminFeedbackView(CheckAdminPagePermissionMixin, TemplateView):
     template_name = 'admin/admin_feedback.html'
     http_method_names = ['get']
+
+
+class AdminFeedbackDetailView(CheckAdminPagePermissionMixin, DetailView):
+    template_name = 'admin/admin_feedback_detail.html'
+    http_method_names = ['get']
+    model = FeedBack
+    pk_url_kwarg = 'fid'

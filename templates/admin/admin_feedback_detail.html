@@ -1,0 +1,14 @@
+{% extends 'admin/admin_base.html' %}
+{% block content %}
+    <div class="boloContainer" id="vFeedback">
+        <div class="ui breadcrumb">
+            <a class="section" href="/admin/feedback">反馈</a>
+            <i class="right angle icon divider"></i>
+            <a class="section">{{ feedback.id }}</a>
+        </div>
+        <div class="ui divider"></div>
+    <div>
+        {{ feedback.content }}
+    </div>
+    </div>
+{% endblock %}

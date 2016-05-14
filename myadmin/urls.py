@@ -18,5 +18,6 @@ urlpatterns = patterns('',
                        url(r'^logout', AdminLogoutView.as_view()),
                        url(r'^users', AdminUserListView.as_view()),
                        url(r'^invite', AdminInviteListView.as_view()),
+                       url(r'^feedback/(?P<fid>(\d)+)', AdminFeedbackDetailView.as_view()),
                        url(r'^feedback', AdminFeedbackView.as_view()),
                        )
