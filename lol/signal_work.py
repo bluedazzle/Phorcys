@@ -122,7 +122,7 @@ def generate_player_tournament_theme_info(tournament_id):
         total_player_info.win_rate = round(win_rate / times, 2)
         total_player_info.victory_times = round(victory_times / times, 2)
         total_player_info.fail_times = round(fail_times / times, 2)
-        total_player_info.tied_times = round(times / times, 2)
+        total_player_info.tied_times = round(tied_times / times, 2)
         total_player_info.save()
 
 
@@ -198,7 +198,7 @@ def generate_team_tournament_info(tournament_id):
         team_info.fail_times = fail_times
         team_info.tied_times = tied_times
         if (tied_times + fail_times) == 0:
-            team_info.win_rate = victory_times
+            team_info.win_rate = 1
         else:
             team_info.win_rate = round(victory_times / (fail_times + tied_times + victory_times), 2)
         team_info.save()
@@ -258,7 +258,7 @@ def generate_total_team_info(tournament_id):
         total_team_info.kda = round(kda / times, 2)
         total_team_info.score = score
         if (tied_times + fail_times) == 0:
-            total_team_info.win_rate = victory_times
+            total_team_info.win_rate = 1
         else:
             total_team_info.win_rate = round(victory_times / (fail_times + tied_times + victory_times), 2)
         total_team_info.save()

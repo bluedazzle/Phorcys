@@ -406,7 +406,7 @@ class MatchListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMix
 
     def get_queryset(self):
         feature = self.request.GET.get('future')
-        date = datetime.date.today() + datetime.timedelta(days=1)
+        date = datetime.date.today()
         queryset = super(MatchListView, self).get_queryset()
         if feature:
             queryset = queryset.filter(match_time__lt=date).order_by('-match_time')
