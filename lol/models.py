@@ -355,3 +355,11 @@ class Tmp(BaseModel):
 
     def __unicode__(self):
         return unicode(self.id)
+
+
+class WeiboAdmin(BaseModel):
+    token = models.CharField(max_length=128)
+    uid = models.CharField(max_length=64, default='')
+
+    def __unicode__(self):
+        return self.token

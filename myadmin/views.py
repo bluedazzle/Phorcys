@@ -1,12 +1,14 @@
 # coding: utf-8
 from __future__ import unicode_literals
+
+import requests
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 
 # Create your views here.
 from django.views.generic import UpdateView, DetailView, TemplateView, ListView, RedirectView, CreateView
 
-from lol.models import News, Tournament, Team, Player, Topic
+from lol.models import News, Tournament, Team, Player, Topic, Weibo
 from myadmin.forms import AdminLoginForm, NewsForm
 from myadmin.models import EAdmin
 from myuser.models import EUser, FeedBack
@@ -193,3 +195,18 @@ class AdminFeedbackDetailView(CheckAdminPagePermissionMixin, DetailView):
     http_method_names = ['get']
     model = FeedBack
     pk_url_kwarg = 'fid'
+
+
+class AdminWeiboView(CheckAdminPagePermissionMixin, TemplateView):
+    template_name = 'admin/admin_weibo.html'
+    http_method_names = ['get']
+
+
+class AdminWeiboTokenView(CheckAdminPagePermissionMixin, DetailView):
+    http_method_names = ['get']
+
+    def get(self, request, *args, **kwargs):
+        post_dict = {'client_id': '587332901',
+                     'redirect_uri': 'www.boloesports.com/api/v1/lol/weibo/callback'}
+        res = requests.post('https://api.weibo.com/oauth2/authorize', data=post_dict)
+        return HttpResponse(res.content)

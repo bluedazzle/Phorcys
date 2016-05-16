@@ -26,4 +26,5 @@ urlpatterns = patterns('',
                        url(r'^invites', AdminInviteListView.as_view()),
                        url(r'^invite', AdminInviteView.as_view()),
                        url(r'^feedbacks', AdminFeedbackListView.as_view()),
+                       url(r'^weibo', AdminWeiboView.as_view()),
                        )

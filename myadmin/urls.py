@@ -20,4 +20,6 @@ urlpatterns = patterns('',
                        url(r'^invite', AdminInviteListView.as_view()),
                        url(r'^feedback/(?P<fid>(\d)+)', AdminFeedbackDetailView.as_view()),
                        url(r'^feedback', AdminFeedbackView.as_view()),
+                       url(r'^weibo/reset', AdminWeiboTokenView.as_view()),
+                       url(r'^weibo', AdminWeiboView.as_view()),
                        )

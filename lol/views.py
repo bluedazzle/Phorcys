@@ -2,10 +2,12 @@
 
 from __future__ import unicode_literals
 
+import json
 import time
 
+import requests
 from django.db.models import Q, Count
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
 
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckTokenMixin
@@ -17,7 +19,7 @@ from core.dss.Serializer import serializer
 from core.models import Country
 from lol.models import News, NewsComment, Topic, Player, Team, Tournament, Weibo, Match, TournamentTeamInfo, Game, Hero, \
     SummonerSpells, Equipment, GamePlayer, TournamentTheme, PlayerInfo, TotalPlayerInfo, TotalTeamInfo, Tmp, \
-    NewsCommentReply
+    NewsCommentReply, WeiboAdmin
 from lol.forms import *
 from myuser.models import EUser
 
@@ -938,3 +940,26 @@ class TmpListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin
     model = Tmp
     foreign = True
     include_attr = ['url', 'id', 'name', 'team', 'player', 'pic_type', 'nick']
+
+
+class WeiboCallbackView(ListView):
+    http_method_names = ['get']
+
+    def get(self, request, *args, **kwargs):
+        code = request.GET.get('code')
+        if code:
+            post_dict = {'client_id': '587332901',
+                         'client_secret': '9305ee31f88103fb9b24413f635473ce',
+                         'grant_type': 'authorization_code',
+                         'code': code,
+                         'redirect_uri': 'www.boloesports.com/api/v1/lol/weibo/callback'}
+            res = requests.post('https://api.weibo.com/oauth2/access_token', data=post_dict)
+            json_data = json.loads(res.content)
+            access_token = json_data.get('access_token', '')
+            uid = json_data.get('uid', '')
+            if access_token != '' and uid != '':
+                weibo_admin = WeiboAdmin.objects.all()[0]
+                weibo_admin.token = access_token
+                weibo_admin.uid = uid
+                weibo_admin.save()
+            return HttpResponseRedirect('/admin/weibo')

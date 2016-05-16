@@ -6,6 +6,7 @@ import string
 
 import datetime
 
+import requests
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
@@ -19,7 +20,7 @@ from django.views.generic.base import TemplateResponseMixin
 from core.models import Country
 from core.utils import upload_picture, create_game_id, create_tournament_id, create_token
 from lol.models import News, Tournament, Team, Player, Topic, TournamentTeamInfo, Match, Game, Hero, GamePlayer, \
-    SummonerSpells, Equipment, Position, TournamentTheme, PlayerInfo, TotalTeamInfo, TotalPlayerInfo
+    SummonerSpells, Equipment, Position, TournamentTheme, PlayerInfo, TotalTeamInfo, TotalPlayerInfo, Weibo, WeiboAdmin
 from myadmin.forms import AdminLoginForm
 from myadmin.models import EAdmin
 from myadmin.utils import calculate_game_data
@@ -767,3 +768,16 @@ class AdminFeedbackListView(CheckSecurityMixin, CheckAdminPermissionMixin,
         self.message = '参数缺失'
         self.status_code = ERROR_DATA
         return self.render_to_response(dict())
+
+
+class AdminWeiboView(CheckSecurityMixin, CheckAdminPermissionMixin,
+                     StatusWrapMixin, JsonResponseMixin, DetailView):
+    model = Weibo
+    http_method_names = ['get', 'post']
+
+    def get(self, request, *args, **kwargs):
+        weibo_admin = WeiboAdmin.objects.all()[0]
+        return self.render_to_response({'token': weibo_admin.token,
+                                        'uid': weibo_admin.uid})
+
+
