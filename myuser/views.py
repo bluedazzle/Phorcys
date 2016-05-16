@@ -34,7 +34,7 @@ class VerifyCodeView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Cre
 
     def get(self, request, *args, **kwargs):
         phone = request.GET.get('phone')
-        code = request.GET.get('code')
+        code = request.GET.get('code', '')
         if phone and code:
             verify_list = Verify.objects.filter(phone=unicode(phone)).order_by('-create_time')
             if verify_list.exists():
@@ -59,8 +59,21 @@ class VerifyCodeView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Cre
         self.message = '数据缺失'
         return self.render_to_response(dict())
 
+    def post(self, request, *args, **kwargs):
+        reg = request.POST.get('reg', True)
+        if reg == 'false':
+            reg = False
+        if reg:
+            return super(VerifyCodeView, self).post(request, *args, **kwargs)
+        form = Verify()
+        setattr(form, 'cleaned_data', {'phone': request.POST.get('phone')})
+        setattr(form, 'reg', reg)
+        self.object = Verify(phone=request.POST.get('phone'))
+        return self.form_valid(form)
+
     def form_valid(self, form):
-        super(VerifyCodeView, self).form_valid(form)
+        if not hasattr(form, 'reg'):
+            super(VerifyCodeView, self).form_valid(form)
         verify = self.create_verify_code()
         if send_sms(verify, form.cleaned_data.get('phone')):
             self.object.code = verify

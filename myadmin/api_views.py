@@ -532,6 +532,7 @@ class AdminUserListView(CheckSecurityMixin, CheckAdminPermissionMixin,
         query_str = self.request.GET.get('query')
         if query_str:
             queryset = queryset.filter(Q(nick__icontains=query_str) | Q(phone__icontains=query_str))
+        queryset = queryset.order_by('-create_time')
         return queryset
 
 

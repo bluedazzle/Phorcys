@@ -31,7 +31,7 @@ class NewsListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
 
     model = News
     datetime_type = 'timestamp'
-    paginate_by = 10
+    paginate_by = 20
     exclude_attr = ['content', 'modify_time']
     http_method_names = ['get']
 

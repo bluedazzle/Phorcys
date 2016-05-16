@@ -45,7 +45,7 @@
                     {{ form }}
                 </div>
                 <div class="field">
-                    <input type="submit" class="ui green button" value="提交" />
+                    <input type="submit" class="ui green button" value="提交"/>
                 </div>
                 <input type="hidden" name="nid" value="{{ news.id }}">
             </form>
@@ -53,11 +53,13 @@
     </div>
 {% endblock %}
 {% block script %}
+    <script src="/s/js/stickUp.js"></script>
     <script>
         window.onload = function () {
             $('#id_news_detail').css('width', '100%');
             $('#edui1').css('width', '100%');
             $('#edui1_iframeholder').css('width', '');
+            $('#edui1_toolbarbox').stickUp();
         };
         $('.dropdown').dropdown('set exactly', {{ news.news_type }}).dropdown({
             on: 'hover'
