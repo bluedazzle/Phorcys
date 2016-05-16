@@ -963,3 +963,12 @@ class WeiboCallbackView(ListView):
                 weibo_admin.uid = uid
                 weibo_admin.save()
             return HttpResponseRedirect('/admin/weibo')
+
+
+class WeiboTokenView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+    http_method_names = ['get']
+
+    def get(self, request, *args, **kwargs):
+        weibo_admin = WeiboAdmin.objects.all()[0]
+        return self.render_to_response({'token': weibo_admin.token,
+                                        'uid': weibo_admin.uid})
