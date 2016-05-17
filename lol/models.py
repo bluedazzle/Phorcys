@@ -87,7 +87,9 @@ class NewsComment(BaseComment):
     belong = models.ForeignKey(News, related_name='news_comments', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __unicode__(self):
-        return self.create_by.nick
+        if hasattr(self.create_by, 'nick'):
+            return self.create_by.nick
+        return unicode(self.id)
 
 
 class NewsCommentReply(BaseComment):
