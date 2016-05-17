@@ -916,10 +916,12 @@ class WeiboListView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, Multip
     def get_queryset(self):
         queryset = super(WeiboListView, self).get_queryset()
         player_list = self.user.lol.focus_players.all()
+        bolo = Player.objects.get(nick='bolo')
         team_list = self.user.lol.focus_teams.all()
         queryset1 = queryset.filter(player_author__in=player_list)
         queryset2 = queryset.filter(team_author__in=team_list)
-        queryset = queryset1 | queryset2
+        queryset3 = queryset.filter(player_author=bolo)
+        queryset = queryset1 | queryset2 | queryset3
         queryset = queryset.order_by('-create_time')
         return queryset
 

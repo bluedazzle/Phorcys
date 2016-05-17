@@ -161,8 +161,7 @@ class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
         return self.object
 
     def form_valid(self, form):
-        print form.cleaned_data.get('code')
-        code = Invite.objects.filter(code=form.cleaned_data.get('code'))
+        code = Invite.objects.filter(code__iexact=form.cleaned_data.get('code'))
         if code.exists():
             code = code[0]
             if not code.use:
