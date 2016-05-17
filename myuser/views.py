@@ -378,6 +378,11 @@ class UserThirdAccountBindView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMi
             return self.render_to_response(dict())
         t_type = request.POST.get('type')
         open_id = request.POST.get('openid')
+        users = EUser.objects.filter(Q(wechat_openid=open_id) | Q(weibo_openid=open_id) | Q(qq_openid=open_id))
+        if users.exists():
+            self.message = '该账号已绑定,请直接登陆'
+            self.status_code = INFO_EXISTED
+            return self.render_to_response(dict())
         if t_type and open_id:
             if t_type == '1':
                 self.user.wechat_openid = open_id

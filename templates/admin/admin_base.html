@@ -10,28 +10,30 @@
     {% endblock %}
 </head>
 <body>
-{#<nav id="vBase" class="ui menu" style="margin: -1px 0;">#}
-{#    <div class="ui header item">#}
-{#        <img src="/s/image/site/logob.png" height="30px;" style="margin-right: 10px;">#}
-{#        菠萝管理</div>#}
-{#    <div class=" right menu">#}
-{#        <div id="admin_dropdown" class="ui dropdown item">#}
-{#            <img class="ui mini circular image" src="/s/image/site/elyse.png">#}
-{#            <div class="content" v-cloak>#}
-{#                <div class="ui sub header">管理员</div>#}
-{#                ${ admin.nick }}#}
-{#                <i class="dropdown icon"></i>#}
-{#            </div>#}
-{#            <div class="menu">#}
-{#                <a href="/admin/setting" class="item"><i class="ui icon setting"></i>设置</a>#}
-{#                <div @click="logout" class="item"><i class="ui icon sign out"></i>退出</div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#</nav>#}
+<nav id="vBase" class="ui menu" style="margin: -1px 0;">
+    <div class="ui header item">
+        <img src="/s/image/site/logob.png" height="30px;" style="margin-right: 10px;">
+        菠萝管理
+    </div>
+    </div>
+    <div class=" right menu">
+        <div id="admin_dropdown" class="ui dropdown item">
+            <img class="ui mini circular image" src="/s/image/site/elyse.png">
+            <div class="content" v-cloak>
+                <div class="ui sub header">管理员</div>
+                ${ admin.nick }}
+                <i class="dropdown icon"></i>
+            </div>
+            <div class="menu">
+                <a href="/admin/setting" class="item"><i class="ui icon setting"></i>设置</a>
+                <div @click="logout" class="item"><i class="ui icon sign out"></i>退出</div>
+            </div>
+        </div>
+    </div>
+</nav>
 <div class="ui bottom attached segment pushable">
     <div class="ui visible left vertical sidebar menu">
-        <a class="item" href="/admin/index"><i class="dashboard icon" ></i> 控制台 </a>
+        <a class="item" href="/admin/index"><i class="dashboard icon"></i> 控制台 </a>
         <a class="item" href="/admin/news"><i class="block newspaper icon"></i> 资讯 </a>
         <a class="item" href="/admin/tournaments"><i class="game icon"></i> 赛事 </a>
         <a class="item" href="/admin/teams"><i class="users icon"></i> 战队 </a>

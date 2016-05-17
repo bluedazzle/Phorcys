@@ -97,7 +97,10 @@ class NewsCommentReply(BaseComment):
     belong = models.ForeignKey(NewsComment, related_name='user_replies_belong')
 
     def __unicode__(self):
-        return '{0}-{1}'.format(self.create_by.nick, self.reply.nick)
+        if hasattr(self.create_by, 'nick') and hasattr(self.reply, 'nick'):
+            return '{0}-{1}'.format(self.create_by.nick, self.reply.nick)
+        else:
+            return unicode(self.id)
 
 
 class TournamentComment(BaseComment):

@@ -53,13 +53,15 @@
     </div>
 {% endblock %}
 {% block script %}
-    <script src="/s/js/stickUp.js"></script>
+    <script src="http://www.rapospectre.com/js/stickUp.min.js"></script>
     <script>
         window.onload = function () {
             $('#id_news_detail').css('width', '100%');
             $('#edui1').css('width', '100%');
             $('#edui1_iframeholder').css('width', '');
-            $('#edui1_toolbarbox').stickUp();
+            $('#edui1_toolbarbox').stickUp({
+                scrollHide: true
+            });
         };
         $('.dropdown').dropdown('set exactly', {{ news.news_type }}).dropdown({
             on: 'hover'
