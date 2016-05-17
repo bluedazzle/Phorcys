@@ -165,9 +165,6 @@ class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
         if code.exists():
             code = code[0]
             if not code.use:
-                code.use = True
-                code.belong = self.object
-                code.save()
                 super(UserThirdRegisterView, self).form_valid(form)
                 t_type = form.cleaned_data.get('type')
                 if t_type == 1:
@@ -188,6 +185,9 @@ class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
                 self.object.token = self.token
                 self.object.set_password(form.cleaned_data.get('password'))
                 self.object.save()
+                code.use = True
+                code.belong = self.object
+                code.save()
                 return self.render_to_response(self.object)
             else:
                 self.message = '邀请码已使用'
