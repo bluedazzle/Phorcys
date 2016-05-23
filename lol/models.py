@@ -69,9 +69,11 @@ class Weibo(BaseWeibo):
     def __unicode__(self):
         # return unicode(self.id)
         if self.type == 1:
-            return '{0}-{1}'.format(self.title, self.player_author.nick)
+            return '{0}-{1}-{2}'.format(self.title, self.player_author.nick,
+                                        self.create_time.strftime('%Y-%m-%d %H:%M:%S'))
         else:
-            return '{0}-{1}'.format(self.title, self.team_author.name)
+            return '{0}-{1}-{2}'.format(self.title, self.team_author.name,
+                                        self.create_time.strftime('%Y-%m-%d %H:%M:%S'))
 
 
 class SpiderConfig(BaseModel):
