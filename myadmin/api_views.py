@@ -238,10 +238,10 @@ class AdminTournamentView(CheckSecurityMixin, CheckAdminPermissionMixin,
                 TournamentTeamInfo(team=team,
                                    uuid='{0}t{1}'.format(uuid, team.id),
                                    tournament=tournament).save()
-                uuid = '{0}t{1}'.format(tt.id, team.id)
-                if not TotalTeamInfo.objects.filter(uuid=uuid).exists():
+                suuid = '{0}t{1}'.format(tt.id, team.id)
+                if not TotalTeamInfo.objects.filter(uuid=suuid).exists():
                     TotalTeamInfo(team=team,
-                                  uuid=uuid,
+                                  uuid=suuid,
                                   tournament=tt
                                   ).save()
                 team.tournaments.add(tournament)
@@ -251,9 +251,9 @@ class AdminTournamentView(CheckSecurityMixin, CheckAdminPermissionMixin,
                            player=player,
                            tournament=tournament
                            ).save()
-                uuid = '{0}p{1}'.format(tt.id, player.id)
-                if not TotalPlayerInfo.objects.filter(uuid=uuid):
-                    TotalPlayerInfo(uuid=uuid,
+                suuid = '{0}p{1}'.format(tt.id, player.id)
+                if not TotalPlayerInfo.objects.filter(uuid=suuid):
+                    TotalPlayerInfo(uuid=suuid,
                                     player=player,
                                     tournament=tt).save()
         return self.render_to_response(dict())

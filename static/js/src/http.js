@@ -2,7 +2,7 @@
  * Created by RaPoSpectre on 4/20/16.
  */
 
-var HOST_ROOT = 'http://localhost:8000/';
+var HOST_ROOT = 'http://localhost:8080/';
 
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
