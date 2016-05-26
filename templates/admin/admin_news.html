@@ -11,6 +11,7 @@
             <tr>
                 <th>资讯</th>
                 <th>创建时间</th>
+                <th>优先级</th>
                 <th>状态</th>
                 <th>类型</th>
                 <th>操作</th>
@@ -34,6 +35,7 @@
                     </h4>
                 </td>
                 <td>${ news.create_time }}</td>
+                <td>${ news.priority }}</td>
                 <td>${ news.publish == true ? '已发布' : '未发布' }}</td>
                 <td>
                     ${ news.news_type == 1 ? '小图新闻' : '大图新闻' }}
@@ -82,7 +84,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <th colspan="5">
+                <th colspan="6">
                     <a class="ui left floated small green labeled icon button" href="/admin/new_news"><i
                             class="newspaper icon"></i> 添加资讯
                     </a>

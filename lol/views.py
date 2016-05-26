@@ -40,7 +40,7 @@ class NewsListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
         all = self.request.GET.get('all')
         if datetime_format:
             self.datetime_type = datetime_format
-        queryset = super(NewsListView, self).get_queryset().order_by('-create_time')
+        queryset = super(NewsListView, self).get_queryset().order_by('-priority', '-create_time')
         if not all:
             queryset = queryset.filter(publish=True)
         queryset = queryset.annotate(comment_number=Count('news_comments'))
