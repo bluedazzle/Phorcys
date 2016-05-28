@@ -473,7 +473,7 @@ class AdminGameDetailView(CheckSecurityMixin, CheckAdminPermissionMixin,
             farming = request.POST.get('farming', 0)
             economic = request.POST.get('economic', 0)
             game_player_id = request.POST.get('game_player_id', '')
-            gid = '{0}{1}'.format(gid, len(game.game_gameps.all()) + 1)
+            gid = '{0}{1}{2}'.format(gid, len(game.game_gameps.all()), pid)
             if GamePlayer.objects.filter(gid=game_player_id).exists():
                 game_player = GamePlayer.objects.get(gid=game_player_id)
             else:
