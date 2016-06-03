@@ -34,8 +34,8 @@ class VerifyCodeView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Cre
 
     def get(self, request, *args, **kwargs):
         phone = request.GET.get('phone')
-        # code = request.GET.get('code', '')
-        if phone:
+        code = request.GET.get('code', '')
+        if phone and code:
             verify_list = Verify.objects.filter(phone=unicode(phone)).order_by('-create_time')
             if verify_list.exists():
                 verify = verify_list[0]
