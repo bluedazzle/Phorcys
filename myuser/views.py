@@ -34,8 +34,8 @@ class VerifyCodeView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Cre
 
     def get(self, request, *args, **kwargs):
         phone = request.GET.get('phone')
-        code = request.GET.get('code', '')
-        if phone and code:
+        # code = request.GET.get('code', '')
+        if phone:
             verify_list = Verify.objects.filter(phone=unicode(phone)).order_by('-create_time')
             if verify_list.exists():
                 verify = verify_list[0]
@@ -110,28 +110,28 @@ class UserRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, C
         return self.object
 
     def form_valid(self, form):
-        code = Invite.objects.filter(code__iexact=unicode(form.cleaned_data.get('code')))
-        if code.exists():
-            code = code[0]
-            if not code.use:
-                super(UserRegisterView, self).form_valid(form)
-                self.create_extend()
-                self.token = self.create_token()
-                self.object.token = self.token
-                self.object.set_password(form.cleaned_data.get('password'))
-                self.object.save()
-                code.use = True
-                code.belong = self.object
-                code.save()
-                return self.render_to_response(self.object)
-            else:
-                self.message = '邀请码已使用'
-                self.status_code = ERROR_DATA
-            return self.render_to_response(dict())
-        else:
-            self.message = '邀请码不存在'
-            self.status_code = ERROR_DATA
-            return self.render_to_response(dict())
+        # code = Invite.objects.filter(code__iexact=unicode(form.cleaned_data.get('code')))
+        # # if code.exists():
+        # #     code = code[0]
+        #     if not code.use:
+        super(UserRegisterView, self).form_valid(form)
+        self.create_extend()
+        self.token = self.create_token()
+        self.object.token = self.token
+        self.object.set_password(form.cleaned_data.get('password'))
+        self.object.save()
+        code.use = True
+        code.belong = self.object
+        code.save()
+        return self.render_to_response(self.object)
+        # else:
+        #     self.message = '邀请码已使用'
+        #     self.status_code = ERROR_DATA
+        # return self.render_to_response(dict())
+        # else:
+        #     self.message = '邀请码不存在'
+        #     self.status_code = ERROR_DATA
+        #     return self.render_to_response(dict())
 
     def form_invalid(self, form):
         super(UserRegisterView, self).form_invalid(form)
@@ -161,42 +161,42 @@ class UserThirdRegisterView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMix
         return self.object
 
     def form_valid(self, form):
-        code = Invite.objects.filter(code__iexact=form.cleaned_data.get('code'))
-        if code.exists():
-            code = code[0]
-            if not code.use:
-                super(UserThirdRegisterView, self).form_valid(form)
-                t_type = form.cleaned_data.get('type')
-                if t_type == 1:
-                    self.object.wechat_openid = form.cleaned_data.get('openid')
-                    self.object.wechat_bind = True
-                elif t_type == 2:
-                    self.object.weibo_openid = form.cleaned_data.get('openid')
-                    self.object.weibo_bind = True
-                elif t_type == 3:
-                    self.object.qq_openid = form.cleaned_data.get('openid')
-                    self.object.qq_bind = True
-                status, path = save_image(form.cleaned_data.get('avatar'), type='upload/lol',
-                                          name='avatar{0}.jpg'.format(unicode(time.time()).replace('.', '')))
-                if status:
-                    self.object.avatar = path
-                self.create_extend()
-                self.token = self.create_token()
-                self.object.token = self.token
-                self.object.set_password(form.cleaned_data.get('password'))
-                self.object.save()
-                code.use = True
-                code.belong = self.object
-                code.save()
-                return self.render_to_response(self.object)
-            else:
-                self.message = '邀请码已使用'
-                self.status_code = ERROR_DATA
-            return self.render_to_response(dict())
-        else:
-            self.message = '邀请码不存在'
-            self.status_code = ERROR_DATA
-            return self.render_to_response(dict())
+        # code = Invite.objects.filter(code__iexact=form.cleaned_data.get('code'))
+        # if code.exists():
+        #     code = code[0]
+        #     if not code.use:
+        super(UserThirdRegisterView, self).form_valid(form)
+        t_type = form.cleaned_data.get('type')
+        if t_type == 1:
+            self.object.wechat_openid = form.cleaned_data.get('openid')
+            self.object.wechat_bind = True
+        elif t_type == 2:
+            self.object.weibo_openid = form.cleaned_data.get('openid')
+            self.object.weibo_bind = True
+        elif t_type == 3:
+            self.object.qq_openid = form.cleaned_data.get('openid')
+            self.object.qq_bind = True
+        status, path = save_image(form.cleaned_data.get('avatar'), type='upload/lol',
+                                  name='avatar{0}.jpg'.format(unicode(time.time()).replace('.', '')))
+        if status:
+            self.object.avatar = path
+        self.create_extend()
+        self.token = self.create_token()
+        self.object.token = self.token
+        self.object.set_password(form.cleaned_data.get('password'))
+        self.object.save()
+        code.use = True
+        code.belong = self.object
+        code.save()
+        return self.render_to_response(self.object)
+        #     else:
+        #         self.message = '邀请码已使用'
+        #         self.status_code = ERROR_DATA
+        #     return self.render_to_response(dict())
+        # else:
+        #     self.message = '邀请码不存在'
+        #     self.status_code = ERROR_DATA
+        #     return self.render_to_response(dict())
 
     def form_invalid(self, form):
         super(UserThirdRegisterView, self).form_invalid(form)

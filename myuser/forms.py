@@ -16,6 +16,7 @@ class VerifyCodeForm(forms.ModelForm):
         'min_time': '请求短信时间间隔过短',
         'required': '请输入手机号',
         'phone_format': '请输入11位手机号',
+        'user_exist': '该用户已注册',
     }
 
     code_messages = {
@@ -27,7 +28,7 @@ class VerifyCodeForm(forms.ModelForm):
     }
 
     phone = forms.CharField(max_length=11, error_messages=error_messages)
-    code = forms.CharField(max_length=6, min_length=6, error_messages=code_messages)
+    # code = forms.CharField(max_length=6, min_length=6, error_messages=code_messages)
 
     def clean_phone(self):
         phone = unicode(self.cleaned_data.get('phone', None))
@@ -42,21 +43,24 @@ class VerifyCodeForm(forms.ModelForm):
                     raise forms.ValidationError(message=self.error_messages['min_time'], code='min_time')
                 else:
                     return phone
+            user = EUser.objects.filter(phone=phone)
+            if user.exists():
+                raise forms.ValidationError(message=self.error_messages['user_exist'], code='user_exist')
             else:
                 return phone
         else:
             raise forms.ValidationError(message=self.error_messages['required'], code='required')
 
-    def clean_code(self):
-        code = unicode(self.cleaned_data.get('code', None))
-        if code:
-            invite = Invite.objects.filter(code__iexact=code)
-            if not invite.exists():
-                raise forms.ValidationError(message=self.code_messages['wrong'], code='wrong')
-            else:
-                if invite[0].use:
-                    raise forms.ValidationError(message=self.code_messages['exist'], code='exist')
-        return code
+    # def clean_code(self):
+    #     code = unicode(self.cleaned_data.get('code', None))
+    #     if code:
+    #         invite = Invite.objects.filter(code__iexact=code)
+    #         if not invite.exists():
+    #             raise forms.ValidationError(message=self.code_messages['wrong'], code='wrong')
+    #         else:
+    #             if invite[0].use:
+    #                 raise forms.ValidationError(message=self.code_messages['exist'], code='exist')
+    #     return code
 
     def save(self, commit=False):
         return super(VerifyCodeForm, self).save(commit)
@@ -86,7 +90,7 @@ class UserRegisterForm(forms.ModelForm):
     phone = forms.CharField(max_length=11, error_messages=phone_error_messages)
     nick = forms.CharField(max_length=20, error_messages=nick_error_messages)
     password = forms.CharField(max_length=100, error_messages=password_error_messages)
-    code = forms.CharField(max_length=6)
+    # code = forms.CharField(max_length=6)
 
     def clean_password(self):
         password = unicode(self.cleaned_data.get('password'))
@@ -128,7 +132,7 @@ class UserThirdRegisterForm(forms.ModelForm):
     phone = forms.CharField(max_length=11, error_messages=phone_error_messages)
     nick = forms.CharField(max_length=20, error_messages=nick_error_messages)
     password = forms.CharField(max_length=100, error_messages=password_error_messages)
-    code = forms.CharField(max_length=6)
+    # code = forms.CharField(max_length=6)
     openid = forms.CharField(max_length=128)
     type = forms.IntegerField()
     avatar = forms.CharField(max_length=200)
